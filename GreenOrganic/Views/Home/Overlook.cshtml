@@ -1,0 +1,95 @@
+﻿@using System.Data;
+@{
+    DataTable d_lookList = (DataTable)ViewBag.d_lookList;
+    DataTable d_lookList_Img = (DataTable)ViewBag.d_lookList_Img;
+    string scenic_id = "";
+    string scenic_name = "";
+    string scenic_desc = "";
+    string area_name = "";
+    ViewBag.Title = "俯瞰桃園之美";
+    ViewBag.BodyClass = "Overlook";
+    if(d_lookList.Rows.Count > 0)
+    {
+        ViewBag.MapCurrent = d_lookList.Rows[0]["area_id"].ToString();
+        scenic_id = d_lookList.Rows[0]["_SEQ_ID"].ToString();
+        scenic_name = d_lookList.Rows[0]["scenic_name"].ToString();
+        scenic_desc = d_lookList.Rows[0]["scenic_desc"].ToString();
+        area_name = d_lookList.Rows[0]["area_name"].ToString();
+    }
+    else
+    {
+        ViewBag.MapCurrent = "";
+        scenic_id = "";
+        scenic_name = "";
+        scenic_desc = "";
+        area_name = "";
+    }
+}
+
+@section css {
+    <link rel="stylesheet" href="~/Content/css/vendor/swiper.min.css">
+}
+@section scripts {
+    <script src="~/Content/js/swiper/swiper.min.js"></script>
+    <script>
+        var galleryTop = new Swiper('.gallery', {
+            autoplay: 5000,
+            speed: 1000,
+            effect: 'coverflow',
+            autoplayDisableOnInteraction: false
+        });
+        var galleryThumbs = new Swiper('.thumbs', {
+            spaceBetween: 10,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            touchRatio: 0.2,
+            slideToClickedSlide: true
+        });
+        galleryTop.params.control = galleryThumbs;
+        galleryThumbs.params.control = galleryTop;
+    </script>
+}
+
+@Html.Partial("SidebarOverlook")
+
+<section class="overlook-content col-md-9 p-r-0">
+    <div class="swiper-container gallery">
+        <ul class="swiper-wrapper list-unstyled">
+            @* 套程式 *@
+            @* [後台] 景點大圖-後台上傳圖的寬度不超過 1064px *@
+            @for(int i = 0; i < d_lookList_Img.Rows.Count; i++)
+            {
+                @*<li class="swiper-slide"><img src="~/Content/images/Overlook/01.jpg" alt="名稱"/></li>*@
+                @:<li class="swiper-slide"><img src="@Url.Content("~/Images/" + d_lookList_Img.Rows[i]["img_file"].ToString())" alt="@d_lookList_Img.Rows[i]["img_desc"].ToString()" /></li>
+            }
+        </ul>
+    </div>
+    <div class="swiper-container thumbs">
+        <ul class="swiper-wrapper list-unstyled">
+            @* 套程式 *@
+            @* [後台] 同樣的景點大圖 *@
+            @for (int i = 0; i < d_lookList_Img.Rows.Count; i++)
+            {
+                @*<li class="swiper-slide" style="background-image: url(/Content/images/Overlook/01.jpg)"></li>*@
+                @:<li class="swiper-slide" style="background-image: url(@Url.Content("~/Images/" + d_lookList_Img.Rows[i]["img_file"].ToString()))"></li>
+            }
+        </ul>
+    </div>
+
+    <article>
+        @* 套程式 *@
+
+        @* [後台] 地區-景點名稱 *@
+        <h2>@area_name <small>@scenic_name</small></h2>
+
+        @* [後台] 景點說明(編輯器) *@
+        @*
+            <p>許厝港於清朝曾繁華一時，後因陸路與鐵路交通發達，而逐漸沒落。近年來因海灘逐漸流失，再加上疏於妥善管理經營，目前已失去海路運輸之功能而廢棄不用。</p>
+            <p>許厝港濕地為海岸型濕地，包括、礫石及沙灘的潮間帶、防風林、漁塭及水田等，構成一個漲、退潮時可供岸鳥及水鳥棲息與覓食的良好環境。</p>
+            <p>許厝港溼地面積961公頃，海岸線長10.5公里，是國家重要溼地，也是桃園珍貴的自然資產。桃園市長鄭文燦9日前往許厝港視察時表示，農業局今年會進行規劃及籌備，將設立許厝港溼地生態公園，作為環境教育使用，讓民眾參觀溼地、鳥類、紅樹林等自然生態。</p>
+        *@
+        @Html.Raw(scenic_desc)
+
+        <footer><a href="javascript:history.back()" class="btn btn-back">回列表</a></footer>
+    </article>
+</section>

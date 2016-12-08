@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>都發局-桃園新視界 管理系統</title>
+    <link rel="stylesheet" href="~/Content/css/vendor/w3.css">
+    <link rel="stylesheet" href="~/Content/css/vendor/fontAwesome/font-awesome.css">
+    <link rel="stylesheet" href="~/Content/css/sys.css">
+
+    @* 引用 jQuery *@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    @RenderSection("IncludeCSS", false)
+</head>
+<body class="@ViewBag.BodyClass">
+    <div id="wrapper">
+        @if (ViewBag.IsFirstPage)
+        {
+
+        }
+        else
+        {
+            if (Convert.ToString(Session["IsLogined"]) != "Y")
+            {
+                Response.Redirect(Url.Content("~/Manage/Login"));
+            }
+            else
+            {
+                <header id="header" class="navbar navbar-fixed-top navbar-dark bg-primary">
+                    <h1 class="logo">
+                        <a class="navbar-brand" href="@Url.Content("~/Manage")" title="回登入首頁" tabindex="-1">都發局-桃園新視界 管理系統</a>
+                    </h1><!-- logo -->
+                    <ul class="nav navbar-nav pull-xs-right">
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                <i class="fa-user"></i> <span>
+                                    登入身分: @Convert.ToString(Session["account"])
+                                </span>
+                        </li>
+                        <li class="nav-item bg-warning">
+                            <a href="@Url.Content("~/Home")" class="nav-link">
+                                <i class="fa-home"></i> 回首頁
+                            </a>
+                        </li>
+                        <li class="nav-item bg-success">
+                            <a href="@Url.Content("~/Manage/Logout")" class="nav-link">
+                                <i class="fa-power-off"></i> 登出
+                            </a>
+                        </li>
+                    </ul>
+                </header><!-- header //-->
+            }
+        }
+        <main id="main">
+
+            @if (ViewBag.IsFirstPage)
+            {
+                @RenderBody()
+            }
+            else
+            {
+                <div id="content">
+                    <ul class="breadcrumb">
+                        @RenderSection("Breadcrumb", false)
+                    </ul>
+                    @RenderBody()
+                </div><!-- content //-->
+
+                <aside id="sidebar">
+                    <h3 class="h3"><i class="fa-bars"></i> 功能選單 MENU</h3>
+                    <nav id="menu">
+                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
+                            <dt class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#menu" href="#menu3" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "")"><i class="fa-info-circle"></i> 空拍景點管理</a>
+                            </dt>
+                            <dd id="menu3" class="panel-collapse collapse @(ViewBag.nav == "n1" ? "in" : "")">
+                                <ul class="panel-body list-unstyled">
+                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 景點資料維護</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                        <dl class="panel @(ViewBag.nav == "n2" ? "panel-active" : "")">
+                            <dt class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#menu" href="#menu4" class="panel-title @(ViewBag.nav != "n2" ? "collapsed" : "")"><i class="fa-cog"></i> 系統設定</a>
+                            </dt>
+                            <dd id="menu4" class="panel-collapse collapse @(ViewBag.nav == "n2" ? "in" : "")">
+                                <ul class="panel-body list-unstyled">
+                                    <li><a href="~/Manage/ChangePW" class="@(ViewBag.SubNav == "sn2-1" ? "active" : "")"><i class="fa-caret-right"></i> 變更密碼</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </nav>
+                </aside><!-- sidebar //-->
+            }
+
+        </main><!-- main //-->
+    </div><!-- wrapper //-->
+
+    <footer id="footer">
+        <p class="copyright text-muted">
+            <span>Powered By <a href="http://www.jcin.com.tw" target="new">JCIN.</a></span>
+        </p>
+    </footer><!-- footer //-->
+
+
+    @* 引用 Bootstrap (左選單開合效果) *@
+    <script src="~/Content/js/bootstrap/util.js"></script>
+    <script src="~/Content/js/bootstrap/collapse.js"></script>
+
+    @RenderSection("IncludeScript", false)
+</body>
+</html>

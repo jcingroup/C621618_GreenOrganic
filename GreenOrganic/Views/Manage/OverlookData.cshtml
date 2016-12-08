@@ -1,0 +1,410 @@
+﻿@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.BodyClass = "Overlook";
+    ViewBag.Crumb = "景點資料維護";
+    ViewBag.nav = "n1";
+    ViewBag.subNav = "sn1-1";
+
+    //變數設定
+
+    DataTable d_area = (DataTable)ViewData["d_area"];
+    DataTable d_scenic = (DataTable)ViewData["d_scenic"];
+    DataTable d_scenic_img_b = (DataTable)ViewData["d_scenic_img_b"];
+    DataTable d_scenic_img_s = (DataTable)ViewData["d_scenic_img_s"];
+    string scenic_id = "";
+    string area_id = "";
+    string scenic_name = "";
+    string scenic_desc = "";
+    string longitude = "";
+    string latitude = "";
+    string action_sty = (string)ViewData["action_sty"];
+    string action_name = "";
+    string c_selected = "";
+    string c_status = "";
+    string c_status_Y = "";
+    string c_status_N = "";
+    string small_pic = "";
+    string img_no = "";
+    string img_path = "../Images/";
+    string small_img = "";
+    string big_img = "";
+    string img_id = "";
+
+    img_no = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+    if(action_sty == "add")
+    {
+        action_name = "新增";
+
+        scenic_id = "";
+        area_id = "";
+        scenic_name = "";
+        longitude = "";
+        latitude = "";
+        scenic_desc = "";
+        small_pic = "";
+        c_status = "Y";
+        c_status_Y = "checked";
+        c_status_N = "";
+
+    }
+    else if(action_sty == "edit")
+    {
+        action_name = "修改";
+
+        //d_scenic = (DataTable)ViewData["d_scenic"];
+        //d_scenic_img_b = (DataTable)ViewData["d_scenic_img_b"];
+        //d_scenic_img_s = (DataTable)ViewData["d_scenic_img_s"];
+
+        scenic_id = d_scenic.Rows[0]["_SEQ_ID"].ToString();
+        area_id = d_scenic.Rows[0]["area_id"].ToString();
+        scenic_name = d_scenic.Rows[0]["scenic_name"].ToString();
+        longitude = d_scenic.Rows[0]["longitude"].ToString();
+        latitude = d_scenic.Rows[0]["latitude"].ToString();
+        scenic_desc = d_scenic.Rows[0]["scenic_desc"].ToString();
+        c_status = d_scenic.Rows[0]["status"].ToString();
+
+        switch (c_status)
+        {
+            case "Y":
+                c_status_Y = "checked";
+                c_status_N = "";
+                break;
+            case "N":
+                c_status_Y = "";
+                c_status_N = "checked";
+                break;
+        }
+    }
+
+        }
+
+        @section Breadcrumb {
+    <li><i class="fa-caret-right"></i> 空拍景點管理</li>
+    <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
+    }
+
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><i class="fa-angle-double-right"></i> @action_name</small></h3>
+
+@* 引用 ajaxfileupload *@
+<script src="~/Scripts/ajaxfileupload.js"></script>
+@*1.引用ckeditor.js*@
+<script src="~/ckeditor/ckeditor.js"></script>
+<script>
+    function form_ok() {
+        form1.submit();
+    }
+
+    function del_img(img_id,c_sty)
+    {
+        var cimg_no = "";
+        if ($("#scenic_id").val().length > 0) {
+            cimg_no = $("#scenic_id").val();
+        }else {
+            cimg_no = @img_no;
+        }
+
+        $.ajax({                
+            url: 'Img_Del',
+            data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no  }, //此参数非常严谨，写错一个引号都不行
+            type:"POST",
+            dataType: 'TEXT', //返回值类型 一般设置为json
+            async: false,
+            success: function(JData){
+                //alert(JData);
+                data = handleAjaxVPNMsg(JData);
+                i = 0;
+                c_html = "";
+
+                $.each($.parseJSON(data), function (idx, obj) {
+                    i = i + 1;
+                    c_html = c_html + "<li>";
+                    c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
+                    c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
+                    c_html = c_html + "</li>";
+                });
+
+                $('#c_img_' + c_sty).html(c_html);
+            },
+            error:function(xhr, ajaxOptions, thrownError){ 
+                alert(xhr.status); 
+                alert(thrownError); 
+            },
+            complete: function () {
+                //alert(tbl_new_list);
+                //alert('ajax complete');
+            }
+        });
+        return false;
+    }
+
+    function upload(c_sty)
+    {
+        if ($("#pic_" + c_sty).val().length > 0) {
+            //ajaxFileUpload('pic_small','small_img');
+            ajaxFileUpload(c_sty);
+        }
+        else {
+            alert("請選擇圖片");
+        }
+    }
+
+    function ajaxFileUpload(c_sty) {
+        var cimg_no = "";
+        var c_img = "pic_" + c_sty;
+
+        if ($("#scenic_id").val().length > 0) {
+            cimg_no = $("#scenic_id").val();
+        }else {
+            cimg_no = @img_no;
+        }
+
+        var chtml = "";
+        var i = 0;
+        $.ajaxFileUpload
+        (
+            {
+                url: 'Upload', //用于文件上传的服务器端请求地址
+                type: 'post',
+                data: { img_no: cimg_no, img_sta:c_sty }, //此参数非常严谨，写错一个引号都不行
+                secureuri: false, //一般设置为false
+                //fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                fileElementId: c_img, //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                //dataType: 'HTML', //返回值类型 一般设置为json
+                dataType: 'JSON', //返回值类型 一般设置为json
+                success: function (JData, status)  //服务器成功响应处理函数
+                {
+                    //alert(JData);
+
+                    data = handleAjaxVPNMsg(JData);
+
+                    i = 0;
+                    c_html = "";
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        i = i + 1;
+                        c_html = c_html + "<li>";
+                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
+                        c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
+                        c_html = c_html + "</li>";
+                    });
+
+                    $('#c_img_' + c_sty).html(c_html);
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                }
+            }
+        )
+        return false;
+    }
+
+    function handleAjaxVPNMsg(data) {
+        var firstRemoveIndexStart = data.indexOf("<SCRIPT");
+        var firstRemoveIndexEnd = data.indexOf("<\/SCRIPT>");
+        var newData = data;
+        while (firstRemoveIndexStart != -1) {
+            firstRemoveIndexStart = newData.indexOf("<SCRIPT");
+            firstRemoveIndexEnd = newData.indexOf("<\/SCRIPT>");
+            //alert('firstRemoveIndexStart:'+firstRemoveIndexStart);
+            if (firstRemoveIndexStart != -1) {
+                if (firstRemoveIndexStart == 0) {
+                    newData = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                } else {
+                    newDataHead = newData.substr(0, firstRemoveIndexStart);
+                    newDataTail = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                    //alert('newDataHead'+newDataHead);
+                    //alert('newDataTail'+newDataTail);
+                    newData = newDataHead + newDataTail;
+                }
+            }
+            //alert(newData);
+        }
+        //alert("before:second:"+newData);
+        var secondeRemoveIndex = newData.indexOf("<\/noscript>");
+        //alert(secondeRemoveIndex);
+        if (secondeRemoveIndex != -1) {
+            newData = newData = newData.substr(0, secondeRemoveIndex);
+        }
+        //alert(newData);
+        return newData;
+    }
+</script>
+
+<div class="alert alert-warning text-sm p-a-small">
+    <a href="~/Content/doc/googleMapIcon.psd" target="new">景點小圖範例檔下載(PSD)</a>，<a href="~/Content/doc/googleMapIcon.html" target="new">景點小圖製作教學影片</a>
+</div>
+
+<form action="Save" class="form form-sm" name="form1" id="form1" method="post" enctype="multipart/form-data" >
+    <input type="hidden" name="action_sty" id="action_sty" value="@action_sty" />
+    <input type="hidden" name="scenic_id" id="scenic_id" value="@scenic_id" />
+    <input type="hidden" name="img_no" id="img_no" value="@img_no" />
+    <section class="col-xs-6 m-b-1">
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                地區
+            </label>
+            <div class="col-xs-10">
+                <select class="form-control form-control-sm" required id="area_id" name="area_id">
+                    <option value="0">-請選擇景點-</option>
+                    @* 桃園市共13區 *@
+                    @if(d_area.Rows.Count > 0)
+    {
+        for(int i=0; i<d_area.Rows.Count;i++)
+        {
+            if(d_area.Rows[i]["_SEQ_ID"].ToString() == area_id)
+            {
+                c_selected = "selected";
+            }
+            else
+            {
+                c_selected = "";
+            }
+            <option value="@d_area.Rows[i]["_SEQ_ID"].ToString()" @c_selected >@d_area.Rows[i]["area_name"].ToString()</option>
+         }
+    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                景點名稱
+            </label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control form-control-sm" required name="scenic_name" id="scenic_name" value="@scenic_name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                google座標
+            </label>
+            <div class="col-xs-10">
+                <div class="input-group margin-space-s">
+                    <span class="input-group-addon">經度</span>
+                    <input type="text" class="form-control form-control-sm" placeholder="lat" required name="longitude" id="longitude" value="@longitude" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">緯度</span>
+                    <input type="text" class="form-control form-control-sm" placeholder="lng" required name="latitude" id="latitude" value="@latitude" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                狀態
+            </label>
+            <div class="col-xs-10">
+                <label class="c-input c-radio">
+                    <input type="radio" name="show" id="show" value="Y" @c_status_Y >
+                    <span class="c-indicator"></span>
+                    <span class="text-sm">顯示</span>
+                </label>
+                <label class="c-input c-radio m-r-0">
+                    <input type="radio" name="show" id="show" value="N" @c_status_N >
+                    <span class="c-indicator"></span>
+                    <span class="text-sm">隱藏</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <section class="col-xs-6 m-b-1">
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                景點小圖
+            </label>
+            <div class="col-xs-10">
+                <table>
+                    <tr>
+                        <td style="width:80%;text-align:left;">
+                            @* 瀏覽&上傳檔案 *@
+                            <input type="file" class="form-control" name="pic_S" id="pic_S" accept="image/*" >
+                        </td>
+                        <td style="text-align:center;width:100px;">
+                            <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" name="btn_small_pic" onclick="upload('S');">
+                                上傳
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;vertical-align:middle;">
+                            @* 照片縮圖(上傳圖片後顯示) *@
+                            <ol class="upload-img list-inline" id="c_img_S" name="c_img_small">
+                                @for (int s = 0; s < d_scenic_img_s.Rows.Count; s++)
+                                {
+                                    small_img = img_path + d_scenic_img_s.Rows[s]["img_file"].ToString();
+                                    img_id = d_scenic_img_s.Rows[s]["_SEQ_ID"].ToString();
+                                    <li>
+                                        <button class="close" id="btn_close_s_@s" name="btn_close_s_@s" onclick="del_img('@img_id','S');">&times;</button>
+                                        <img id="img_S_@s" name="img_S_@s" src="@small_img" alt="">
+                                    </li>
+                                }
+
+                            </ol>
+                            <small class="text-muted">可上傳 1 張照片，建議尺寸 80*94px，每張圖最大不可超過 200kb (請使用上方的psd原始檔修改)</small>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div><!-- form-group //-->
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                景點大圖
+            </label>
+            <div class="col-xs-10">
+
+                <table>
+                    <tr>
+                        <td style="width:80%;text-align:left;">
+                            @* 瀏覽&上傳檔案 *@
+                            <input type="file" class="form-control" name="pic_B" id="pic_B"  accept="image/*" style="width:100%;" />
+                        </td>
+                        <td style="text-align:center;width:100px;">
+                            <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" name="btn_big_pic" onclick="upload('B');">
+                                上傳
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;vertical-align:middle;">
+                            @* 照片縮圖(上傳圖片後顯示)*@
+                            <ol class="upload-img list-inline" id="c_img_B" name="c_img_big">
+                                @for (int b = 0; b < d_scenic_img_b.Rows.Count; b++)
+                                {
+                                    big_img = img_path + d_scenic_img_b.Rows[b]["img_file"].ToString();
+                                    img_id = d_scenic_img_b.Rows[b]["_SEQ_ID"].ToString();
+                                    <li>
+                                        <button class="close" id="btn_close_B_@b" name="btn_close_B_@b" onclick="del_img('@img_id','B');">&times;</button>
+                                        <img id="img_B_@b" name="img_B_@b" src="@big_img" alt="">
+                                    </li>
+                                }
+                            </ol>
+                            <small class="text-muted">可上傳多張照片，建議尺寸寬度不超過 1064px，每張圖最大不可超過 500kb</small>
+                        </td>
+                    </tr>
+                </table>
+              </div>
+        </div><!-- form-group //-->
+    </section>
+
+    <h4 class="h4">景點說明</h4>
+    @* 編輯器 *@
+    <textarea class="ckeditor" rows="8" placeholder="請輸入景點說明" name="scenic_desc" id="scenic_desc">@scenic_desc</textarea>
+    @*加入圖片上傳頁籤，放在頁面底下，放在頁面head區的話，會抓不到myText DOM*@
+    <script type="text/javascript">
+        CKEDITOR.replace('scenic_desc'
+    , { filebrowserImageUploadUrl: '@Url.Content("~/Images")' }
+    );
+
+    </script>
+    <div class="form-action" style="text-align:center;">
+        <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" name="btn_ok" onclick="form_ok();">
+            <i class="fa-check"></i> 存檔確認
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn_back" name="btn_back" onclick="location.href='OverlookList'">
+            <i class="fa-times"></i> 回列表
+        </button>
+    </div>
+</form>

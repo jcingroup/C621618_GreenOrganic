@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.BodyClass = "Login";
+    ViewBag.IsFirstPage = true;
+}
+
+@section IncludeScript{
+    @* Google reCaptcha 驗證工具 *@
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+}
+
+<script type="text/javascript">
+    function form_ok() {
+        form1.submit();
+    }
+
+    $(function () {
+        $("#valiCode").bind("click", function () {
+
+            this.src = "@Url.Content("~/Manage/GetValidateCode")?time=" + (new Date()).getTime();
+        });
+    });
+</script>
+<h1 class="logo">
+    <span class="name text-danger">都發局-桃園新視界 管理系統</span>Web Manager
+</h1>
+<p class="copyright text-primary">Department of Urban Development, TaoYuan &copy; 2016</p>
+
+<div class="login-box">
+
+    <form class="form form-sm" name="form1" id="form1" action="@Url.Content("~/Manage/Login_Chk")" method="post">
+
+        <div class="form-group">
+            <h3 class="h3">System Login</h3>
+        </div>
+
+        <div class="form-group">
+            <label>帳號 Username</label>
+            <input type="text" class="form-control" placeholder="帳號" name="account" id="account" value="" />
+        </div>
+
+        <div class="form-group">
+            <label>密碼 Password</label>
+            <input type="password" class="form-control" name="pwd" id="pwd" value="" />
+        </div>
+
+        <div class="form-group">
+            <label>驗證碼 Code</label>
+            <input type="text" class="form-control" name="ValidCode" id="ValidCode" value="" />
+            @* Google reCaptcha 驗證工具 *@
+            @*<div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"></div>*@
+            <img id="valiCode" style="cursor: pointer;height:30px;" src="@Url.Content("~/Manage/GetValidateCode")" alt="驗証碼" />
+
+        </div>
+
+        <div class="form-group form-action text-xs-center">
+            <button type="button" class="btn btn-sm btn-info" onclick="form_ok();">登入 LOGIN</button>
+        </div>
+
+    </form>
+
+    @if (TempData["message"] != null)
+    {
+        <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["message"]));
+            alert(message);
+        </script>
+    }
+</div>

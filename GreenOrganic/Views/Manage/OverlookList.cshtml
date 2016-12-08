@@ -1,0 +1,313 @@
+﻿@using System.Data
+
+@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.BodyClass = "Overlook";
+    ViewBag.Crumb = "景點資料維護";
+    ViewBag.nav = "n1";
+    ViewBag.subNav = "sn1-1";
+
+    DataTable dt = (DataTable)ViewData["dt"];
+    int row_count = 0;
+    int page_count = 10;
+    int page = (int)ViewData["page"];
+    int pre_page = 0;
+    int top_page = 0;
+    int next_page = 0;
+    int end_page = 0;
+    int min_row = 0;
+    int max_row = 0;
+    int total_page = 0;
+
+    string scenic_id = "";
+    string area_name = "";
+    string scenic_name = "";
+    string scenic_count = "";
+    string show = "";
+    string show_class = "";
+    string txt_scenic_query = (string)ViewData["txt_scenic_query"];
+    string txt_area_query = (string)ViewData["txt_area_query"];
+    string txt_sort = (string)ViewData["txt_sort"];
+    string txt_a_d = (string)ViewData["txt_a_d"];
+
+    string a_d = "";
+
+    if(txt_a_d == "")
+    {
+        a_d = "asc";
+    }
+    else
+    {
+        a_d = "desc";
+    }
+
+    string class_area = "";
+    string class_scenic_count = "";
+    string class_status = "";
+
+    switch(txt_sort)
+    {
+        case "area":
+            class_area = a_d;
+            break;
+        case "status":
+            class_status = a_d;
+            break;
+        case "scenic_count":
+            class_scenic_count = a_d;
+            break;
+    }
+
+    row_count = dt.Rows.Count;
+    if(row_count % page_count > 0)
+    {
+        total_page = (row_count / page_count) + 1;
+    }
+    else
+    {
+        total_page = row_count / page_count;
+    }
+
+    if(page > total_page)
+    {
+        page = total_page;
+    }
+    else if(page < 1)
+    {
+        page = 1;
+    }
+
+    top_page = 1;
+
+    if(page > 1)
+    {
+        pre_page = page - 1;
+    }
+    else
+    {
+        pre_page = 1;
+    }
+
+    if (total_page > page)
+    {
+        next_page = page + 1;
+    }
+    else
+    {
+        next_page = total_page;
+    }
+
+    end_page = total_page;
+
+    min_row = 10 * (page - 1) + 1;
+    max_row = 10 * page;
+    if(max_row > row_count)
+    {
+        max_row = row_count;
+    }
+
+            }
+
+            @section Breadcrumb {
+    <li><i class="fa-caret-right"></i> 空拍景點管理</li>
+    <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
+        }
+
+<h3 class="h3">@ViewBag.Crumb</h3>
+
+<div class="alert alert-warning p-a-1">
+    點閱人數前三名的熱門景點，將會顯示在首頁輪播Banner。
+</div>
+<form name="form1" id="form1" action="" method="post">
+    <input type="hidden" id="txt_sort" name="txt_sort" value="@txt_sort" />
+    <input type="hidden" id="txt_a_d" name="txt_a_d" value="@txt_a_d" />
+    <header class="table-header">
+        <div class="table-filter">
+            <div class="form-inline">
+                <label class="text-sm">地區</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_area_query" id="txt_area_query" value="@txt_area_query" >
+                <label class="text-sm">景點</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_scenic_query" id="txt_scenic_query" value="@txt_scenic_query" >
+                <small class="text-muted">輸入關鍵字時，如有複合搜尋。請使用逗號 , 作為區隔 ex. 桃園,中壢,龍潭</small>
+            </div>
+        </div><!-- table-filter //-->
+    </header>
+
+    <table class="table table-sm table-bordered table-striped table-hover">
+        <colgroup>
+            <col span="2" style="width: 6%">
+            <col style="width: 15%">
+            <col>
+            <col span="2" style="width: 14%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
+                <th class="text-xs-center">修改</th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle @class_area" name="btn_area" id="btn_area" onclick="sort('area');">地區</button>
+                </th>
+                <th class="text-xs-center">
+                    @* 如不需要排序功能: 純文字即可 *@
+                    景點名稱
+                </th>
+                <th>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle @class_scenic_count" name="btn_scenic_count" id="btn_scenic_count" onclick="sort('scenic_count');" >點閱人數</button>
+                </th>
+                <th>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle @class_status" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* 建議: 1頁10筆資料 *@
+            @if (dt.Rows.Count > 0)
+        {
+            for (int i = min_row - 1; i < max_row; i++)
+            {
+                scenic_id = dt.Rows[i]["_SEQ_ID"].ToString();
+                area_name = dt.Rows[i]["area_name"].ToString();
+                scenic_name = dt.Rows[i]["scenic_name"].ToString();
+                scenic_count = dt.Rows[i]["scenic_count"].ToString();
+                if (dt.Rows[i]["status"].ToString() == "Y")
+                {
+                    show = "顯現";
+                    show_class = "label-success";
+                }
+                else
+                {
+                    show = "隱藏";
+                    show_class = "label-default";
+                }
+
+
+                    <tr>
+                        <td class="text-xs-center">
+                            <button type="button" class="btn btn-link btn-lg text-danger" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';"><i class="fa-times"></i></button>
+                        </td>
+                        <td class="text-xs-center">
+                            <button type="button" class="btn btn-link btn-lg" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';"><i class="fa-pencil"></i></button>
+                        </td>
+                        <td class="text-xs-center">@area_name</td>
+                        <td class="text-xs-left">&nbsp;@scenic_name</td>
+                        <td class="text-xs-center">@scenic_count</td>
+                        <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-xs-left" colspan="6">
+                        無資料
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <footer class="table-footer clearfix">
+        <button type="button" class="btn btn-sm btn-success pull-xs-left" onclick="location.href='@Url.Content("~/Manage/Add")';">
+            <i class="fa-plus-circle"></i> 新增
+        </button>
+        <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
+        <ul class="pager pager-sm">
+            <li>
+                <a href="@Url.Content("~/Manage/OverlookList?page=" + top_page.ToString())"><i class="fa-angle-double-left"></i></a>
+            </li>
+            <li>
+                <a href="@Url.Content("~/Manage/OverlookList?page=" + pre_page.ToString())"><i class="fa-angle-left"></i></a>
+            </li>
+            <li class="form-inline">
+                <label>第</label>
+                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="@page">
+                <label>頁，共 @total_page 頁</label>
+            </li>
+            <li>
+                <a href="@Url.Content("~/Manage/OverlookList?page=" + next_page.ToString())"><i class="fa-angle-right"></i></a>
+            </li>
+            <li>
+                <a href="@Url.Content("~/Manage/OverlookList?page=" + end_page.ToString())"><i class="fa-angle-double-right"></i></a>
+            </li>
+        </ul>
+    </footer>
+</form>
+<script>
+    $('#page').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_scenic_query').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_area_query').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    function sort(c_sort)
+    {
+        var pre_sort = $('#txt_sort').val();
+        var pre_a_d = $('#txt_a_d').val();
+        var a_d = "";
+        var s_sort = "";
+        var class_a_d = "";
+
+        s_sort = c_sort;
+        if (pre_sort == c_sort) {
+            if (pre_a_d == "") {
+                a_d = "desc";
+            }
+            else {
+                a_d = "";
+            }
+        }
+        else {
+            a_d = "";
+        }
+
+        //alert("pre_sort:" + pre_sort + ";pre_a_d:" + pre_a_d + ";a_d:" + a_d + ";s_sort=" + s_sort)
+
+        $('#txt_sort').val(s_sort);
+        $('#txt_a_d').val(a_d);
+
+        $('#form1').submit();
+
+    }
+
+    //$('#btn_area').click(function (e) {
+    //    var pre_sort = $('#txt_sort').val();
+    //    var pre_a_d = $('#txt_a_d').val();
+    //    var a_d = "";
+    //    var sort = "";
+    //    if(pre_sort == "area")
+    //    {
+    //        if(pre_a_d == "")
+    //        {
+    //            a_d = "desc";
+    //        }
+    //        else
+    //        {
+    //            a_d = "";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        sort = "area";
+    //        a_d = "";
+    //    }
+    //});
+    //$('#page').click(function (e) {
+    //    alert('clicked');
+    //});
+</script>

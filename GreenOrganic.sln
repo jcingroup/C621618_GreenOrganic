@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyView", "SkyView\SkyView.csproj", "{AF061552-CF25-4423-A2A9-E313211A1E99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Official|Any CPU = Official|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Official|Any CPU.ActiveCfg = Official|Any CPU
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Official|Any CPU.Build.0 = Official|Any CPU
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF061552-CF25-4423-A2A9-E313211A1E99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
