@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>都發局-桃園新視界 管理系統</title>
-    <link rel="stylesheet" href="~/Content/css/vendor/w3.css">
     <link rel="stylesheet" href="~/Content/css/vendor/fontAwesome/font-awesome.css">
     <link rel="stylesheet" href="~/Content/css/sys.css">
 
@@ -31,12 +30,11 @@
                     <h1 class="logo">
                         <a class="navbar-brand" href="@Url.Content("~/Manage")" title="回登入首頁" tabindex="-1">都發局-桃園新視界 管理系統</a>
                     </h1><!-- logo -->
-                    <ul class="nav navbar-nav pull-xs-right">
+                    <ul class="nav navbar-nav float-xs-right">
                         <li class="nav-item">
                             <span class="nav-link">
-                                <i class="fa-user"></i> <span>
-                                    登入身分: @Convert.ToString(Session["account"])
-                                </span>
+                                <i class="fa-user"></i> 登入身分: @Convert.ToString(Session["account"])
+                            </span>
                         </li>
                         <li class="nav-item bg-warning">
                             <a href="@Url.Content("~/Home")" class="nav-link">
@@ -72,13 +70,25 @@
                     <nav id="menu">
                         <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
                             <dt class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#menu" href="#menu3" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "")"><i class="fa-info-circle"></i> 空拍景點管理</a>
+                                <a data-toggle="collapse" data-parent="#menu" href="#menu3" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "")"><i class="fa-info-circle"></i> 網站資訊維護</a>
                             </dt>
                             <dd id="menu3" class="panel-collapse collapse @(ViewBag.nav == "n1" ? "in" : "")">
                                 <ul class="panel-body list-unstyled">
-                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 景點資料維護</a></li>
+                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 最新消息 管理</a></li>
+                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 首頁影片 管理</a></li>
+                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 關於我們 編輯</a></li>
                                 </ul>
                             </dd>
+                        </dl>
+                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
+                            <dt class="panel-heading">
+                                <a href="~/Manage/OverlookList" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "active")"><i class="fa-info-circle"></i> 產品資料維護</a>
+                            </dt>
+                        </dl>
+                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
+                            <dt class="panel-heading">
+                                <a href="~/Manage/OverlookList" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "active")"><i class="fa-info-circle"></i> 海外實績管理</a>
+                            </dt>
                         </dl>
                         <dl class="panel @(ViewBag.nav == "n2" ? "panel-active" : "")">
                             <dt class="panel-heading">

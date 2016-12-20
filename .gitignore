@@ -242,9 +242,6 @@ ModelManifest.xml
 .paket/paket.exe
 
 # FAKE - F# Make
-.fake/
-/SkyView/Content/sass
-/SkyView/Content/sass-sys
-/SkyView/ckeditor
-/SkyView/Content/doc
-/SkyView/Images
+/GreenOrganic/Content/sass
+/GreenOrganic/ckeditor
+/GreenOrganic/Content/doc
