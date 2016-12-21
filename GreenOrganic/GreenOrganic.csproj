@@ -488,8 +488,8 @@
     <Content Include="Content\css\vendor\fontAwesome\font-awesome.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\typeahead.css" />
+    <Content Include="Content\css\vendor\w3.css" />
     <Content Include="Content\font\fontAwesome\fontawesome-webfont.svg" />
-    <Content Include="Content\font\openIconic\open-iconic.svg" />
     <Content Include="Content\images\icon-map.png" />
     <Content Include="Content\images\icon-prev.png" />
     <Content Include="Content\images\imgMap.jpg" />
@@ -590,10 +590,6 @@
     <Content Include="ckeditor\skins\bootstrapck\scss\config\_defaults.scss" />
     <Content Include="ckeditor\skins\bootstrapck\scss\dialog\dialog.scss" />
     <Content Include="ckeditor\skins\moono\readme.md" />
-    <Content Include="Content\font\openIconic\open-iconic.eot" />
-    <Content Include="Content\font\openIconic\open-iconic.otf" />
-    <Content Include="Content\font\openIconic\open-iconic.ttf" />
-    <Content Include="Content\font\openIconic\open-iconic.woff" />
     <None Include="Properties\PublishProfiles\Official Web Site.pubxml" />
     <None Include="Properties\PublishProfiles\Server Web Site.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -625,8 +621,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Manage\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutManage.cshtml" />
-    <Content Include="Views\Manage\OverlookList.cshtml" />
-    <Content Include="Views\Manage\OverlookData.cshtml" />
+    <Content Include="Views\Manage\NewsList.cshtml" />
+    <Content Include="Views\Manage\NewsData.cshtml" />
     <Content Include="Views\Manage\ChangePW.cshtml" />
     <Content Include="Views\Home\OverlookArea.cshtml" />
     <Content Include="Views\Home\OverlookMap.cshtml" />

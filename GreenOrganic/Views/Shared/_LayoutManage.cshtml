@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>都發局-桃園新視界 管理系統</title>
+    <title>大地還原生物科技 管理系統</title>
+    <link rel="stylesheet" href="~/Content/css/vendor/w3.css">
     <link rel="stylesheet" href="~/Content/css/vendor/fontAwesome/font-awesome.css">
     <link rel="stylesheet" href="~/Content/css/sys.css">
 
@@ -28,13 +29,14 @@
             {
                 <header id="header" class="navbar navbar-fixed-top navbar-dark bg-primary">
                     <h1 class="logo">
-                        <a class="navbar-brand" href="@Url.Content("~/Manage")" title="回登入首頁" tabindex="-1">都發局-桃園新視界 管理系統</a>
+                        <a class="navbar-brand" href="@Url.Content("~/Manage")" title="回登入首頁" tabindex="-1">大地還原生物科技 管理系統</a>
                     </h1><!-- logo -->
-                    <ul class="nav navbar-nav float-xs-right">
+                    <ul class="nav navbar-nav pull-xs-right">
                         <li class="nav-item">
                             <span class="nav-link">
-                                <i class="fa-user"></i> 登入身分: @Convert.ToString(Session["account"])
-                            </span>
+                                <i class="fa-user"></i> <span>
+                                    登入身分: @Convert.ToString(Session["account"])
+                                </span>
                         </li>
                         <li class="nav-item bg-warning">
                             <a href="@Url.Content("~/Home")" class="nav-link">

@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.BodyClass = "Overlook";
-    ViewBag.Crumb = "景點資料維護";
+    ViewBag.Crumb = "最新消息管理";
     ViewBag.nav = "n1";
     ViewBag.subNav = "sn1-1";
 
@@ -109,26 +109,29 @@
             }
 
             @section Breadcrumb {
-    <li><i class="fa-caret-right"></i> 空拍景點管理</li>
+    <li><i class="fa-caret-right"></i> 網站資訊維護</li>
     <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
         }
 
 <h3 class="h3">@ViewBag.Crumb</h3>
 
-<div class="alert alert-warning p-a-1">
-    點閱人數前三名的熱門景點，將會顯示在首頁輪播Banner。
-</div>
+<div class="alert alert-warning w3-padding-small">※首頁最多可顯示 3 則最新消息，若您設定超過 3 則消息要顯示在首頁，首頁只會顯示排序最高的前 3 則。</div>
+
 <form name="form1" id="form1" action="" method="post">
     <input type="hidden" id="txt_sort" name="txt_sort" value="@txt_sort" />
     <input type="hidden" id="txt_a_d" name="txt_a_d" value="@txt_a_d" />
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
-                <label class="text-sm">地區</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_area_query" id="txt_area_query" value="@txt_area_query" >
-                <label class="text-sm">景點</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_scenic_query" id="txt_scenic_query" value="@txt_scenic_query" >
-                <small class="text-muted">輸入關鍵字時，如有複合搜尋。請使用逗號 , 作為區隔 ex. 桃園,中壢,龍潭</small>
+                <label class="text-sm">日期</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                @* 用 datetimepicker (之類的東西) 選日期 *@
+                <input type="text" class="form-control form-control-sm">
+                <label class="text-sm">~</label>
+                <input type="text" class="form-control form-control-sm">
+
+                <label class="text-sm w3-margin-left">標題</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+                <small class="text-muted">輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃</small>
             </div>
         </div><!-- table-filter //-->
     </header>
@@ -136,35 +139,38 @@
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
             <col span="2" style="width: 6%">
-            <col style="width: 15%">
+            <col style="width: 12%">
             <col>
-            <col span="2" style="width: 14%">
+            <col span="2" style="width: 8%">
+            <col style="width: 12%">
         </colgroup>
         <thead>
             <tr>
                 <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th class="text-xs-center">修改</th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle @class_area" name="btn_area" id="btn_area" onclick="sort('area');">地區</button>
+                    <button class="text-xs-center th-sort-toggle">發佈日期</button>
                 </th>
-                <th class="text-xs-center">
+                <th>
                     @* 如不需要排序功能: 純文字即可 *@
-                    景點名稱
+                    標題
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle @class_scenic_count" name="btn_scenic_count" id="btn_scenic_count" onclick="sort('scenic_count');" >點閱人數</button>
+                    <button class="text-xs-center th-sort-toggle desc">排序</button>
                 </th>
                 <th>
-                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle @class_status" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                    <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                </th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle">顯示在首頁</button>
                 </th>
             </tr>
         </thead>
         <tbody>
             @* 建議: 1頁10筆資料 *@
             @if (dt.Rows.Count > 0)
-        {
+            {
             for (int i = min_row - 1; i < max_row; i++)
             {
                 scenic_id = dt.Rows[i]["_SEQ_ID"].ToString();
@@ -173,16 +179,14 @@
                 scenic_count = dt.Rows[i]["scenic_count"].ToString();
                 if (dt.Rows[i]["status"].ToString() == "Y")
                 {
-                    show = "顯現";
+                    show = "已發佈";
                     show_class = "label-success";
                 }
                 else
                 {
-                    show = "隱藏";
+                    show = "草稿";
                     show_class = "label-default";
                 }
-
-
                     <tr>
                         <td class="text-xs-center">
                             <button type="button" class="btn btn-link btn-lg text-danger" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';"><i class="fa-times"></i></button>
@@ -190,17 +194,20 @@
                         <td class="text-xs-center">
                             <button type="button" class="btn btn-link btn-lg" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';"><i class="fa-pencil"></i></button>
                         </td>
-                        <td class="text-xs-center">@area_name</td>
-                        <td class="text-xs-left">&nbsp;@scenic_name</td>
-                        <td class="text-xs-center">@scenic_count</td>
+                        <td class="text-xs-center">2016-05-01</td>
+                        <td class="text-xs-left">印度尼西亞 泗水農業無毒種植拓展</td>
+                        <td class="text-xs-center">10</td>
                         <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
+                        <td class="text-xs-center">
+                            <i class="fa-check text-info"></i> @* 有顯示在首頁就打勾 *@
+                        </td>
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td class="text-xs-left" colspan="6">
+                    <td class="text-xs-left" colspan="7">
                         無資料
                     </td>
                 </tr>
@@ -214,10 +221,10 @@
         <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="@Url.Content("~/Manage/OverlookList?page=" + top_page.ToString())"><i class="fa-angle-double-left"></i></a>
+                <a href="@Url.Content("~/Manage/NewsList?page=" + top_page.ToString())"><i class="fa-angle-double-left"></i></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage/OverlookList?page=" + pre_page.ToString())"><i class="fa-angle-left"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + pre_page.ToString())"><i class="fa-angle-left"></i></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
@@ -225,10 +232,10 @@
                 <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage/OverlookList?page=" + next_page.ToString())"><i class="fa-angle-right"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + next_page.ToString())"><i class="fa-angle-right"></i></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage/OverlookList?page=" + end_page.ToString())"><i class="fa-angle-double-right"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + end_page.ToString())"><i class="fa-angle-double-right"></i></a>
             </li>
         </ul>
     </footer>

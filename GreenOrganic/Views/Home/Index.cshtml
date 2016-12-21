@@ -1,19 +1,6 @@
 ﻿@using System.Data;
 @{
     ViewBag.Title = "WELCOM";
-    DataTable d_scenic = (DataTable)ViewData["d_scenic"];
-    int d_count = 3;
-
-    string area_name = "";
-    string scenic_name = "";
-    string img_file = "";
-    string img_desc = "";
-    string scenic_id = "";
-
-    if(d_scenic.Rows.Count < 3)
-    {
-        d_count = d_scenic.Rows.Count;
-    }
 }
 
 @section css {
@@ -30,32 +17,3 @@
         });
     </script>
 }
-
-<div id="banner" class="swiper-container">
-    <ul class="swiper-wrapper">
-            @* 套程式 *@
-            @* 1 *@
-            @* [後台] 點閱人數前三名的熱門景點(取大圖照片第1張) - 點圖後超連結至該則 *@
-            @*<li class="swiper-slide">*@
-            @*   <a href="~/Home/Overlook"><img src="~/Content/images/index/pic.jpg" alt="首頁輪播圖Demo"></a>*@
-            @* [後台] 地區-景點名稱 *@
-            @*   <h3>大園區 <small>竹圍漁港</small></h3>*@
-            @*</li>*@
-            
-            @for (int i = 0; i < d_count; i++)
-            {
-                area_name = d_scenic.Rows[i]["area_name"].ToString();
-                scenic_name = d_scenic.Rows[i]["scenic_name"].ToString();
-                img_file = d_scenic.Rows[i]["img_file_b"].ToString();
-                img_desc = d_scenic.Rows[i]["img_desc_b"].ToString();
-                scenic_id = d_scenic.Rows[i]["_SEQ_ID"].ToString();
-                if (img_file.Trim().Length > 0)
-                {
-                    <li class="swiper-slide">
-                        <a href="@Url.Content("~/Home/Overlook?scenic_id=" + scenic_id)"><img src="@Url.Content("~/Images/" + img_file)" alt="@img_desc"></a>
-                        <h3>@area_name <small>@scenic_name</small></h3>
-                    </li>
-                }
-            }
-    </ul>
-</div>
