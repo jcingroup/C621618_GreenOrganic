@@ -2,10 +2,9 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
-    ViewBag.BodyClass = "Overlook";
     ViewBag.Crumb = "最新消息管理";
-    ViewBag.nav = "n1";
-    ViewBag.subNav = "sn1-1";
+    ViewBag.nav = "n3";
+    ViewBag.subNav = "n3-1";
 
     DataTable dt = (DataTable)ViewData["dt"];
     int row_count = 0;
@@ -108,10 +107,10 @@
 
             }
 
-            @section Breadcrumb {
-    <li><i class="fa-caret-right"></i> 網站資訊維護</li>
-    <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
-        }
+@section Breadcrumb {
+    <li>&#8227; 網站資訊維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
 <h3 class="h3">@ViewBag.Crumb</h3>
 
@@ -189,17 +188,17 @@
                 }
                     <tr>
                         <td class="text-xs-center">
-                            <button type="button" class="btn btn-link btn-lg text-danger" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';"><i class="fa-times"></i></button>
+                            <button type="button" class="btn btn-link text-danger" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';"><i class="oi" data-glyph="trash"></i></button>
                         </td>
                         <td class="text-xs-center">
-                            <button type="button" class="btn btn-link btn-lg" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';"><i class="fa-pencil"></i></button>
+                            <button type="button" class="btn btn-link" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';"><i class="oi" data-glyph="pencil"></i></button>
                         </td>
                         <td class="text-xs-center">2016-05-01</td>
                         <td class="text-xs-left">印度尼西亞 泗水農業無毒種植拓展</td>
                         <td class="text-xs-center">10</td>
                         <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
                         <td class="text-xs-center">
-                            <i class="fa-check text-info"></i> @* 有顯示在首頁就打勾 *@
+                            <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
                         </td>
                     </tr>
                 }
@@ -216,15 +215,15 @@
     </table>
     <footer class="table-footer clearfix">
         <button type="button" class="btn btn-sm btn-success pull-xs-left" onclick="location.href='@Url.Content("~/Manage/Add")';">
-            <i class="fa-plus-circle"></i> 新增
+            <i class="oi" data-glyph="plus"></i> 新增
         </button>
         <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="@Url.Content("~/Manage/NewsList?page=" + top_page.ToString())"><i class="fa-angle-double-left"></i></a>
+                <a href="@Url.Content("~/Manage/NewsList?page=" + top_page.ToString())"><i class="oi" data-glyph="media-step-backward"></i></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + pre_page.ToString())"><i class="fa-angle-left"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + pre_page.ToString())"><i class="oi" data-glyph="caret-left"></i></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
@@ -232,10 +231,10 @@
                 <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + next_page.ToString())"><i class="fa-angle-right"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + next_page.ToString())"><i class="oi" data-glyph="caret-right"></i></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + end_page.ToString())"><i class="fa-angle-double-right"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + end_page.ToString())"><i class="oi" data-glyph="media-step-forward"></i></a>
             </li>
         </ul>
     </footer>

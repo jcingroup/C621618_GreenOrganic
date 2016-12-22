@@ -485,7 +485,8 @@
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\css\editor.css" />
     <Content Include="Content\css\sys.css" />
-    <Content Include="Content\css\vendor\fontAwesome\font-awesome.css" />
+    <Content Include="Content\css\vendor\font-awesome.css" />
+    <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\typeahead.css" />
     <Content Include="Content\css\vendor\w3.css" />

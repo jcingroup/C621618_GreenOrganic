@@ -3,8 +3,8 @@
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.BodyClass = "News";
     ViewBag.Crumb = "最新消息管理";
-    ViewBag.nav = "n1";
-    ViewBag.subNav = "sn1-1";
+    ViewBag.nav = "n3";
+    ViewBag.subNav = "n3-1";
 
     //變數設定
 
@@ -80,12 +80,12 @@
 
         }
 
-        @section Breadcrumb {
-    <li><i class="fa-caret-right"></i> 網站資訊維護</li>
-    <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
-    }
+@section Breadcrumb {
+    <li>&#8227; 網站資訊維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
-<h3 class="h3">@ViewBag.Crumb<small class="sub"><i class="fa-angle-double-right"></i> @action_name</small></h3>
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> @action_name</small></h3>
 
 @* 引用 ajaxfileupload *@
 <script src="~/Scripts/ajaxfileupload.js"></script>
@@ -242,7 +242,7 @@
             <span class="text-danger">*</span> 發佈日期
         </label>
         <div class="col-xs-5">
-            <input type="text" class="form-control form-control-sm"> @* 用 datetimepicker (之類的東西) 選日期 *@
+            <input type="date" class="form-control form-control-sm"> @* 用 datetimepicker (之類的東西) 選日期 *@
         </div>
     </div>
     <div class="form-group row">
@@ -311,13 +311,13 @@
             </script>
         </div>
     </div><!-- form-group //-->
-    
+
     <div class="form-action">
         <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" name="btn_ok" onclick="form_ok();">
-            <i class="fa-check"></i> 存檔確認
+            <i class="oi" data-glyph="circle-check"></i> 存檔確認
         </button>
         <button type="button" class="btn btn-secondary btn-sm" id="btn_back" name="btn_back" onclick="location.href='NewsList'">
-            <i class="fa-times"></i> 回列表
+            <i class="oi" data-glyph="circle-x"></i> 回列表
         </button>
     </div>
 </form>

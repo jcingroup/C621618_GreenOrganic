@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>大地還原生物科技 管理系統</title>
     <link rel="stylesheet" href="~/Content/css/vendor/w3.css">
-    <link rel="stylesheet" href="~/Content/css/vendor/fontAwesome/font-awesome.css">
+    <link rel="stylesheet" href="~/Content/css/vendor/open-iconic.css">
     <link rel="stylesheet" href="~/Content/css/sys.css">
 
     @* 引用 jQuery *@
@@ -13,6 +13,7 @@
 
     @RenderSection("IncludeCSS", false)
 </head>
+
 <body class="@ViewBag.BodyClass">
     <div id="wrapper">
         @if (ViewBag.IsFirstPage)
@@ -33,19 +34,18 @@
                     </h1><!-- logo -->
                     <ul class="nav navbar-nav pull-xs-right">
                         <li class="nav-item">
-                            <span class="nav-link">
-                                <i class="fa-user"></i> <span>
-                                    登入身分: @Convert.ToString(Session["account"])
-                                </span>
+                            <span class="nav-link oi" data-glyph="person">
+                                登入身分: @Convert.ToString(Session["account"])
+                            </span>
                         </li>
                         <li class="nav-item bg-warning">
-                            <a href="@Url.Content("~/Home")" class="nav-link">
-                                <i class="fa-home"></i> 回首頁
+                            <a href="@Url.Content("~/Home")" class="nav-link oi" data-glyph="home">
+                                回首頁
                             </a>
                         </li>
                         <li class="nav-item bg-success">
-                            <a href="@Url.Content("~/Manage/Logout")" class="nav-link">
-                                <i class="fa-power-off"></i> 登出
+                            <a href="@Url.Content("~/Manage/Logout")" class="nav-link oi" data-glyph="power-standby">
+                                登出
                             </a>
                         </li>
                     </ul>
@@ -68,40 +68,28 @@
                 </div><!-- content //-->
 
                 <aside id="sidebar">
-                    <h3 class="h3"><i class="fa-bars"></i> 功能選單 MENU</h3>
-                    <nav id="menu">
-                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
-                            <dt class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#menu" href="#menu3" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "")"><i class="fa-info-circle"></i> 網站資訊維護</a>
-                            </dt>
-                            <dd id="menu3" class="panel-collapse collapse @(ViewBag.nav == "n1" ? "in" : "")">
-                                <ul class="panel-body list-unstyled">
-                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 最新消息 管理</a></li>
-                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 首頁影片 管理</a></li>
-                                    <li><a href="~/Manage/OverlookList" class="@(ViewBag.SubNav == "sn1-1" ? "active" : "")"><i class="fa-caret-right"></i> 關於我們 編輯</a></li>
-                                </ul>
-                            </dd>
-                        </dl>
-                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
-                            <dt class="panel-heading">
-                                <a href="~/Manage/OverlookList" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "active")"><i class="fa-info-circle"></i> 產品資料維護</a>
-                            </dt>
-                        </dl>
-                        <dl class="panel @(ViewBag.nav == "n1" ? "panel-active" : "")">
-                            <dt class="panel-heading">
-                                <a href="~/Manage/OverlookList" class="panel-title @(ViewBag.nav != "n1" ? "collapsed" : "active")"><i class="fa-info-circle"></i> 海外實績管理</a>
-                            </dt>
-                        </dl>
-                        <dl class="panel @(ViewBag.nav == "n2" ? "panel-active" : "")">
-                            <dt class="panel-heading">
-                                <a data-toggle="collapse" data-parent="#menu" href="#menu4" class="panel-title @(ViewBag.nav != "n2" ? "collapsed" : "")"><i class="fa-cog"></i> 系統設定</a>
-                            </dt>
-                            <dd id="menu4" class="panel-collapse collapse @(ViewBag.nav == "n2" ? "in" : "")">
-                                <ul class="panel-body list-unstyled">
-                                    <li><a href="~/Manage/ChangePW" class="@(ViewBag.SubNav == "sn2-1" ? "active" : "")"><i class="fa-caret-right"></i> 變更密碼</a></li>
-                                </ul>
-                            </dd>
-                        </dl>
+                    <h3 class="h3"><i class="oi" data-glyph="menu"></i> 功能選單 MENU</h3>
+
+                    <header class="collapse-toggle @(ViewBag.nav == "n1" ? "current" : "")"><i class="oi" data-glyph="folder"></i>產品資料維護</header>
+                    <nav class="collapse-content @(ViewBag.nav == "n1" ? "in" : "")">
+                        <a href="~/Manage" class="@(ViewBag.SubNav == "n1-1" ? "current" : "")"><i>&#8227;</i>產品分類 管理</a>
+                    </nav>
+
+                    <header class="collapse-toggle @(ViewBag.nav == "n2" ? "current" : "")"><i class="oi" data-glyph="flag"></i>海外實績管理</header>
+                    <nav class="collapse-content @(ViewBag.nav == "n2" ? "in" : "")">
+                        <a href="~/Manage" class="@(ViewBag.SubNav == "n2-1" ? "current" : "")"><i>&#8227;</i>海外實績分類 管理</a>
+                    </nav>
+
+                    <header class="collapse-toggle @(ViewBag.nav == "n3" ? "current" : "")"><i class="oi" data-glyph="info"></i>網站資訊維護</header>
+                    <nav class="collapse-content @(ViewBag.nav == "n3" ? "in" : "")">
+                        <a href="~/Manage/NewsList" class="@(ViewBag.SubNav == "n3-1" ? "current" : "")"><i>&#8227;</i>最新消息 管理</a>
+                        <a href="~/Manage/IndexVideo" class="@(ViewBag.SubNav == "n3-2" ? "current" : "")"><i>&#8227;</i>首頁影片 管理</a>
+                        <a href="~/Manage/AboutUs" class="@(ViewBag.SubNav == "n3-3" ? "current" : "")"><i>&#8227;</i>關於我們 編輯</a>
+                    </nav>
+
+                    <header class="collapse-toggle @(ViewBag.nav == "n4" ? "current" : "")"><i class="oi" data-glyph="cog"></i>系統設定</header>
+                    <nav class="collapse-content @(ViewBag.nav == "n4" ? "in" : "")">
+                        <a href="~/Manage/ChangePW" class="@(ViewBag.SubNav == "n4-1" ? "current" : "")"><i>&#8227;</i>變更密碼</a>
                     </nav>
                 </aside><!-- sidebar //-->
             }
@@ -111,14 +99,26 @@
 
     <footer id="footer">
         <p class="copyright text-muted">
-            <span>Powered By <a href="http://www.jcin.com.tw" target="new">JCIN.</a></span>
+            Powered By <a href="http://www.jcin.com.tw" target="new">JCIN.</a>
         </p>
     </footer><!-- footer //-->
 
+    <script>
+        // 左選單縮放特效
+        var $collapse = $('.collapse-toggle');
+        var fall = '.collapse-content';
 
-    @* 引用 Bootstrap (左選單開合效果) *@
-    <script src="~/Content/js/bootstrap/util.js"></script>
-    <script src="~/Content/js/bootstrap/collapse.js"></script>
+        // 若是當前選單就加上點中(active) class
+        $collapse.siblings(".current").addClass("active");
+
+        $collapse.click(function (e) {
+            $(this).next(fall).slideToggle(200);
+            $(this).siblings().next(fall).slideUp();
+            $(this).toggleClass("active"),
+                    $collapse.not(this).removeClass("active");
+            event.preventDefault();
+        });
+    </script>
 
     @RenderSection("IncludeScript", false)
 </body>
