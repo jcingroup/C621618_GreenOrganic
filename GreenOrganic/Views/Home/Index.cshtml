@@ -1,19 +1,30 @@
-﻿@using System.Data;
-@{
-    ViewBag.Title = "WELCOM";
+﻿@{
+    ViewBag.Title = "WELCOME";
+    ViewBag.IsFirstPage = true;
 }
 
 @section css {
-    <link rel="stylesheet" href="~/Content/css/vendor/swiper.min.css">
+    
 }
 @section scripts {
-    <script src="~/Content/js/swiper/swiper.min.js"></script>
+    <script src="js/jquery.scrollify.min.js"></script>
     <script>
-        var swiper = new Swiper('#banner', {
-            autoplay: 5000,
-            speed: 1000,
-            effect: 'coverflow',
-            autoplayDisableOnInteraction: false
+        $(document).ready(function () {
+            $.scrollify({
+                section: ".panel"
+            });
         });
     </script>
 }
+
+<div id="banner" class="panel">
+
+    <video preload="auto" poster="images/banner-static.jpg" autoplay loop>
+        <source src="~/Content/images/index/banner.mp4" type="video/mp4">
+    </video>
+
+    <a href="" class="scroll">
+        Scroll Down
+    </a>
+
+</div>

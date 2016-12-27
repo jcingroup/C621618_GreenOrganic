@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>@ViewBag.Title::桃園新視界 AWESOME TaoYuan-都市發展局</title>
+    <title>@ViewBag.Title::大地還原生物科技股份有限公司</title>
     <link rel="stylesheet" href="~/Content/css/grid.css">
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     @RenderSection("css", required: false)
     @if (ViewBag.IsFirstPage)
     {
@@ -23,16 +22,16 @@
     <div id="wrapper">
         <header id="header">
             <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="回首頁" tabindex="-1">
-                桃園新視界 AWESOME TaoYuan-都市發展局
+                大地還原生物科技股份有限公司
             </h1>
             <button class="mobile-trigger lnr lnr-menu" title="主選單"></button>
             <nav id="menu" class="navbar">
                 <button class="mobile-close lnr lnr-cross" title="關閉主選單"></button>
-                <a href="~/Home/OverlookArea">俯瞰桃園之美</a>
-                @* <a href="~/Home/Overview"">360°環景</a> 目前沒有-等有資料再顯示 *@
-                <a href="~/Home/AboutUs">關於本站</a>
-                <a href="~/Home/Sitemap">網站導覽</a>
-                <a href="~/Home" class="home">回首頁</a>
+                <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
+                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新聞資訊</a>
+                <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列產品</a>
+                <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外實績</a>
+                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯繫我們</a>
             </nav>
         </header>
 
@@ -43,35 +42,7 @@
     </div><!-- wrapper //-->
 
     <footer id="footer">
-        <div class="wrap row-x-0">
-            <section class="col-md-9 foot-nav">
-                <h2 class="col-sm-2 col-xs-3">桃園市<small>區域導覽</small></h2>
-                <nav class="col-sm-10 col-xs-9">
-                    <a href="~/Home/OverlookMap?area_id=8">蘆竹區</a>
-                    <a href="~/Home/OverlookMap?area_id=10">大園區</a>
-                    <a href="~/Home/OverlookMap?area_id=3">觀音區</a>
-                    <a href="~/Home/OverlookMap?area_id=5">新屋區</a>
-                    <a href="~/Home/OverlookMap?area_id=2">龍潭區</a>
-                    <a href="~/Home/OverlookMap?area_id=9">八德區</a>
-                    <a href="~/Home/OverlookMap?area_id=1">桃園區</a>
-                    <a href="~/Home/OverlookMap?area_id=4">楊梅區</a>
-                    <a href="~/Home/OverlookMap?area_id=11">平鎮區</a>
-                    <a href="~/Home/OverlookMap?area_id=12">龜山區</a>
-                    <a href="~/Home/OverlookMap?area_id=6">大溪區</a>
-                    <a href="~/Home/OverlookMap?area_id=13">中壢區</a>
-                    <a href="~/Home/OverlookMap?area_id=7">復興區</a>
-                </nav>
-            </section>
-
-            <address class="col-md-3 foot-contact">
-                <p>桃園市政府都市發展局</p>
-                <p>33001 桃園市桃園區縣府路1號2樓</p>
-                <p><em>TEL:</em>03-3322101#5780</p>
-                <p><em>E-MAIL:</em><a href="mailto:10007260@mail.tycg.gov.tw">10007260@mail.tycg.gov.tw</a><p>
-            </address>
-        </div><!-- wrap -->
-
-        <div class="copyright">2016 &copy; Taoyuan City</div>
+        <div class="copyright"><span class="logo">大地還原生物科技股份有限公司</span> &copy; 2016</div>
     </footer><!-- footer -->
 
     <script src="//code.jquery.com/jquery-latest.min.js"></script>

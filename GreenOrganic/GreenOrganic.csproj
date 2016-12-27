@@ -488,50 +488,8 @@
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
-    <Content Include="Content\css\vendor\typeahead.css" />
     <Content Include="Content\css\vendor\w3.css" />
     <Content Include="Content\font\fontAwesome\fontawesome-webfont.svg" />
-    <Content Include="Content\images\icon-map.png" />
-    <Content Include="Content\images\icon-prev.png" />
-    <Content Include="Content\images\imgMap.jpg" />
-    <Content Include="Content\images\index\bannerBg.gif" />
-    <Content Include="Content\images\index\bannerBg2.gif" />
-    <Content Include="Content\images\index\icon-bird.gif" />
-    <Content Include="Content\images\index\logo.gif" />
-    <Content Include="Content\images\index\pic.jpg" />
-    <Content Include="Content\images\index\pic2.jpg" />
-    <Content Include="Content\images\logo.gif" />
-    <Content Include="Content\images\map-img.png" />
-    <Content Include="Content\images\Overlook\01.jpg" />
-    <Content Include="Content\images\Overlook\02.jpg" />
-    <Content Include="Content\images\Overlook\03.jpg" />
-    <Content Include="Content\images\Overlook\bade.png" />
-    <Content Include="Content\images\Overlook\bade2.png" />
-    <Content Include="Content\images\Overlook\dashi.png" />
-    <Content Include="Content\images\Overlook\dashi2.png" />
-    <Content Include="Content\images\Overlook\dayuan.png" />
-    <Content Include="Content\images\Overlook\dayuan2.png" />
-    <Content Include="Content\images\Overlook\fushing.png" />
-    <Content Include="Content\images\Overlook\fushing2.png" />
-    <Content Include="Content\images\Overlook\guanyin.png" />
-    <Content Include="Content\images\Overlook\guanyin2.png" />
-    <Content Include="Content\images\Overlook\gueishan.png" />
-    <Content Include="Content\images\Overlook\gueishan2.png" />
-    <Content Include="Content\images\Overlook\jungli.png" />
-    <Content Include="Content\images\Overlook\jungli2.png" />
-    <Content Include="Content\images\Overlook\longtan.png" />
-    <Content Include="Content\images\Overlook\longtan2.png" />
-    <Content Include="Content\images\Overlook\luchu.png" />
-    <Content Include="Content\images\Overlook\luchu2.png" />
-    <Content Include="Content\images\Overlook\pingzhen.png" />
-    <Content Include="Content\images\Overlook\pingzhen2.png" />
-    <Content Include="Content\images\Overlook\shinwu.png" />
-    <Content Include="Content\images\Overlook\shinwu2.png" />
-    <Content Include="Content\images\Overlook\slideBg.gif" />
-    <Content Include="Content\images\Overlook\taoyuan.png" />
-    <Content Include="Content\images\Overlook\taoyuan2.png" />
-    <Content Include="Content\images\Overlook\yangmei.png" />
-    <Content Include="Content\images\Overlook\yangmei2.png" />
     <Content Include="Content\js\bootstrap\collapse.js" />
     <Content Include="Content\js\bootstrap\dropdown.js" />
     <Content Include="Content\js\bootstrap\util.js" />
@@ -625,13 +583,7 @@
     <Content Include="Views\Manage\NewsList.cshtml" />
     <Content Include="Views\Manage\NewsData.cshtml" />
     <Content Include="Views\Manage\ChangePW.cshtml" />
-    <Content Include="Views\Home\OverlookArea.cshtml" />
-    <Content Include="Views\Home\OverlookMap.cshtml" />
-    <Content Include="Views\Home\Overlook.cshtml" />
-    <Content Include="Views\Home\Sitemap.cshtml" />
-    <Content Include="Views\Home\AboutUs.cshtml" />
-    <Content Include="Views\Home\Overview.cshtml" />
-    <Content Include="Views\Shared\SidebarOverlook.cshtml" />
+    <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -644,6 +596,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\index\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <PropertyGroup>
