@@ -1,7 +1,33 @@
 ﻿
 @{
-    ViewBag.Title = "ResultsList";
+    ViewBag.Crumb = "海外實績分類 管理";
+    ViewBag.nav = "n2";
+    ViewBag.subNav = "n2-1";
 }
 
-<h2>ResultsList</h2>
+@section Breadcrumb {
+    <li>&#8227; 海外實績維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
+<h3 class="h3">@ViewBag.Crumb</h3>
+
+<div class="alert alert-warning w3-padding-small text-sm">※ 輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃</div>
+
+<form name="" id="" action="" method="post">
+    <header class="table-header">
+        <div class="table-filter">
+            <div class="form-inline">
+                <label class="text-sm w3-margin-left sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+                <small class="text-muted">輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃</small>
+
+                <label class="text-sm">國別</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <select name="" id="">
+                    <option value="">- 請選擇 -</option>
+                </select>
+            </div>
+        </div><!-- table-filter //-->
+    </header>
+
+</form>

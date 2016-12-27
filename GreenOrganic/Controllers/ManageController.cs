@@ -458,11 +458,27 @@ namespace GreenOrganic.Controllers
         }
 
         // 海外實績
+        public ActionResult ResultsKind1()
+        {
+            return View();
+        }
+        public ActionResult ResultsKind2()
+        {
+            return View();
+        }
+        public ActionResult ResultsKindPlant()
+        {
+            return View();
+        }
         public ActionResult ResultsList()
         {
             return View();
         }
         public ActionResult ResultsData()
+        {
+            return View();
+        }
+        public ActionResult ResultsKind()
         {
             return View();
         }

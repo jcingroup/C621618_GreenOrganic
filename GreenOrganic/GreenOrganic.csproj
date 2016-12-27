@@ -641,6 +641,10 @@
     <Content Include="Views\Manage\ProductData.cshtml" />
     <Content Include="Views\Manage\IndexVideoa.cshtml" />
     <Content Include="Views\Manage\AboutUs.cshtml" />
+    <Content Include="Views\Manage\ResultsKind1.cshtml" />
+    <Content Include="Views\Manage\ResultsKind2.cshtml" />
+    <Content Include="Views\Manage\ResultsKindPlant.cshtml" />
+    <Content Include="Views\Manage\ResultsKind.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
