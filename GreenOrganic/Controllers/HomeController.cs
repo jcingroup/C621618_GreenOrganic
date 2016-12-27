@@ -29,20 +29,44 @@ namespace GreenOrganic.Controllers
             return Redirect("~/Manage");
         }
 
-        // 360環景
-        public ActionResult Overview()
-        {
-            return View();
-        }
-
-        // 關於本站
+        // 品牌故事
         public ActionResult AboutUs()
         {
             return View();
         }
 
-        // 網站導覽
-        public ActionResult Sitemap()
+        // 新聞資訊
+        public ActionResult NewsList()
+        {
+            return View();
+        }
+        public ActionResult NewsData()
+        {
+            return View();
+        }
+
+        // 系列產品
+        public ActionResult ProductList()
+        {
+            return View();
+        }
+        public ActionResult ProductData()
+        {
+            return View();
+        }
+
+        // 海外實績
+        public ActionResult WitnessList()
+        {
+            return View();
+        }
+        public ActionResult WitnessData()
+        {
+            return View();
+        }
+
+        // 聯繫我們
+        public ActionResult ContactUs()
         {
             return View();
         }
