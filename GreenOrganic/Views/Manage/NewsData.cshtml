@@ -239,10 +239,22 @@
 
     <div class="form-group row">
         <label class="col-xs-1 form-control-label text-xs-right">
+            <span class="text-danger">*</span> 語系
+        </label>
+        <div class="col-xs-5">
+            <select class="form-control form-control-sm" required>
+                <option>繁體中文</option>
+                <option>简体中文</option>
+                <option>English</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
             <span class="text-danger">*</span> 發佈日期
         </label>
         <div class="col-xs-5">
-            <input type="date" class="form-control form-control-sm"> @* 用 datetimepicker (之類的東西) 選日期 *@
+            <input type="date" class="form-control form-control-sm" required> @* 用 datetimepicker (之類的東西) 選日期 *@
         </div>
     </div>
     <div class="form-group row">
@@ -250,7 +262,7 @@
             <span class="text-danger">*</span> 標題
         </label>
         <div class="col-xs-5">
-            <input type="text" class="form-control form-control-sm">
+            <input type="text" class="form-control form-control-sm" required>
         </div>
     </div>
     <div class="form-group row">
@@ -258,7 +270,7 @@
             <span class="text-danger">*</span> 排序
         </label>
         <div class="col-xs-5">
-            <input type="text" class="form-control form-control-sm">
+            <input type="number" min="0" value="0" class="form-control form-control-sm">
         </div>
         <small class="col-xs-6 form-control-label text-muted">數字愈大排在愈上面</small>
     </div>
@@ -313,11 +325,11 @@
     </div><!-- form-group //-->
 
     <div class="form-action">
-        <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" name="btn_ok" onclick="form_ok();">
-            <i class="oi" data-glyph="circle-check"></i> 存檔確認
+        <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-1 oi" data-glyph="circle-check">
+            存檔確認
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" id="btn_back" name="btn_back" onclick="location.href='NewsList'">
-            <i class="oi" data-glyph="circle-x"></i> 回列表
+        <button type="button" id="btn_back" name="btn_back" onclick="location.href='NewsList'" class="btn btn-secondary btn-sm oi" data-glyph="circle-x">
+            回列表
         </button>
     </div>
 </form>

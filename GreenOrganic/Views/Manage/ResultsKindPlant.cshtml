@@ -1,7 +1,168 @@
 ﻿
 @{
-    ViewBag.Title = "ResultsKindPlant";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "種植物 管理";
+    ViewBag.nav = "n2";
+    ViewBag.subNav = "n2-3";
 }
 
-<h2>ResultsKindPlant</h2>
+@section Breadcrumb {
+    <li>&#8227; 海外實績維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
+<h3 class="h3">@ViewBag.Crumb</h3>
+
+<div class="alert alert-warning w3-padding-small text-sm">
+    輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
+</div>
+
+<form name="" id="" action="" method="post">
+    <header class="table-header">
+        <div class="table-filter">
+            <div class="form-inline">
+                <label class="text-sm sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+
+                <label class="text-sm w3-margin-left">語系</label>
+                <select class="form-control form-control-sm">
+                    <option>全部</option>
+                    <option>繁體中文</option>
+                    <option>简体中文</option>
+                    <option>English</option>
+                </select>
+            </div>
+        </div><!-- table-filter //-->
+    </header>
+
+    <table class="table table-sm table-bordered table-striped table-hover">
+        <colgroup>
+            <col span="2" style="width: 6%">
+            <col>
+            <col span="2" style="width: 18%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th class="text-xs-center" colspan="2">編輯</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
+                <th>
+                    <button class="th-sort-toggle">種植物名稱</button>
+                </th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle">語系</button>
+                </th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* 建議: 1頁10筆資料 *@
+            <tr>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link text-danger oi" data-glyph="trash" title="確定刪除"></button>
+                </td>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
+                </td>
+                <td>
+                    山核桃
+                </td>
+                <td class="text-xs-center">
+                    繁體中文
+                </td>
+                <td class="text-xs-center">
+                    <span class="w3-tag label-success w3-round">顯示</span>
+                    @* <span class="w3-tag label-default w3-round">隱藏</span> *@
+                </td>
+            </tr>
+            @* 按下修改時顯示 *@
+            <tr>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link text-warning oi" data-glyph="x" title="取消修改"></button>
+                </td>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" value="煙草">
+                </td>
+                <td>
+                    <select class="form-control form-control-sm" required>
+                        <option>繁體中文</option>
+                        <option>简体中文</option>
+                        <option>English</option>
+                    </select>
+                </td>
+                <td class="text-xs-center">
+                    <label class="c-input c-radio">
+                        <input type="radio" name="show" id="show" value="Y" checked>
+                        <span class="c-indicator"></span>
+                        <span class="text-sm">顯示</span>
+                    </label>
+                    <label class="c-input c-radio m-r-0">
+                        <input type="radio" name="show" id="show" value="N">
+                        <span class="c-indicator"></span>
+                        <span class="text-sm">隱藏</span>
+                    </label>
+                </td>
+            </tr>
+
+            @* 按下新增時顯示 *@
+            <tr>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link text-warning oi" data-glyph="x" title="取消修改"></button>
+                </td>
+                <td class="text-xs-center">
+                    <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" placeholder="請輸入種植物名稱">
+                </td>
+                <td>
+                    <select class="form-control form-control-sm" required>
+                        <option>繁體中文</option>
+                        <option>简体中文</option>
+                        <option>English</option>
+                    </select>
+                </td>
+                <td class="text-xs-center">
+                    <label class="c-input c-radio">
+                        <input type="radio" name="show2" value="Y" checked>
+                        <span class="c-indicator"></span>
+                        <span class="text-sm">顯示</span>
+                    </label>
+                    <label class="c-input c-radio m-r-0">
+                        <input type="radio" name="show2" value="N">
+                        <span class="c-indicator"></span>
+                        <span class="text-sm">隱藏</span>
+                    </label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <footer class="table-footer clearfix">
+        <button type="button" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+            新增
+        </button>
+        <small class="pull-xs-right">第 1-10 筆，共 2 筆</small>
+        <ul class="pager pager-sm">
+            <li>
+                <a href="" class="oi" data-glyph="media-step-backward"></a>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="caret-left"></a>
+            </li>
+            <li class="form-inline">
+                <label>第</label>
+                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="1">
+                <label>頁，共 1 頁</label>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="caret-right"></a>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="media-step-forward"></a>
+            </li>
+        </ul>
+    </footer>
+</form>

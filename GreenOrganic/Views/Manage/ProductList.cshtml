@@ -1,7 +1,130 @@
 ﻿
 @{
-    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "產品分類 管理";
+    ViewBag.nav = "n1";
+    ViewBag.subNav = "n1-1";
 }
 
-<h2>ProductList</h2>
+@section Breadcrumb {
+    <li>&#8227; 產品資料維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
+<h3 class="h3">@ViewBag.Crumb</h3>
+
+<div class="alert alert-warning w3-padding-small text-sm">
+    輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
+</div>
+
+<form name="" id="" action="" method="post">
+    <header class="table-header">
+        <div class="table-filter">
+            <div class="form-inline">
+                <label class="text-sm w3-margin-left sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+
+                <label class="text-sm w3-margin-left">語系</label>
+                <select class="form-control form-control-sm">
+                    <option>全部</option>
+                    <option>繁體中文</option>
+                    <option>简体中文</option>
+                    <option>English</option>
+                </select>
+
+                <label class="text-sm w3-margin-left">產品類別</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <select class="form-control form-control-sm">
+                    <option>全部</option>
+                    <option>大地系列</option>
+                    <option>功能性系列</option>
+                </select>
+            </div>
+        </div><!-- table-filter //-->
+    </header>
+
+    <table class="table table-sm table-bordered table-striped table-hover">
+        <colgroup>
+            <col span="2" style="width: 6%">
+            <col style="width: 16%">
+            <col>
+            <col span="3" style="width: 11%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
+                <th class="text-xs-center">修改</th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle">產品類別</button>
+                </th>
+                <th>
+                    <button class="th-sort-toggle">產品名稱</button>
+                </th>
+                <th>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle asc">語系</button>
+                </th>
+                <th>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle desc">排序</button>
+                </th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* 建議: 1頁10筆資料 *@
+            <tr>
+                <td class="text-xs-center">
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
+                </td>
+                <td class="text-xs-center">
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
+                </td>
+                <td class="text-xs-center">大地系列</td>
+                <td>大地OA 1號</td>
+                <td class="text-xs-center">繁體中文</td>
+                <td class="text-xs-center">10</td>
+                <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
+            </tr>
+            <tr>
+                <td class="text-xs-center">
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
+                </td>
+                <td class="text-xs-center">
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
+                </td>
+                <td class="text-xs-center">大地系列</td>
+                <td>大地OA 1號</td>
+                <td class="text-xs-center">繁體中文</td>
+                <td class="text-xs-center">10</td>
+                <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <footer class="table-footer clearfix">
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+            新增
+        </button>
+        <small class="pull-xs-right">第 1-10 筆，共 2 筆</small>
+        <ul class="pager pager-sm">
+            <li>
+                <a href="" class="oi" data-glyph="media-step-backward"></a>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="caret-left"></a>
+            </li>
+            <li class="form-inline">
+                <label>第</label>
+                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="1">
+                <label>頁，共 1 頁</label>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="caret-right"></a>
+            </li>
+            <li>
+                <a href="" class="oi" data-glyph="media-step-forward"></a>
+            </li>
+        </ul>
+    </footer>
+</form>

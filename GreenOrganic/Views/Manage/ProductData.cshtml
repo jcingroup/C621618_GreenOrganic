@@ -1,7 +1,145 @@
 ﻿
 @{
-    ViewBag.Title = "ProductData";
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "產品分類 管理";
+    ViewBag.nav = "n1";
+    ViewBag.subNav = "n1-1";
 }
 
-<h2>ProductData</h2>
+@section Breadcrumb {
+    <li>&#8227; 產品資料維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
 
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 資料編輯</small></h3>
+
+<form class="form form-sm">
+    <section class="col-xs-6 m-b-1">
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                <span class="text-danger">*</span> 語系
+            </label>
+            <div class="col-xs-9">
+                <select class="form-control form-control-sm" required>
+                    <option>繁體中文</option>
+                    <option>简体中文</option>
+                    <option>English</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                <span class="text-danger">*</span> 產品類別
+            </label>
+            <div class="col-xs-9">
+                <select class="form-control form-control-sm" required>
+                    <option>大地系列</option>
+                    <option>功能性系列</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                <span class="text-danger">*</span> 產品名稱
+            </label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control form-control-sm" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                肥料登記字號
+            </label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                制肥原料
+            </label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                登記成份
+            </label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                性狀
+            </label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                排序
+            </label>
+            <div class="col-xs-9">
+                <input type="number" min="0" value="0" class="form-control form-control-sm" required>
+                <small class="text-muted">數字愈大排在愈上面</small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-3 form-control-label text-xs-right">
+                狀態
+            </label>
+            <div class="col-xs-9">
+                <label class="c-input c-radio">
+                    <input type="radio" name="show" id="show" value="Y" checked>
+                    <span class="c-indicator"></span>
+                    <span class="text-sm">發佈</span>
+                </label>
+                <label class="c-input c-radio m-r-0">
+                    <input type="radio" name="show" id="show" value="N">
+                    <span class="c-indicator"></span>
+                    <span class="text-sm">草稿</span>
+                </label>
+            </div>
+        </div>
+    </section>
+    <section class="col-xs-6 m-b-1">
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                產品照片
+            </label>
+            <div class="col-xs-10">
+                @* 瀏覽&上傳檔案 *@
+                <input type="file" name="pic_S" id="pic_S" accept="image/*" class="form-control form-control-sm">
+                <button type="button" name="btn_small_pic" onclick="upload('S');" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload">
+                    上傳
+                </button>
+                <br>
+                @* 照片縮圖(上傳圖片後顯示) *@
+                <ol class="upload-img list-inline" id="c_img_S" name="c_img_small">
+                    <li>
+                        <button class="close" title="按此刪除">&#10005;</button>
+                        <img src="" alt="">
+                    </li>
+                </ol>
+                <small class="text-muted">可上傳 1 張照片，建議尺寸寬度不超過 1064px，每張圖最大不可超過 500kb</small>
+            </div>
+        </div>
+
+    </section>
+
+    <h4 class="h4 clear">產品詳細內容</h4>
+    @* 編輯器(含圖片上傳功能) *@
+    <textarea class="form-control" rows="15" placeholder="請輸入產品詳細內容"></textarea>
+
+    <div class="form-action">
+        <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-1 oi" data-glyph="circle-check">
+            存檔確認
+        </button>
+        <button type="button" id="btn_back" name="btn_back" onclick="location.href='NewsList'" class="btn btn-secondary btn-sm oi" data-glyph="circle-x">
+            回列表
+        </button>
+    </div>
+</form>

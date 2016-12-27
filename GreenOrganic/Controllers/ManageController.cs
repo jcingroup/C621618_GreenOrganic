@@ -25,7 +25,7 @@ namespace GreenOrganic.Controllers
         {
             if(Convert.ToString(Session["IsLogined"]) == "Y")
             {
-                return RedirectToAction("NewsList"); 
+                return RedirectToAction("ProductList"); 
             }
             else
             {
@@ -478,17 +478,13 @@ namespace GreenOrganic.Controllers
         {
             return View();
         }
-        public ActionResult ResultsKind()
-        {
-            return View();
-        }
 
         // 產品
-        public ActionResult ProductList()
+        public ActionResult ProductKind()
         {
             return View();
         }
-        public ActionResult ProductData()
+        public ActionResult ProductList()
         {
             return View();
         }
@@ -500,6 +496,11 @@ namespace GreenOrganic.Controllers
         }
         // 關於我們
         public ActionResult AboutUs()
+        {
+            return View();
+        }
+        // 聯絡我們
+        public ActionResult ContactUs()
         {
             return View();
         }

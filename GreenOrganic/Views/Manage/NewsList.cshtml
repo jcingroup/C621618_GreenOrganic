@@ -114,7 +114,10 @@
 
 <h3 class="h3">@ViewBag.Crumb</h3>
 
-<div class="alert alert-warning w3-padding-small text-sm">※首頁最多可顯示 3 則最新消息，若您設定超過 3 則消息要顯示在首頁，首頁只會顯示排序最高的前 3 則。</div>
+<div class="alert alert-warning w3-padding-small text-sm">
+    首頁最多可顯示 3 則最新消息，若您設定超過 3 則消息要顯示在首頁，首頁只會顯示排序最高的前 3 則。<br>
+    輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
+</div>
 
 <form name="form1" id="form1" action="" method="post">
     <input type="hidden" id="txt_sort" name="txt_sort" value="@txt_sort" />
@@ -122,15 +125,22 @@
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
-                <label class="text-sm">日期</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                @* 用 datetimepicker (之類的東西) 選日期 *@
-                <input type="text" class="form-control form-control-sm">
-                <label class="text-sm">~</label>
-                <input type="text" class="form-control form-control-sm">
-
-                <label class="text-sm w3-margin-left">標題</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <label class="text-sm">標題</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
                 <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
-                <small class="text-muted">輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃</small>
+
+                <label class="text-sm w3-margin-left">日期</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                @* 用 datetimepicker (之類的東西) 選日期 *@
+                <input type="date" class="form-control form-control-sm">
+                <label class="text-sm">~</label>
+                <input type="date" class="form-control form-control-sm">
+
+                <label class="text-sm w3-margin-left">語系</label>
+                <select class="form-control form-control-sm">
+                    <option>全部</option>
+                    <option>繁體中文</option>
+                    <option>简体中文</option>
+                    <option>English</option>
+                </select>
             </div>
         </div><!-- table-filter //-->
     </header>
@@ -138,10 +148,10 @@
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
             <col span="2" style="width: 6%">
-            <col style="width: 12%">
+            <col style="width: 10%">
             <col>
-            <col span="2" style="width: 8%">
-            <col style="width: 12%">
+            <col span="3" style="width: 9%">
+            <col style="width: 10%">
         </colgroup>
         <thead>
             <tr>
@@ -153,6 +163,10 @@
                 <th>
                     @* 如不需要排序功能: 純文字即可 *@
                     標題
+                </th>
+                <th>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle asc">語系</button>
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
@@ -188,13 +202,14 @@
                 }
                     <tr>
                         <td class="text-xs-center">
-                            <button type="button" class="btn btn-link text-danger" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';"><i class="oi" data-glyph="trash"></i></button>
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';" class="btn btn-link text-danger oi" data-glyph="trash"></button>
                         </td>
                         <td class="text-xs-center">
-                            <button type="button" class="btn btn-link" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';"><i class="oi" data-glyph="pencil"></i></button>
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';" class="btn btn-link oi" data-glyph="pencil"></button>
                         </td>
                         <td class="text-xs-center">2016-05-01</td>
                         <td class="text-xs-left">印度尼西亞 泗水農業無毒種植拓展</td>
+                        <td class="text-xs-center">繁體中文</td>
                         <td class="text-xs-center">10</td>
                         <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
                         <td class="text-xs-center">
@@ -214,16 +229,16 @@
         </tbody>
     </table>
     <footer class="table-footer clearfix">
-        <button type="button" class="btn btn-sm btn-success pull-xs-left" onclick="location.href='@Url.Content("~/Manage/Add")';">
-            <i class="oi" data-glyph="plus"></i> 新增
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/Add")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+            新增
         </button>
         <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="@Url.Content("~/Manage/NewsList?page=" + top_page.ToString())"><i class="oi" data-glyph="media-step-backward"></i></a>
+                <a href="@Url.Content("~/Manage/NewsList?page=" + top_page.ToString())" class="oi" data-glyph="media-step-backward"></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + pre_page.ToString())"><i class="oi" data-glyph="caret-left"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + pre_page.ToString())" class="oi" data-glyph="caret-left"></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
@@ -231,10 +246,10 @@
                 <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + next_page.ToString())"><i class="oi" data-glyph="caret-right"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + next_page.ToString())" class="oi" data-glyph="caret-right"></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//NewsList?page=" + end_page.ToString())"><i class="oi" data-glyph="media-step-forward"></i></a>
+                <a href="@Url.Content("~/Manage//NewsList?page=" + end_page.ToString())" class="oi" data-glyph="media-step-forward"></a>
             </li>
         </ul>
     </footer>

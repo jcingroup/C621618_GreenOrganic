@@ -604,8 +604,8 @@
     <Content Include="Views\Manage\ResultsKind1.cshtml" />
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
     <Content Include="Views\Manage\ResultsKindPlant.cshtml" />
-    <Content Include="Views\Manage\ResultsKind.cshtml" />
     <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
+    <Content Include="Views\Manage\ContactUs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

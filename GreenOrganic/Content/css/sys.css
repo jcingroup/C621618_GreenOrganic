@@ -5202,8 +5202,8 @@ a {
   display: inline-block !important;
   width: 80px !important; }
 
-.margin-space-s {
-  margin-bottom: 0.5rem; }
+.form-group .w3-dropdown-click {
+  vertical-align: top; }
 
-.p-a-small {
-  padding: 0.35rem 0.5rem; }
+.m-t-small {
+  margin-top: 6px; }
