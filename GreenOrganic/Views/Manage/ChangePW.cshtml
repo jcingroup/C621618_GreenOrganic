@@ -3,16 +3,16 @@
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.BodyClass = "ChangePW";
     ViewBag.Crumb = "變更密碼";
-    ViewBag.nav = "n2";
-    ViewBag.subNav = "sn2-1";
+    ViewBag.nav = "n4";
+    ViewBag.SubNav = "n4-1";
 }
 
 @section Breadcrumb {
-    <li><i class="fa-caret-right"></i> 系統設定</li>
-    <li><i class="fa-angle-right"></i> @ViewBag.Crumb</li>
+    <li>&#8227; 系統設定</li>
+    <li>&#8250; @ViewBag.Crumb</li>
 }
 
-<h3 class="h3">@ViewBag.Crumb</h3>
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
 
 <script>
     function form_ok()
@@ -36,35 +36,32 @@
 
 <form class="form form-sm" name="form1" method="post" action="">
     <div class="form-group row">
-        <label class="col-xs-1 form-control-label text-xs-right">
+        <label class="col-xs-2 form-control-label text-xs-right">
             <span class="text-danger">*</span> 目前密碼
         </label>
-        <div class="col-xs-7">
+        <div class="col-xs-4">
             <input type="password" class="form-control" placeholder="請輸入目前密碼..." name="now_pwd" id="now_pwd">
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-xs-1 form-control-label text-xs-right">
+        <label class="col-xs-2 form-control-label text-xs-right">
             <span class="text-danger">*</span> 新密碼
         </label>
-        <div class="col-xs-7">
+        <div class="col-xs-4">
             <input type="password" class="form-control" placeholder="請輸入新密碼..." name="new_pwd" id="new_pwd">
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-xs-1 form-control-label text-xs-right">
+        <label class="col-xs-2 form-control-label text-xs-right">
             <span class="text-danger">*</span> 確認新密碼
         </label>
-        <div class="col-xs-7">
+        <div class="col-xs-4">
             <input type="password" class="form-control" placeholder="請再次輸入新密碼..." name="chk_new_pwd" id="chk_new_pwd">
         </div>
     </div>
     <div class="form-action">
-        <button type="button" class="btn btn-primary btn-sm col-xs-offset-1" onclick="form_ok();">
-            <i class="fa-check"></i> 存檔確認
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="@Url.Content("~/Manage/")">
-            <i class="fa-times"></i> 回列表
+        <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-2 oi" data-glyph="circle-check">
+            存檔確認
         </button>
     </div>
 </form>
@@ -74,7 +71,7 @@
     <script type="text/javascript">
         var message = @Html.Raw(Json.Encode(TempData["message"]));
 
-        
+
         if(message == "Y")
         {
             alert("密碼更新成功，請重新登入!!!")
@@ -84,6 +81,6 @@
         {
             alert(message);
         }
-            
+
     </script>
 }

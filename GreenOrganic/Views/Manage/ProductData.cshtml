@@ -1,7 +1,7 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
-    ViewBag.Crumb = "產品分類 管理";
+    ViewBag.Crumb = "產品資料管理";
     ViewBag.nav = "n1";
     ViewBag.subNav = "n1-1";
 }
@@ -11,7 +11,7 @@
     <li>&#8250; @ViewBag.Crumb</li>
 }
 
-<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 資料編輯</small></h3>
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
 
 <form class="form form-sm">
     <section class="col-xs-6 m-b-1">
@@ -120,17 +120,23 @@
                 @* 照片縮圖(上傳圖片後顯示) *@
                 <ol class="upload-img list-inline" id="c_img_S" name="c_img_small">
                     <li>
-                        <button class="close" title="按此刪除">&#10005;</button>
+                        <button type="button" class="close text-sm" title="按此刪除">&#10005;</button>
                         <img src="" alt="">
                     </li>
                 </ol>
                 <small class="text-muted">可上傳 1 張照片，建議尺寸寬度不超過 1064px，每張圖最大不可超過 500kb</small>
             </div>
         </div>
-
     </section>
 
     <h4 class="h4 clear">產品詳細內容</h4>
+    <div class="alert alert-warning w3-padding-small text-sm">
+        <strong>編輯器注意事項: </strong><br>
+        從 WORD 複製文字時，請使用下方的 <img src="~/Content/images/sys/icon-word.jpg" /> 圖示來貼上 WORD 文字，避免跑版<br>
+        編輯器上傳圖片或新增表格等時，請勿設定寬度及高度(將數字刪除) ，以免行動裝置顯示時會跑版。<br>
+        檔案尺寸寬度超過 1600 或 高度超過1200 的圖片會被壓縮(PNG透明背景會變成不透明)<br>
+        youtube 可勾選「用自適應縮放模式」
+    </div>
     @* 編輯器(含圖片上傳功能) *@
     <textarea class="form-control" rows="15" placeholder="請輸入產品詳細內容"></textarea>
 
@@ -138,7 +144,7 @@
         <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-1 oi" data-glyph="circle-check">
             存檔確認
         </button>
-        <button type="button" id="btn_back" name="btn_back" onclick="location.href='NewsList'" class="btn btn-secondary btn-sm oi" data-glyph="circle-x">
+        <button type="button" id="btn_back" name="btn_back" onclick="location.href='ProductList'" class="btn btn-secondary btn-sm oi" data-glyph="circle-x">
             回列表
         </button>
     </div>

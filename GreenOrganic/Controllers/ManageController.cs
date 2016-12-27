@@ -479,18 +479,18 @@ namespace GreenOrganic.Controllers
             return View();
         }
 
-        // 產品
-        public ActionResult ProductKind()
+        // 產品        
+        public ActionResult ProductList()
         {
             return View();
         }
-        public ActionResult ProductList()
+        public ActionResult ProductData()
         {
             return View();
         }
 
         // 首頁影片
-        public ActionResult IndexVideoa()
+        public ActionResult IndexVideo()
         {
             return View();
         }

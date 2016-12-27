@@ -501,6 +501,8 @@
     <Content Include="Content\images\logo.gif" />
     <Content Include="Content\images\logo_bk.gif" />
     <Content Include="Content\images\logo_tp.png" />
+    <Content Include="Content\images\sys\icon-word.jpg" />
+    <Content Include="Content\images\sys\youtube.jpg" />
     <Content Include="Content\js\bootstrap\collapse.js" />
     <Content Include="Content\js\bootstrap\dropdown.js" />
     <Content Include="Content\js\bootstrap\util.js" />
@@ -599,7 +601,7 @@
     <Content Include="Views\Manage\ResultsData.cshtml" />
     <Content Include="Views\Manage\ProductList.cshtml" />
     <Content Include="Views\Manage\ProductData.cshtml" />
-    <Content Include="Views\Manage\IndexVideoa.cshtml" />
+    <Content Include="Views\Manage\IndexVideo.cshtml" />
     <Content Include="Views\Manage\AboutUs.cshtml" />
     <Content Include="Views\Manage\ResultsKind1.cshtml" />
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
