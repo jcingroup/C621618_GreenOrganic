@@ -491,20 +491,16 @@
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
-    <Content Include="Content\css\vendor\typeahead.css" />
     <Content Include="Content\css\vendor\w3.css" />
     <Content Include="Content\font\fontAwesome\fontawesome-webfont.svg" />
-    <Content Include="Content\images\icon-map.png" />
-    <Content Include="Content\images\icon-prev.png" />
-    <Content Include="Content\images\imgMap.jpg" />
-    <Content Include="Content\images\index\bannerBg.gif" />
-    <Content Include="Content\images\index\bannerBg2.gif" />
-    <Content Include="Content\images\index\icon-bird.gif" />
-    <Content Include="Content\images\index\logo.gif" />
-    <Content Include="Content\images\index\pic.jpg" />
-    <Content Include="Content\images\index\pic2.jpg" />
+    <Content Include="Content\images\bg_bottle1.gif" />
+    <Content Include="Content\images\bg_bottle1_gry.gif" />
+    <Content Include="Content\images\bg_bottle2.gif" />
+    <Content Include="Content\images\bg_bottle2_gry.gif" />
+    <Content Include="Content\images\index\banner.mp4" />
     <Content Include="Content\images\logo.gif" />
-    <Content Include="Content\images\map-img.png" />
+    <Content Include="Content\images\logo_bk.gif" />
+    <Content Include="Content\images\logo_tp.png" />
     <Content Include="Content\images\Overlook\01.jpg" />
     <Content Include="Content\images\Overlook\02.jpg" />
     <Content Include="Content\images\Overlook\03.jpg" />
@@ -628,13 +624,7 @@
     <Content Include="Views\Manage\NewsList.cshtml" />
     <Content Include="Views\Manage\NewsData.cshtml" />
     <Content Include="Views\Manage\ChangePW.cshtml" />
-    <Content Include="Views\Home\OverlookArea.cshtml" />
-    <Content Include="Views\Home\OverlookMap.cshtml" />
-    <Content Include="Views\Home\Overlook.cshtml" />
-    <Content Include="Views\Home\Sitemap.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
-    <Content Include="Views\Home\Overview.cshtml" />
-    <Content Include="Views\Shared\SidebarOverlook.cshtml" />
     <Content Include="Views\Manage\ResultsList.cshtml" />
     <Content Include="Views\Manage\ResultsData.cshtml" />
     <Content Include="Views\Manage\ProductList.cshtml" />
@@ -645,6 +635,7 @@
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
     <Content Include="Views\Manage\ResultsKindPlant.cshtml" />
     <Content Include="Views\Manage\ResultsKind.cshtml" />
+    <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
