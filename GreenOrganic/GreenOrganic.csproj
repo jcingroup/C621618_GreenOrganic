@@ -484,6 +484,9 @@
     <Content Include="ckeditor\skins\moono\images\refresh.png" />
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\css\editor.css" />
+    <Content Include="Content\css\grid.css" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\page.css" />
     <Content Include="Content\css\sys.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
@@ -582,8 +585,7 @@
     <Content Include="Views\Shared\_LayoutManage.cshtml" />
     <Content Include="Views\Manage\NewsList.cshtml" />
     <Content Include="Views\Manage\NewsData.cshtml" />
-    <Content Include="Views\Manage\ChangePW.cshtml" />
-    <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
+ 
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

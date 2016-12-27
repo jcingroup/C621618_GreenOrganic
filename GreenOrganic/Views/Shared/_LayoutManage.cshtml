@@ -72,12 +72,14 @@
 
                     <header class="collapse-toggle @(ViewBag.nav == "n1" ? "current" : "")"><i class="oi" data-glyph="folder"></i>產品資料維護</header>
                     <nav class="collapse-content @(ViewBag.nav == "n1" ? "in" : "")">
-                        <a href="~/Manage" class="@(ViewBag.SubNav == "n1-1" ? "current" : "")"><i>&#8227;</i>產品分類 管理</a>
+                        <a href="~/Manage/ProductList" class="@(ViewBag.SubNav == "n1-1" ? "current" : "")"><i>&#8227;</i>產品分類 管理</a>
+                        <a href="~/Manage/ProductData" class="@(ViewBag.SubNav == "n1-2" ? "current" : "")"><i>&#8227;</i>產品資料 管理</a>
                     </nav>
 
                     <header class="collapse-toggle @(ViewBag.nav == "n2" ? "current" : "")"><i class="oi" data-glyph="flag"></i>海外實績管理</header>
                     <nav class="collapse-content @(ViewBag.nav == "n2" ? "in" : "")">
-                        <a href="~/Manage" class="@(ViewBag.SubNav == "n2-1" ? "current" : "")"><i>&#8227;</i>海外實績分類 管理</a>
+                        <a href="~/Manage/ResultsList" class="@(ViewBag.SubNav == "n2-1" ? "current" : "")"><i>&#8227;</i>海外實績分類 管理</a>
+                        <a href="~/Manage/ResultsData" class="@(ViewBag.SubNav == "n2-2" ? "current" : "")"><i>&#8227;</i>海外實績資料 管理</a>
                     </nav>
 
                     <header class="collapse-toggle @(ViewBag.nav == "n3" ? "current" : "")"><i class="oi" data-glyph="info"></i>網站資訊維護</header>

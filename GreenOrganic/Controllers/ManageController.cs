@@ -456,6 +456,37 @@ namespace GreenOrganic.Controllers
             byte[] bytes = vCode.CreateValidateGraphic(code);
             return File(bytes, @"image/jpeg");
         }
+
+        // 海外實績
+        public ActionResult ResultsList()
+        {
+            return View();
+        }
+        public ActionResult ResultsData()
+        {
+            return View();
+        }
+
+        // 產品
+        public ActionResult ProductList()
+        {
+            return View();
+        }
+        public ActionResult ProductData()
+        {
+            return View();
+        }
+
+        // 首頁影片
+        public ActionResult IndexVideoa()
+        {
+            return View();
+        }
+        // 關於我們
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
     }
 
 }
