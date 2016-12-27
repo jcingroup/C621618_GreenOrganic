@@ -20,9 +20,9 @@
 .oi[data-glyph]:before {
   font-family: 'Icons';
   /*display: inline-block;*/
+  vertical-align: text-top;
   speak: none;
   line-height: 1;
-  vertical-align: middle;
   font-weight: normal;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -34,6 +34,7 @@
   text-align: center;
   box-sizing: content-box;
 }
+.oi[data-glyph]:not(:empty)::before { margin-right: .2em; }
 
 .oi[data-glyph].oi-align-left:before {
   text-align: left;

@@ -484,6 +484,9 @@
     <Content Include="ckeditor\skins\moono\images\refresh.png" />
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\css\editor.css" />
+    <Content Include="Content\css\grid.css" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\page.css" />
     <Content Include="Content\css\sys.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
@@ -632,6 +635,12 @@
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\Overview.cshtml" />
     <Content Include="Views\Shared\SidebarOverlook.cshtml" />
+    <Content Include="Views\Manage\ResultsList.cshtml" />
+    <Content Include="Views\Manage\ResultsData.cshtml" />
+    <Content Include="Views\Manage\ProductList.cshtml" />
+    <Content Include="Views\Manage\ProductData.cshtml" />
+    <Content Include="Views\Manage\IndexVideoa.cshtml" />
+    <Content Include="Views\Manage\AboutUs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
