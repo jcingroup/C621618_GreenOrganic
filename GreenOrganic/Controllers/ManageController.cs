@@ -466,7 +466,7 @@ namespace GreenOrganic.Controllers
         {
             return View();
         }
-        public ActionResult ResultsKindPlant()
+        public ActionResult ResultsPair()
         {
             return View();
         }
@@ -499,8 +499,8 @@ namespace GreenOrganic.Controllers
         {
             return View();
         }
-        // 聯絡我們
-        public ActionResult ContactUs()
+        // 分公司(可被海外實績選取並顯示在聯絡我們
+        public ActionResult Branchs()
         {
             return View();
         }

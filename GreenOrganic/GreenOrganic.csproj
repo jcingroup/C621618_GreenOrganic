@@ -493,6 +493,7 @@
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\w3.css" />
     <Content Include="Content\font\fontAwesome\fontawesome-webfont.svg" />
+    <Content Include="Content\font\openIconic\open-iconic.svg" />
     <Content Include="Content\images\bg_bottle1.gif" />
     <Content Include="Content\images\bg_bottle1_gry.gif" />
     <Content Include="Content\images\bg_bottle2.gif" />
@@ -506,6 +507,7 @@
     <Content Include="Content\js\bootstrap\collapse.js" />
     <Content Include="Content\js\bootstrap\dropdown.js" />
     <Content Include="Content\js\bootstrap\util.js" />
+    <Content Include="Content\js\chosen.jquery.min.js" />
     <Content Include="Content\js\common.js" />
     <Content Include="Content\js\jquery.lazyload.min.js" />
     <Content Include="Content\js\magnific-popup\jquery.magnific-popup.js" />
@@ -562,6 +564,10 @@
     <Content Include="ckeditor\skins\bootstrapck\scss\config\_defaults.scss" />
     <Content Include="ckeditor\skins\bootstrapck\scss\dialog\dialog.scss" />
     <Content Include="ckeditor\skins\moono\readme.md" />
+    <Content Include="Content\font\openIconic\open-iconic.eot" />
+    <Content Include="Content\font\openIconic\open-iconic.otf" />
+    <Content Include="Content\font\openIconic\open-iconic.ttf" />
+    <Content Include="Content\font\openIconic\open-iconic.woff" />
     <None Include="Properties\PublishProfiles\Official Web Site.pubxml" />
     <None Include="Properties\PublishProfiles\Server Web Site.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -605,9 +611,9 @@
     <Content Include="Views\Manage\AboutUs.cshtml" />
     <Content Include="Views\Manage\ResultsKind1.cshtml" />
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
-    <Content Include="Views\Manage\ResultsKindPlant.cshtml" />
+    <Content Include="Views\Manage\ResultsPair.cshtml" />
     <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
-    <Content Include="Views\Manage\ContactUs.cshtml" />
+    <Content Include="Views\Manage\Branchs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
