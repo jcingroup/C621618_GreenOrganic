@@ -7,20 +7,23 @@
     
 }
 @section scripts {
-    <script src="~/Content/js/jquery.scrollify.min.js"></script>
+    @* <script src="~/Content/js/jquery.scrollify.min.js"></script> *@
     <script>
         $("#header").addClass("bottom");
+        $("#footer").addClass("panel");
         $(document).ready(function () {
-            $.scrollify({
-                section: ".panel"
-            });
+            // $.scrollify({
+            //     section: ".panel",
+            //     setHeights: false,
+            // });
         });
         $("#banner .scroll").click(function(e){
             e.preventDefault();
-            $.scrollify.next();
+            // $.scrollify.next();
         });
     </script>
 }
+
 
 <div id="banner" class="panel">
 
@@ -40,29 +43,169 @@
 
 </div>@* banner *@
 
+
 <section id="witness" class="panel"><div class="wrap">
 
     <h2 class="h2">Witness Around the World</h2>
 
     <div class="row">
 
-        <div class="col-xs-6">
+        <div class="article-list col-xs-6">
 
-            <ol class="pic">
-                <li><a href=""></a></li>
-            </ol>
+            <div class="row">
+                <div class="col-xs-6">
+                    <article class="article">
+                        <img src="~/Content/images/index/pic-demo.jpg" alt="">
+                        <div class="article-content">
+                            <h4 class="h4">專案名稱專案名稱</h3>
+                            <p>海外實績內容海外實績內容海外實績內容海外實績內容</p>
+                            <a href="">Read more</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-xs-6">
+                    <article class="article">
+                        <img src="~/Content/images/index/pic-demo2.jpg" alt="">
+                        <div class="article-content">
+                            <h4 class="h4">專案名稱專案名稱</h3>
+                            <p>海外實績內容海外實績內容海外實績內容海外實績內容</p>
+                            <a href="">Read more</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-xs-6">
+                    <article class="article">
+                        <img src="~/Content/images/index/pic-demo3.jpg" alt="">
+                        <div class="article-content">
+                            <h4 class="h4">專案名稱專案名稱</h3>
+                            <p>海外實績內容海外實績內容海外實績內容海外實績內容</p>
+                            <a href="">Read more</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-xs-6">
+                    <article class="article">
+                        <img src="~/Content/images/index/pic-demo4.jpg" alt="">
+                        <div class="article-content">
+                            <h4 class="h4">專案名稱專案名稱</h3>
+                            <p>海外實績內容海外實績內容海外實績內容海外實績內容</p>
+                            <a href="">Read more</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
 
-        </div>@* col *@
+        </div> @* col *@
 
-        <div class="col-xs-6">
+        <div class="search col-xs-6">
 
             <h3 class="h3">查看更多海外實績</h3>
-            <form action="" class="formWitness">
-                
+            <form action="">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <select name="" id="" class="form-element custom-input">
+                            <option value="" selected disabled>請選擇國別</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6">
+                        <select name="" id="" class="form-element custom-input">
+                            <option value="" selected disabled>請選擇省</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <select name="" id="" class="form-element custom-input">
+                            <option value="" selected disabled>請選擇產品應用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <select name="" id="" class="form-element custom-input">
+                            <option value="" selected disabled>請選擇種植物</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字...">
+                    </div>
+                </div>
+                <div class="row row-x-0">
+                    <button class="btn"><i class="icon-search"></i> 按此搜尋</button>
+                </div>
             </form>
 
-        </div>@* col *@
+        </div> @* col *@
 
     </div>@* row *@
     
 </div></section>@* witness *@
+
+
+<section id="catgories"><div class="wrap">
+
+    <h1 class="sr-only">產品分類</h1>
+
+    <article class="article">
+        <h2 class="sr-only">大地系列</h2>
+        <a href="">
+            <img src="" alt="">
+            <span>大地系列</span>
+        </a>
+    </article>
+    <article class="article">
+        <h2 class="sr-only">功能性系列</h2>
+        <a href="">
+            <img src="" alt="">
+            <span>功能性系列</span>
+        </a>
+    </article>
+    
+</div></section>@* categories *@
+
+
+<div id="about"><div class="wrap">
+
+    <div class="row">
+
+        <section class="news-list col-xs-6">
+
+            <h1 class="sr-only">最新消息</h1>
+
+            <article class="article">
+                <h2 class="h2"><a href=""></a></h2>
+                <p class="date"></p>
+                <p></p>
+                <a href="" class="more"></a>
+            </article>
+            
+        </section>
+
+        <section class="branches col-xs-6">
+
+            <h1 class="sr-only">公司據點</h1>
+            <h2 class="h2">大地還原生物科技股份有限公司</h2>
+
+            <article class="article">
+                <div class="row">
+                    <div class="col-xs-6"><img src="" alt=""></div>
+                    <div class="col-xs-6">
+                        <h3 class="h3">台灣總公司</h3>
+                        <ul class="list-unstyled">
+                            <li><strong></strong></li>
+                            <li><em>電話</em></li>
+                            <li><em>傳真</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <button class="btn bg-secondary">查看其他據點 <i class="icon-arrow-circle-right"></i></button>
+
+        </section>
+
+    </div>
+    
+</div></div>@* about *@

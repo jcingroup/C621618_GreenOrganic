@@ -491,6 +491,7 @@
     <Content Include="Content\css\vendor\bootstrap-tagsinput.css" />
     <Content Include="Content\css\vendor\chosen.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
+    <Content Include="Content\css\vendor\icomoon.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\w3.css" />
@@ -501,9 +502,15 @@
     <Content Include="Content\images\bg_bottle1_gry.gif" />
     <Content Include="Content\images\bg_bottle2.gif" />
     <Content Include="Content\images\bg_bottle2_gry.gif" />
+    <Content Include="Content\images\icon_select.gif" />
     <Content Include="Content\images\index\banner.mp4" />
     <Content Include="Content\images\index\bg_witness.jpg" />
+    <Content Include="Content\images\index\bg_witness2.png" />
     <Content Include="Content\images\index\logo_big.png" />
+    <Content Include="Content\images\index\pic-demo.jpg" />
+    <Content Include="Content\images\index\pic-demo2.jpg" />
+    <Content Include="Content\images\index\pic-demo3.jpg" />
+    <Content Include="Content\images\index\pic-demo4.jpg" />
     <Content Include="Content\images\index\slogan1.png" />
     <Content Include="Content\images\index\slogan2.png" />
     <Content Include="Content\images\logo.gif" />
