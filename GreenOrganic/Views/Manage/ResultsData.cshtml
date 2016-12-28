@@ -1,43 +1,25 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
-    ViewBag.Crumb = "海外實績資料管理";
+    ViewBag.Crumb = "海外實績專案管理";
     ViewBag.nav = "n2";
-    ViewBag.subNav = "n2-4";
+    ViewBag.subNav = "n2-3";
+}
+
+@section IncludeCSS {
+    <link rel="stylesheet" href="~/Content/css/vendor/bootstrap-tagsinput.css">
+}
+
+@section IncludeScript {
+    @* 來源:https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/
+       用在種植物名稱
+    *@
+    <script src="~/Content/js/bootstrap/tagsinput.js"></script>
 }
 
 @section Breadcrumb {
     <li>&#8227; 海外實績維護</li>
     <li>&#8250; @ViewBag.Crumb</li>
-}
-@section IncludeScript {
-    <script>
-        // Dropdown
-        function dropFunction() {
-            var x = document.getElementById("myDIV");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-
-        // Filter
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDIV");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 }
 
 <h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
@@ -58,28 +40,22 @@
         </div>
         <div class="form-group row">
             <label class="col-xs-2 form-control-label text-xs-right">
-                <span class="text-danger">*</span> 國別
+                <span class="text-danger">*</span> 地區分類
             </label>
             <div class="col-xs-10">
                 <select class="form-control form-control-sm" required>
-                    <option>中國</option>
-                    <option>印度</option>
+                    <optgroup label="中國">
+                        <option>蘇州</option>
+                        <option>雲南昆明</option>
+                        <option>寧夏</option>
+                    </optgroup>
+                    <optgroup label="柬埔寨">
+                        <option>寨磅針</option>
+                        <option>干拉</option>
+                    </optgroup>
                 </select>
             </div>
         </div>
-        <div class="form-group row">
-            <label class="col-xs-2 form-control-label text-xs-right">
-                <span class="text-danger">*</span> 省
-            </label>
-            <div class="col-xs-10">
-                <select class="form-control form-control-sm" required>
-                    <option>蘇州</option>
-                    <option>雲南昆明</option>
-                    <option>寧夏</option>
-                </select>
-            </div>
-        </div>
-
         <div class="form-group row">
             <label class="col-xs-2 form-control-label text-xs-right">
                 <span class="text-danger">*</span> 專案名稱
@@ -90,26 +66,26 @@
         </div>
         <div class="form-group row">
             <label class="col-xs-2 form-control-label text-xs-right">
-                <span class="text-danger">*</span> 產品應用
+                <span class="text-danger">*</span> 種植物名稱
             </label>
             <div class="col-xs-10">
-                <span class="label label-info">
-                    大地OA1號液肥
-                    <button type="button" class="btn-link btn-sm" title="按此刪除">&#10005;</button>
-                </span>
-
-                @* 抓取產品類別-可增加多筆 *@
-                <div class="w3-dropdown-click text-sm">
-                    <button type="button" onclick="dropFunction()" class="btn btn-sm btn-success oi" data-glyph="plus" title="新增"></button>
-                    <div class="w3-dropdown-content w3-card-2 w3-light-grey" id="myDIV">
-                        <input class="w3-input w3-padding" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                        <a href="">大地OA1號液肥</a>
-                        <a href="">SCD士壤復育劑</a>
-                        <a href="">OA-900</a>
-                    </div>
-                </div>
+                <input type="text" data-role="tagsinput" placeholder="輸入名稱後按Enter..." >
             </div>
         </div>
+        @* 目前隱藏，若客戶有需求再製作
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                分公司
+            </label>
+            <div class="col-xs-10">
+                <select class="form-control form-control-sm" required>
+                    <option>- 請選擇 -</option>
+                    <option>上海分公司</option>
+                    <option>大地還原生物科技(柬埔寨)有限公司</option>
+                    <option>大地還原生物科技華東總代理</option>
+                </select>
+            </div>
+        </div> *@
         <div class="form-group row">
             <label class="col-xs-2 form-control-label text-xs-right">
                 排序

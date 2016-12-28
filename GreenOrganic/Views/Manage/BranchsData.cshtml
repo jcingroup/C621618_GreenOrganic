@@ -1,0 +1,111 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "分公司資料管理";
+    ViewBag.nav = "n3";
+    ViewBag.subNav = "n3-4";
+}
+
+@section Breadcrumb {
+    <li>&#8227; 網站資訊維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
+
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
+
+<form class="form form-sm">
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            <span class="text-danger">*</span> 語系
+        </label>
+        <div class="col-xs-5">
+            <select class="form-control form-control-sm" required>
+                <option>繁體中文</option>
+                <option>简体中文</option>
+                <option>English</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            <span class="text-danger">*</span> 分公司名稱
+        </label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control form-control-sm" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            聯絡人
+        </label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            地址
+        </label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            電話
+        </label>
+        <div class="col-xs-5">
+            <input type="tel" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            傳真
+        </label>
+        <div class="col-xs-5">
+            <input type="fax" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            E-mail
+        </label>
+        <div class="col-xs-5">
+            <input type="email" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            排序
+        </label>
+        <div class="col-xs-5">
+            <input type="number" min="0" value="0" class="form-control form-control-sm">
+        </div>
+        <small class="col-xs-6 form-control-label text-muted">數字愈大排在愈上面</small>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-1 form-control-label text-xs-right">
+            狀態
+        </label>
+        <div class="col-xs-5">
+            <label class="c-input c-radio">
+                <input type="radio" name="show" id="show" value="Y" checked>
+                <span class="c-indicator"></span>
+                <span class="text-sm">發佈</span>
+            </label>
+            <label class="c-input c-radio m-r-0">
+                <input type="radio" name="show" id="show" value="N">
+                <span class="c-indicator"></span>
+                <span class="text-sm">草稿</span>
+            </label>
+        </div>
+    </div>
+    <div class="form-action">
+        <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-1 oi" data-glyph="circle-check">
+            存檔確認
+        </button>
+        <button type="button" id="btn_back" name="btn_back" onclick="location.href='ProductList'" class="btn btn-secondary btn-sm oi" data-glyph="circle-x">
+            回列表
+        </button>
+    </div>
+</form>

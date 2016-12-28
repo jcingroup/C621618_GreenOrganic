@@ -1,9 +1,20 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
-    ViewBag.Crumb = "種植物 管理";
-    ViewBag.nav = "n2";
-    ViewBag.subNav = "n2-3";
+    ViewBag.Crumb = "海外實績與產品配對";
+    ViewBag.nav = "n5";
+}
+
+@section IncludeCSS {
+    <link rel="stylesheet" href="~/Content/css/vendor/chosen.css">
+}
+
+@section IncludeScript {
+    @* 來源 https://harvesthq.github.io/chosen/ *@
+    <script src="~/Content/js/chosen.jquery.min.js"></script>
+    <script>
+        $(".chosen-select").chosen();
+    </script>
 }
 
 @section Breadcrumb {
@@ -31,28 +42,39 @@
                     <option>简体中文</option>
                     <option>English</option>
                 </select>
+
+                <label class="text-sm w3-margin-left">產品</label>
+                <select class="form-control form-control-sm">
+                    <option>全部</option>
+                    <option>大地OA1號</option>
+                    <option>大地OA2號</option>
+                </select>
             </div>
         </div><!-- table-filter //-->
     </header>
 
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
-            <col span="2" style="width: 6%">
+            <col span="2" style="width: 5%">
             <col>
-            <col span="2" style="width: 18%">
+            <col style="width: 26%">
+            <col style="width: 14%">
         </colgroup>
         <thead>
             <tr>
                 <th class="text-xs-center" colspan="2">編輯</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th>
-                    <button class="th-sort-toggle">種植物名稱</button>
+                    <button class="th-sort-toggle">專案名稱</button>
+                </th>
+                <th>
+                    產品配對
                 </th>
                 <th>
                     <button class="text-xs-center th-sort-toggle">語系</button>
                 </th>
-                <th>
+                @* <th>
                     <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
-                </th>
+                </th> *@
             </tr>
         </thead>
         <tbody>
@@ -65,15 +87,18 @@
                     <button type="button" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
                 </td>
                 <td>
-                    山核桃
+                    浙江省山核桃治理專案
+                </td>
+                <td>
+                    大地OA1號, 大地OA2號
                 </td>
                 <td class="text-xs-center">
                     繁體中文
                 </td>
-                <td class="text-xs-center">
+                @* <td class="text-xs-center">
                     <span class="w3-tag label-success w3-round">顯示</span>
-                    @* <span class="w3-tag label-default w3-round">隱藏</span> *@
-                </td>
+                    @* <span class="w3-tag label-default w3-round">隱藏</span>
+                </td> *@
             </tr>
             @* 按下修改時顯示 *@
             <tr>
@@ -84,7 +109,16 @@
                     <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
                 </td>
                 <td>
-                    <input type="text" class="form-control form-control-sm" value="煙草">
+                    <select class="form-control form-control-sm" required>
+                        <option>浙江省山核桃治理專案</option>
+                        <option selected>雲南昆明菸草種植(2014~2016)</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-placeholder="選擇配對產品..." multiple required class="form-control form-control-sm chosen-select">
+                        <option selected>大地OA1號</option>
+                        <option>大地OA2號</option>
+                    </select>
                 </td>
                 <td>
                     <select class="form-control form-control-sm" required>
@@ -93,7 +127,7 @@
                         <option>English</option>
                     </select>
                 </td>
-                <td class="text-xs-center">
+                @* <td class="text-xs-center">
                     <label class="c-input c-radio">
                         <input type="radio" name="show" id="show" value="Y" checked>
                         <span class="c-indicator"></span>
@@ -104,7 +138,7 @@
                         <span class="c-indicator"></span>
                         <span class="text-sm">隱藏</span>
                     </label>
-                </td>
+                </td> *@
             </tr>
 
             @* 按下新增時顯示 *@
@@ -116,7 +150,18 @@
                     <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
                 </td>
                 <td>
-                    <input type="text" class="form-control form-control-sm" placeholder="請輸入種植物名稱">
+                    <select class="form-control form-control-sm" required>
+                        <option>- 請選擇專案 -</option>
+                        <option>浙江省山核桃治理專案</option>
+                        <option>雲南昆明菸草種植(2014~2016)</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-placeholder="選擇配對產品..." multiple required class="form-control form-control-sm chosen-select">
+                        <option value=""></option>
+                        <option>大地OA1號</option>
+                        <option>大地OA2號</option>
+                    </select>
                 </td>
                 <td>
                     <select class="form-control form-control-sm" required>
@@ -125,7 +170,7 @@
                         <option>English</option>
                     </select>
                 </td>
-                <td class="text-xs-center">
+                @* <td class="text-xs-center">
                     <label class="c-input c-radio">
                         <input type="radio" name="show2" value="Y" checked>
                         <span class="c-indicator"></span>
@@ -136,7 +181,7 @@
                         <span class="c-indicator"></span>
                         <span class="text-sm">隱藏</span>
                     </label>
-                </td>
+                </td> *@
             </tr>
         </tbody>
     </table>

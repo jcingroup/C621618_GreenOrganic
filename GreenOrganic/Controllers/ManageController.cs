@@ -500,7 +500,11 @@ namespace GreenOrganic.Controllers
             return View();
         }
         // 分公司(可被海外實績選取並顯示在聯絡我們
-        public ActionResult Branchs()
+        public ActionResult BranchsList()
+        {
+            return View();
+        }
+        public ActionResult BranchsData()
         {
             return View();
         }

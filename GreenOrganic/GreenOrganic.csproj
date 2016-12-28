@@ -488,6 +488,8 @@
     <Content Include="Content\css\index.css" />
     <Content Include="Content\css\page.css" />
     <Content Include="Content\css\sys.css" />
+    <Content Include="Content\css\vendor\bootstrap-tagsinput.css" />
+    <Content Include="Content\css\vendor\chosen.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
@@ -506,6 +508,7 @@
     <Content Include="Content\images\sys\youtube.jpg" />
     <Content Include="Content\js\bootstrap\collapse.js" />
     <Content Include="Content\js\bootstrap\dropdown.js" />
+    <Content Include="Content\js\bootstrap\tagsinput.js" />
     <Content Include="Content\js\bootstrap\util.js" />
     <Content Include="Content\js\chosen.jquery.min.js" />
     <Content Include="Content\js\common.js" />
@@ -613,7 +616,8 @@
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
     <Content Include="Views\Manage\ResultsPair.cshtml" />
     <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
-    <Content Include="Views\Manage\Branchs.cshtml" />
+    <Content Include="Views\Manage\BranchsList.cshtml" />
+    <Content Include="Views\Manage\BranchsData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,20 +1,19 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
-    ViewBag.Crumb = "海外實績專案管理";
-    ViewBag.nav = "n2";
-    ViewBag.subNav = "n2-3";
+    ViewBag.Crumb = "分公司資料管理";
+    ViewBag.nav = "n3";
+    ViewBag.subNav = "n3-4";
 }
 
 @section Breadcrumb {
-    <li>&#8227; 海外實績維護</li>
+    <li>&#8227; 網站資訊維護</li>
     <li>&#8250; @ViewBag.Crumb</li>
 }
 
 <h3 class="h3">@ViewBag.Crumb</h3>
 
 <div class="alert alert-warning w3-padding-small text-sm">
-    首頁最多可顯示 4 則實績，若您設定超過 4 則實績要顯示在首頁，首頁只會顯示排序最高的前 4 則。<br>
     輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
 </div>
 
@@ -22,7 +21,7 @@
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
-                <label class="text-sm w3-margin-left sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
+                <label class="text-sm sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
                 <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
 
                 <label class="text-sm w3-margin-left">語系</label>
@@ -32,63 +31,35 @@
                     <option>简体中文</option>
                     <option>English</option>
                 </select>
-
-                <label class="text-sm w3-margin-left">國別</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>中國</option>
-                </select>
-
-                <label class="text-sm w3-margin-left">省</label>
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>蘇州</option>
-                    <option>雲南昆明</option>
-                    <option>寧夏</option>
-                </select>
             </div>
         </div><!-- table-filter //-->
     </header>
 
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
-            <col span="2" style="width: 5%">
-            <col span="2" style="width: 8.5%">
+            <col span="2" style="width: 6%">
             <col>
-            <col style="width: 10%">
-            <col span="3" style="width: 7%">
-            <col style="width: 10%">
+            <col style="width: 22%">
+            <col span="3" style="width: 9%">
         </colgroup>
         <thead>
             <tr>
                 <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th class="text-xs-center">修改</th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">國別</button>
+                    <button class="th-sort-toggle">分公司名稱</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">省</button>
+                    <button class="th-sort-toggle">聯絡人</button>
                 </th>
                 <th>
-                    @* 如不需要排序功能: 純文字即可 *@
-                    專案名稱
+                    <button class="text-xs-center th-sort-toggle">語系</button>
                 </th>
                 <th>
-                    種植物
-                </th>
-                <th>
-                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle asc">語系</button>
-                </th>
-                <th>
-                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle desc">排序</button>
+                    <button class="text-xs-center th-sort-toggle">排序</button>
                 </th>
                 <th>
                     <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
-                </th>
-                <th>
-                    <button class="text-xs-center th-sort-toggle">顯示在首頁</button>
                 </th>
             </tr>
         </thead>
@@ -99,41 +70,31 @@
                     <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
                 </td>
                 <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/BranchsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
                 </td>
-                <td class="text-xs-center">中國</td>
-                <td class="text-xs-center">蘇州</td>
-                <td>浙江省山核桃治理專案</td>
-                <td>山核桃</td>
+                <td>上海分公司</td>
+                <td>上海分公司總經理兼業務總監  石益林</td>
                 <td class="text-xs-center">繁體中文</td>
                 <td class="text-xs-center">10</td>
                 <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
-                <td class="text-xs-center">
-                    <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
-                </td>
             </tr>
             <tr>
                 <td class="text-xs-center">
                     <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
                 </td>
                 <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
+                    <button type="button" onclick="location.href='@Url.Content("~/Manage/BranchsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
                 </td>
-                <td class="text-xs-center">中國</td>
-                <td class="text-xs-center">雲南昆明</td>
-                <td>雲南昆明菸草種植(2014~2016)</td>
-                <td>煙草</td>
+                <td>大地還原生物科技(柬埔寨)有限公司</td>
+                <td></td>
                 <td class="text-xs-center">繁體中文</td>
-                <td class="text-xs-center">9</td>
+                <td class="text-xs-center">10</td>
                 <td class="text-xs-center"><span class="w3-tag label-default w3-round">草稿</span></td>
-                <td class="text-xs-center">
-                    <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
-                </td>
             </tr>
         </tbody>
     </table>
     <footer class="table-footer clearfix">
-        <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/BranchsData")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
             新增
         </button>
         <small class="pull-xs-right">第 1-10 筆，共 2 筆</small>
