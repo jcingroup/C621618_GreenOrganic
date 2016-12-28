@@ -4933,7 +4933,8 @@ a {
     border-bottom: 1px solid #e5e5e5;
     border-right: 1px solid #ccc; }
     #sidebar .h3 i {
-      color: #e16d71; }
+      color: #e16d71;
+      margin-right: 5px; }
   #sidebar a {
     display: block; }
   #sidebar .collapse-toggle, #sidebar .collapse-content, #sidebar > a {
@@ -4946,8 +4947,8 @@ a {
     border-bottom: 1px solid #e5e5e5;
     color: #55595c;
     background: rgba(255, 255, 255, 0.4); }
-    #sidebar .collapse-toggle i,
-    #sidebar > a i {
+    #sidebar .collapse-toggle::before,
+    #sidebar > a::before {
       display: inline-block;
       text-align: center;
       width: 24px;

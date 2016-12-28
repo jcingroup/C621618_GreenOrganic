@@ -491,7 +491,6 @@
     <Content Include="Content\css\vendor\bootstrap-tagsinput.css" />
     <Content Include="Content\css\vendor\chosen.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
-    <Content Include="Content\css\vendor\icomoon.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\w3.css" />
