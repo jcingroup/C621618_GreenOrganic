@@ -56,21 +56,21 @@
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
             <col span="2" style="width: 5%">
+            <col style="width: 14%">
             <col>
             <col style="width: 26%">
-            <col style="width: 14%">
         </colgroup>
         <thead>
             <tr>
                 <th class="text-xs-center" colspan="2">編輯</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th>
+                    <button class="text-xs-center th-sort-toggle">語系</button>
+                </th>
+                <th>
                     <button class="th-sort-toggle">專案名稱</button>
                 </th>
                 <th>
                     產品配對
-                </th>
-                <th>
-                    <button class="text-xs-center th-sort-toggle">語系</button>
                 </th>
                 @* <th>
                     <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
@@ -86,14 +86,14 @@
                 <td class="text-xs-center">
                     <button type="button" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
                 </td>
+                <td class="text-xs-center">
+                    繁體中文
+                </td>
                 <td>
                     浙江省山核桃治理專案
                 </td>
                 <td>
                     大地OA1號, 大地OA2號
-                </td>
-                <td class="text-xs-center">
-                    繁體中文
                 </td>
                 @* <td class="text-xs-center">
                     <span class="w3-tag label-success w3-round">顯示</span>
@@ -110,6 +110,13 @@
                 </td>
                 <td>
                     <select class="form-control form-control-sm" required>
+                        <option>繁體中文</option>
+                        <option>简体中文</option>
+                        <option>English</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control form-control-sm" required>
                         <option>浙江省山核桃治理專案</option>
                         <option selected>雲南昆明菸草種植(2014~2016)</option>
                     </select>
@@ -118,13 +125,6 @@
                     <select data-placeholder="選擇配對產品..." multiple required class="form-control form-control-sm chosen-select">
                         <option selected>大地OA1號</option>
                         <option>大地OA2號</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="form-control form-control-sm" required>
-                        <option>繁體中文</option>
-                        <option>简体中文</option>
-                        <option>English</option>
                     </select>
                 </td>
                 @* <td class="text-xs-center">
@@ -151,6 +151,13 @@
                 </td>
                 <td>
                     <select class="form-control form-control-sm" required>
+                        <option>繁體中文</option>
+                        <option>简体中文</option>
+                        <option>English</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control form-control-sm" required>
                         <option>- 請選擇專案 -</option>
                         <option>浙江省山核桃治理專案</option>
                         <option>雲南昆明菸草種植(2014~2016)</option>
@@ -161,13 +168,6 @@
                         <option value=""></option>
                         <option>大地OA1號</option>
                         <option>大地OA2號</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="form-control form-control-sm" required>
-                        <option>繁體中文</option>
-                        <option>简体中文</option>
-                        <option>English</option>
                     </select>
                 </td>
                 @* <td class="text-xs-center">

@@ -44,17 +44,18 @@
     <table class="table table-sm table-bordered table-striped table-hover">
         <colgroup>
             <col span="2" style="width: 6%">
+            <col style="width: 12%">
             <col>
-            <col span="2" style="width: 18%">
+            <col style="width: 16%">
         </colgroup>
         <thead>
             <tr>
                 <th class="text-xs-center" colspan="2">編輯</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th>
-                    <button class="th-sort-toggle">國家名稱</button>
+                    <button class="text-xs-center th-sort-toggle">語系</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">語系</button>
+                    <button class="th-sort-toggle">國家名稱</button>
                 </th>
                 <th>
                     <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
@@ -70,11 +71,11 @@
                 <td class="text-xs-center">
                     <button type="button" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
                 </td>
-                <td>
-                    中國
-                </td>
                 <td class="text-xs-center">
                     繁體中文
+                </td>
+                <td>
+                    中國
                 </td>
                 <td class="text-xs-center">
                     <span class="w3-tag label-success w3-round">顯示</span>
@@ -90,14 +91,14 @@
                     <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
                 </td>
                 <td>
-                    <input type="text" class="form-control form-control-sm" value="印度">
-                </td>
-                <td>
                     <select class="form-control form-control-sm" required>
                         <option>繁體中文</option>
                         <option>简体中文</option>
                         <option>English</option>
                     </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" value="印度">
                 </td>
                 <td class="text-xs-center">
                     <label class="c-input c-radio">
@@ -122,14 +123,14 @@
                     <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改"></button>
                 </td>
                 <td>
-                    <input type="text" class="form-control form-control-sm" placeholder="請輸入國別名稱">
-                </td>
-                <td>
                     <select class="form-control form-control-sm" required>
                         <option>繁體中文</option>
                         <option>简体中文</option>
                         <option>English</option>
                     </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" placeholder="請輸入國別名稱">
                 </td>
                 <td class="text-xs-center">
                     <label class="c-input c-radio">
