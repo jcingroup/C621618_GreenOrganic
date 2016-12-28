@@ -7,12 +7,17 @@
     
 }
 @section scripts {
-    <script src="js/jquery.scrollify.min.js"></script>
+    <script src="~/Content/js/jquery.scrollify.min.js"></script>
     <script>
+        $("#header").addClass("bottom");
         $(document).ready(function () {
             $.scrollify({
                 section: ".panel"
             });
+        });
+        $("#banner .scroll").click(function(e){
+            e.preventDefault();
+            $.scrollify.next();
         });
     </script>
 }
@@ -23,8 +28,41 @@
         <source src="~/Content/images/index/banner.mp4" type="video/mp4">
     </video>
 
-    <a href="" class="scroll">
+    <h1 class="logo-intro">@ViewBag.Title</h1>
+
+    <h2 class="slogan1">養地不難</h2>
+    <h3 class="slogan2">天然的有機質營養元素</h3>
+
+    <a href="#" class="scroll">
+        <i class="icon-angle-down"></i>
         Scroll Down
     </a>
 
-</div>
+</div>@* banner *@
+
+<section id="witness" class="panel"><div class="wrap">
+
+    <h2 class="h2">Witness Around the World</h2>
+
+    <div class="row">
+
+        <div class="col-xs-6">
+
+            <ol class="pic">
+                <li><a href=""></a></li>
+            </ol>
+
+        </div>@* col *@
+
+        <div class="col-xs-6">
+
+            <h3 class="h3">查看更多海外實績</h3>
+            <form action="" class="formWitness">
+                
+            </form>
+
+        </div>@* col *@
+
+    </div>@* row *@
+    
+</div></section>@* witness *@

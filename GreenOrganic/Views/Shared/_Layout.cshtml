@@ -12,6 +12,7 @@
     @if (ViewBag.IsFirstPage)
     {
         <link rel="stylesheet" href="~/Content/css/index.css">
+        <link rel="stylesheet" href="~/Content/css/vendor/icomoon.css">
     }
     else
     {
@@ -20,20 +21,28 @@
 </head>
 <body class="@ViewBag.BodyClass">
     <div id="wrapper">
-        <header id="header">
+        <header id="header"><div class="wrap">
             <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="回首頁" tabindex="-1">
                 大地還原生物科技股份有限公司
             </h1>
-            <button class="mobile-trigger lnr lnr-menu" title="主選單"></button>
+            @* <button class="mobile-trigger lnr lnr-menu" title="主選單"></button> *@
             <nav id="menu" class="navbar">
-                <button class="mobile-close lnr lnr-cross" title="關閉主選單"></button>
+                @* <button class="mobile-close lnr lnr-cross" title="關閉主選單"></button> *@
+                <h2 class="sr-only">主選單</h2>
                 <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
                 <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新聞資訊</a>
                 <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列產品</a>
                 <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外實績</a>
                 <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯繫我們</a>
             </nav>
-        </header>
+
+            <nav class="lang">
+                <h2 class="sr-only">語系切換</h2>
+                <a href="#" class="current">简</a>
+                <a href="#">繁</a>
+                <a href="#">EN</a>
+            </nav>
+        </div></header>
 
         <main id="main">
             @RenderBody()
@@ -46,7 +55,7 @@
     </footer><!-- footer -->
 
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
-    <script src="~/Content/js/common.js"></script>
+    @* <script src="~/Content/js/common.js"></script> *@
     @RenderSection("scripts", required: false)
 </body>
 </html>
