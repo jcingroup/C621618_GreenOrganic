@@ -504,9 +504,13 @@
     <Content Include="Content\images\bg_bottle2_gry.gif" />
     <Content Include="Content\images\icon_select.gif" />
     <Content Include="Content\images\index\banner.mp4" />
+    <Content Include="Content\images\index\bg_about.jpg" />
     <Content Include="Content\images\index\bg_witness.jpg" />
     <Content Include="Content\images\index\bg_witness2.png" />
-    <Content Include="Content\images\index\logo_big.png" />
+    <Content Include="Content\images\product\cat1.jpg" />
+    <Content Include="Content\images\product\cat2.jpg" />
+    <Content Include="Content\images\index\contact.jpg" />
+    <Content Include="Content\images\index\logo_icon.png" />
     <Content Include="Content\images\index\pic-demo.jpg" />
     <Content Include="Content\images\index\pic-demo2.jpg" />
     <Content Include="Content\images\index\pic-demo3.jpg" />
@@ -631,9 +635,11 @@
     <Content Include="Views\Manage\ResultsKind1.cshtml" />
     <Content Include="Views\Manage\ResultsKind2.cshtml" />
     <Content Include="Views\Manage\ResultsPair.cshtml" />
-    <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
     <Content Include="Views\Manage\BranchsList.cshtml" />
     <Content Include="Views\Manage\BranchsData.cshtml" />
+    <Content Include="Views\Home\NewsList.cshtml" />
+    <Content Include="Views\Home\ProductList.cshtml" />
+    <Content Include="Views\Home\ProductSublist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

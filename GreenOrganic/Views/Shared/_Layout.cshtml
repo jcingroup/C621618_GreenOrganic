@@ -45,14 +45,18 @@
         </div></header>
 
         <main id="main">
+            @RenderSection("banner")
             @RenderBody()
         </main>
 
     </div><!-- wrapper //-->
 
-    <footer id="footer">
+    <footer id="footer"><div class="wrap">
+
         <div class="copyright"><span class="logo">大地還原生物科技股份有限公司</span> &copy; 2016</div>
-    </footer><!-- footer -->
+        <a href="#wrapper" class="goTop"><i class="icon-arrow-up"></i></a>
+
+    </div></footer><!-- footer -->
 
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     @* <script src="~/Content/js/common.js"></script> *@

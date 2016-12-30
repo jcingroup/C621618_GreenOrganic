@@ -7,44 +7,59 @@
     
 }
 @section scripts {
-    @* <script src="~/Content/js/jquery.scrollify.min.js"></script> *@
+    <script src="~/Content/js/jquery.scrollify.min.js"></script>
     <script>
+
         $("#header").addClass("bottom");
-        $("#footer").addClass("panel");
+
         $(document).ready(function () {
-            // $.scrollify({
-            //     section: ".panel",
-            //     setHeights: false,
-            // });
+            $.scrollify({
+                section: ".panel",
+                setHeights: false,
+            });
         });
         $("#banner .scroll").click(function(e){
             e.preventDefault();
-            // $.scrollify.next();
+            $.scrollify.next();
         });
+
+        var length = $("#header").offset().top;
+        $(window).scroll(function () {
+             var scroll = $(this).scrollTop();
+             if (scroll >= length) {
+                  $("#header").removeClass("bottom");
+             }
+             else {
+                  $("#header").addClass("bottom");
+             }
+        });
+
     </script>
 }
 
+@section banner {
+    <div id="banner" class="panel">
+        <video preload="auto" poster="images/banner-static.jpg" autoplay loop>
+            <source src="~/Content/images/index/banner.mp4" type="video/mp4">
+        </video>
 
-<div id="banner" class="panel">
+        <h1 class="logo-intro">@ViewBag.Title</h1>
 
-    <video preload="auto" poster="images/banner-static.jpg" autoplay loop>
-        <source src="~/Content/images/index/banner.mp4" type="video/mp4">
-    </video>
+        <h2 class="slogan1">養地不難</h2>
+        <h3 class="slogan2">天然的有機質營養元素</h3>
 
-    <h1 class="logo-intro">@ViewBag.Title</h1>
-
-    <h2 class="slogan1">養地不難</h2>
-    <h3 class="slogan2">天然的有機質營養元素</h3>
-
-    <a href="#" class="scroll">
-        <i class="icon-angle-down"></i>
-        Scroll Down
-    </a>
-
-</div>@* banner *@
+        <a href="#" class="scroll">
+            <i class="icon-angle-down"></i>
+            Scroll Down
+        </a>
+    </div>
+}
 
 
-<section id="witness" class="panel"><div class="wrap">
+<div class="panel">@* for scrollify *@
+
+
+<section id="witness"><div class="wrap">
 
     <h2 class="h2">Witness Around the World</h2>
 
@@ -133,7 +148,7 @@
                     </div>
                 </div>
                 <div class="row row-x-0">
-                    <button class="btn"><i class="icon-search"></i> 按此搜尋</button>
+                    <button class="btn btn-primary"><i class="icon-search"></i> 按此搜尋</button>
                 </div>
             </form>
 
@@ -144,25 +159,34 @@
 </div></section>@* witness *@
 
 
-<section id="catgories"><div class="wrap">
+<section id="categories"><div class="wrap">
 
     <h1 class="sr-only">產品分類</h1>
 
-    <article class="article">
-        <h2 class="sr-only">大地系列</h2>
-        <a href="">
-            <img src="" alt="">
-            <span>大地系列</span>
-        </a>
-    </article>
-    <article class="article">
-        <h2 class="sr-only">功能性系列</h2>
-        <a href="">
-            <img src="" alt="">
-            <span>功能性系列</span>
-        </a>
-    </article>
-    
+    <div class="row">
+
+        <div class="col-xs-6">
+            <article class="article">
+                <h2 class="sr-only">大地系列</h2>
+                <a href="~/ProductData">
+                    <img src="~/Content/images/product/cat1.jpg" alt="">
+                    <span>大地系列</span>
+                </a>
+            </article>
+        </div>
+
+        <div class="col-xs-6">
+            <article class="article">
+                <h2 class="sr-only">功能性系列</h2>
+                <a href="~/ProductData">
+                    <img src="~/Content/images/product/cat2.jpg" alt="">
+                    <span>功能性系列</span>
+                </a>
+            </article>
+        </div>
+
+    </div>
+
 </div></section>@* categories *@
 
 
@@ -175,10 +199,22 @@
             <h1 class="sr-only">最新消息</h1>
 
             <article class="article">
-                <h2 class="h2"><a href=""></a></h2>
-                <p class="date"></p>
-                <p></p>
-                <a href="" class="more"></a>
+                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
+                <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
+                <p><a href="~/NewsData" class="more">Read more</a></p>
+            </article>
+            <article class="article">
+                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
+                <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息</p>
+                <p><a href="~/NewsData" class="more">Read more</a></p>
+            </article>
+            <article class="article">
+                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
+                <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息</p>
+                <p><a href="~/NewsData" class="more">Read more</a></p>
             </article>
             
         </section>
@@ -190,22 +226,27 @@
 
             <article class="article">
                 <div class="row">
-                    <div class="col-xs-6"><img src="" alt=""></div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-12"><img src="~/Content/images/index/contact.jpg" alt=""></div>
+                    <div class="col-xs-12">
                         <h3 class="h3">台灣總公司</h3>
                         <ul class="list-unstyled">
-                            <li><strong></strong></li>
-                            <li><em>電話</em></li>
-                            <li><em>傳真</em></li>
+                            <li><strong>桃園市龜山區振興路56號</strong></li>
+                            <li>
+                                <em>電話</em> +886-3-329-8999
+                                <em>傳真</em> +883-3-329-9686
+                            </li>
                         </ul>
                     </div>
                 </div>
             </article>
 
-            <button class="btn bg-secondary">查看其他據點 <i class="icon-arrow-circle-right"></i></button>
+            <button class="btn btn-secondary">查看其他海外據點 <i class="icon-arrow-circle-right"></i></button>
 
         </section>
 
     </div>
     
 </div></div>@* about *@
+
+
+</div>@* panel *@
