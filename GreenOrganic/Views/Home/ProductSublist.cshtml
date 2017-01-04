@@ -1,21 +1,46 @@
 ﻿@{
-    ViewBag.Title = "系列產品";
+    ViewBag.Title = "大地系列";
+    ViewBag.Title2 = "系列產品";
     ViewBag.BodyClass = "Product";
     ViewBag.nav = "n3";
 }
 
 @section banner {
-	<div id="banner"><div class="wrap">
-		<h1 class="h1"><span>@ViewBag.Title</span></h1>
-	</div></div>
+    <div id="banner">
+        <div class="wrap">
+            <h1 class="h1"><span><small>@ViewBag.Title2</small>@ViewBag.Title</span></h1>
+        </div>
+    </div>
 }
 
-<div id="content"><div class="wrap">
-	
-	<h2 class="h2">公司簡介</h2>
-	<p>大地還原生物科技股份有限公司成立於 2005年，全體員工朝向推廣無毒農業為目標，完全不使用農藥、尿素、化肥及除草劑等有毒物質，成功研發出固體基礎肥及葉面肥等無毒肥料，掌握獨家配方，藉由分子間的吸引及滲透，不但能還原大地土質結構，使土壤能夠永久利用，更強化作物體質，使作物收成產量增加且品質優良。</p>
-	
-	<h2 class="h2">起源</h2>
-	<p>大地還原生物科技股份有限公司，致力於推廣對保護環境生態有益的各項產品，為人類長遠的未來而努力，希望藉由環保的產品，透過改良土壤、生長環境，達到改善農作物的品質，增加產量，並且減低種植過程中所造成的生態污染，達到永續經營的綠色無公害農業，使大地還原清新健康的面貌，故公司命名為大地還原。</p>
-	
-</div></div>
+<div id="content">
+    <div class="wrap">
+
+        <div class="product-sublist row">
+
+            <div class="col-xs-4">
+                <article class="article">
+                    <a href="~/Home/ProductData" class="img-thumbnail">
+                        <img src="http://lorempixel.com/530/335/" alt="">
+                    </a>
+                    <h2 class="h2">大地OA 1號</h2>
+                    <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外…</p>
+                    <a href="~/Home/ProductData" class="more">Read more</a>
+                </article>
+            </div>
+
+            <div class="col-xs-4">
+                <article class="article">
+                    <a href="~/Home/ProductData" class="img-thumbnail">
+                        <img src="http://lorempixel.com/530/335/" alt="">
+                    </a>
+                    <h2 class="h2">大地OA 900</h2>
+                    <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外…</p>
+                    <a href="~/Home/ProductData" class="more">Read more</a>
+                </article>
+            </div>
+
+        </div>
+
+    </div>
+</div>

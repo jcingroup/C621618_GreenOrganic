@@ -492,6 +492,7 @@
     <Content Include="Content\css\vendor\chosen.css" />
     <Content Include="Content\css\vendor\font-awesome.css" />
     <Content Include="Content\css\vendor\icomoon.css" />
+    <Content Include="Content\css\vendor\magnific-popup.css" />
     <Content Include="Content\css\vendor\open-iconic.css" />
     <Content Include="Content\css\vendor\swiper.min.css" />
     <Content Include="Content\css\vendor\w3.css" />
@@ -529,9 +530,8 @@
     <Content Include="Content\js\chosen.jquery.min.js" />
     <Content Include="Content\js\common.js" />
     <Content Include="Content\js\jquery.lazyload.min.js" />
+    <Content Include="Content\js\jquery.magnific-popup.min.js" />
     <Content Include="Content\js\jquery.scrollify.min.js" />
-    <Content Include="Content\js\magnific-popup\jquery.magnific-popup.js" />
-    <Content Include="Content\js\magnific-popup\jquery.magnific-popup.min.js" />
     <Content Include="Content\js\swiper\swiper.min.js" />
     <Content Include="Content\js\tab.js" />
     <Content Include="Content\noIE\bg.gif" />
@@ -597,6 +597,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -625,7 +626,6 @@
     <Content Include="Views\Manage\NewsList.cshtml" />
     <Content Include="Views\Manage\NewsData.cshtml" />
     <Content Include="Views\Manage\ChangePW.cshtml" />
-    <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Manage\ResultsList.cshtml" />
     <Content Include="Views\Manage\ResultsData.cshtml" />
     <Content Include="Views\Manage\ProductList.cshtml" />

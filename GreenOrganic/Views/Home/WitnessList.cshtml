@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "海外實績";
+    ViewBag.BodyClass = "Witness";
+    ViewBag.nav = "n4";
+}
+@section scripts {
+	<script src="~/Content/js/jquery.magnific-popup.min.js"></script>
+	<script>
+		$('.popup-link').click(function(e){
+			e.preventDefault();
+
+			var link = $(this).data("link");
+			$.ajax({
+				url: link,
+				success: function(data){
+					$.magnificPopup.open({
+						type: 'inline',
+						items: {
+							src: data
+						}
+					})
+				}
+			});
+		});
+
+		if(window.location.hash) {
+			var hash = window.location.hash;
+
+			$(document).ready(function() {
+
+				var link = $(hash).data("link");
+				$.ajax({
+					url: link,
+					success: function(data){
+						$.magnificPopup.open({
+							type: 'inline',
+							items: {
+								src: data
+							}
+						})
+					}
+				});
+
+			});
+
+		} else {
+
+		}
+
+		$('.popup-link').on('mfpOpen', function(e /*, params */) {
+  console.log('Popup opened',  $.magnificPopup.instance);
+});
+
+	</script>
+}
+@section css {
+	<link rel="stylesheet" href="~/Content/css/vendor/magnific-popup.css">
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+	
+	<form action="" class="search-form form-inline">
+
+		<label class="sr-only">國別</label>
+		<select name="" id="" class="form-element custom-input">
+            <option value="" selected disabled>請選擇國別</option>
+            <option value="">不拘</option>
+            <option value="">中國</option>
+            <option value="">柬埔寨</option>
+        </select>
+        <label class="sr-only">省</label>
+        <select name="" id="" class="form-element custom-input">
+        	<option value="" selected disabled>請選擇省</option>
+        	<option value="">不拘</option>
+        	<option value="">雲南</option>
+            <option value="">蘇州</option>
+        </select>
+        <label class="sr-only">產品</label>
+        <select name="" id="" class="form-element custom-input">
+        	<option value="" selected disabled>請選擇產品</option>
+        	<option value="">不拘</option>
+        	<option value="">大地OA 1號</option>
+            <option value="">大地OA 900</option>
+        </select>
+        <label class="sr-only">種植物</label>
+        <select name="" id="" class="form-element custom-input">
+        	<option value="" selected disabled>請選擇種植物</option>
+        	<option value="">不拘</option>
+        	<option value="">水稻</option>
+            <option value="">山核桃</option>
+        </select>
+        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字...">
+        <button class="btn btn-primary"><i class="icon-search"></i> 搜尋</button>
+
+	</form>
+
+	<div class="table-rwd">
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th class="view"></th>
+					<th class="country">國別</th>
+					<th class="area">省</th>
+					<th class="pro">產品</th>
+					<th class="plant">種植物</th>
+					<th class="name">專案名稱</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+					</td>
+					<td>中國</td>
+					<td>蘇州</td>
+					<td><span class="block">大地OA 1號</span></td>
+					<td>
+						<span class="block">山核桃</span>
+						<span class="block">水稻</span>
+					</td>
+					<td>浙江省山核桃治理專案</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+					</td>
+					<td>中國</td>
+					<td>蘇州</td>
+					<td>
+						<span class="block">大地OA 1號</span>
+						<span class="block">大地OA 900</span>
+					</td>
+					<td><span class="block">山核桃</span></td>
+					<td>浙江省山核桃治理專案</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+					</td>
+					<td>中國</td>
+					<td>蘇州</td>
+					<td><span class="block">大地OA 1號</span></td>
+					<td><span class="block">山核桃</span></td>
+					<td>浙江省山核桃治理專案</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+					</td>
+					<td>中國</td>
+					<td>蘇州</td>
+					<td><span class="block">大地OA 1號</span></td>
+					<td><span class="block">山核桃</span></td>
+					<td>浙江省山核桃治理專案</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+					</td>
+					<td>中國</td>
+					<td>蘇州</td>
+					<td><span class="block">大地OA 1號</span></td>
+					<td><span class="block">山核桃</span></td>
+					<td>浙江省山核桃治理專案</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</div></div>

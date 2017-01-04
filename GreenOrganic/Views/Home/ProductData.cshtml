@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "大地OA 1號";
+    ViewBag.Title2 = "大地系列";
+    ViewBag.Title3 = "系列產品";
+    ViewBag.BodyClass = "Product data";
+    ViewBag.nav = "n3";
+}
+
+@section banner {
+    <div id="banner">
+        <div class="wrap">
+            <h1 class="h1"><span><small>@ViewBag.Title3</small>@ViewBag.Title2</span></h1>
+        </div>
+    </div>
+}
+
+<div id="content">
+
+    <div class="wrap">
+
+        <div class="product-intro clearfix">
+
+            <figure class="img-thumbnail">
+                <img src="http://lorempixel.com/530/335/" alt="">
+            </figure>
+
+            <section class="product-info">
+                <h2 class="h2">
+                    <small>@ViewBag.Title2</small>
+                    @ViewBag.Title
+                </h2>
+                <dl>
+                    <dt>肥料登記字號</dt>
+                    <dd class="clearfix">肥製(質)字第0528002號</dd>
+                    <dt>製肥原料</dt>
+                    <dd class="clearfix">新鮮狀況之魚或魚骨等物質、保持100%新鮮蛋白質</dd>
+                    <dt>登記成份</dt>
+                    <dd class="clearfix">全氮5.0%、全磷酐2.0%、全氧化鉀2.0%、有機質30%</dd>
+                    <dt>性狀</dt>
+                    <dd class="clearfix">暗色液態</dd>
+                </dl>
+            </section>
+
+        </div>
+        @* product-intro *@
+
+        <section class="product-detail">
+
+            <h2 class="h2"><span>Product Detail</span></h2>
+
+            <div class="editor">
+
+                <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外，尚包含作物生長所需之多種必要元素及胺基酸，並有完整促進作物快速營養生長之獨特完全營養配方，美國特殊配方土壤調理劑等，能在極短時間內將養分迅速轉化成容易被吸收的型態。產品中含有腐植酸、多種氨基酸及作物生長所需之多種營養元素，長期使用可減少肥料之施用量。</p>
+                
+            </div>@* editor *@
+            
+        </section>
+        @* product-detail *@
+
+    </div>@* wrap *@
+
+
+    <section class="product-application"><div class="wrap">
+
+        <h2 class="h2">本產品應用海外實績</h2>
+
+        <div class="row row-center">
+            <div class="col-xs-3">
+                <article class="img-thumbnail">
+                    <img src="http://lorempixel.com/530/335/" alt="">
+                    <div class="article-content">
+                        <h3 class="h3">種植物種植物</h3>
+                        <p>國別 地點</p>
+                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xs-3">
+                <article class="img-thumbnail">
+                    <img src="http://lorempixel.com/600/600/" alt="">
+                    <div class="article-content">
+                        <h3 class="h3">山核桃</h3>
+                        <p>中國 蘇州</p>
+                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xs-3">
+                <article class="img-thumbnail">
+                    <img src="http://lorempixel.com/500/800/" alt="">
+                    <div class="article-content">
+                        <h3 class="h3">菸草</h3>
+                        <p>中國 雲南昆明</p>
+                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xs-3">
+                <article class="img-thumbnail">
+                    <img src="http://lorempixel.com/800/500/" alt="">
+                    <div class="article-content">
+                        <h3 class="h3">水稻</h3>
+                        <p>柬埔寨 干拉</p>
+                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+    </div></section>
+    @* product-application *@
+
+</div>

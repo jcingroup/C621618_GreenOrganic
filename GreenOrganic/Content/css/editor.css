@@ -39,7 +39,7 @@ html {
 }
 
 body {
-  font-family: Calibri, "Helvetica Neue", Helvetica, Arial, \5FAE\8EDF\6B63\9ED1\9AD4, "微軟正黑體", "Microsoft JhengHei", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, \5FAE\8EDF\6B63\9ED1\9AD4, "微軟正黑體", "Microsoft JhengHei", sans-serif;
   line-height: 1.5;
   color: #333;
   background: false;
@@ -64,6 +64,7 @@ a:hover, a:active, a.active {
 
 img {
   vertical-align: middle;
+  max-width: 100%;
 }
 
 h1 {
@@ -102,7 +103,6 @@ h6 {
 
 strong {
   font-size: 1.0625em;
-  color: #87C022;
 }
 
 small {
@@ -967,6 +967,13 @@ textarea {
 
 .bg-danger {
   background: #C1272D;
+}
+
+@media (max-width: 61.9375em) {
+  .mobile-hide {
+    display: none;
+    visibility: hidden;
+  }
 }
 
 .title {
