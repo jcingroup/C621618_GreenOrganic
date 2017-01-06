@@ -15,6 +15,19 @@
        用在種植物名稱
     *@
     <script src="~/Content/js/bootstrap/tagsinput.js"></script>
+    <script>
+        // 頁籤切換
+        var tab = $('.js-tab');
+        var tabContent = '.tab-pane';
+        // $('.tab-pane:gt(0)').hide();
+        $(tab.eq(0).addClass('active').attr('href')).siblings(tabContent).hide();
+        tab.click(function () {
+            event.preventDefault();
+            $($(this).attr('href')).fadeIn().siblings(tabContent).hide();
+            $(this).toggleClass('active');
+            tab.not(this).removeClass('active');
+        });
+    </script>
 }
 
 @section Breadcrumb {
@@ -154,16 +167,36 @@
         </div>
     </section>
 
-    <h4 class="h4 clear">實績內容</h4>
-    <div class="alert alert-warning w3-padding-small text-sm">
+    <div class="alert alert-warning w3-padding-small text-sm clear">
         <strong>編輯器注意事項: </strong><br>
         從 WORD 複製文字時，請使用下方的 <img src="~/Content/images/sys/icon-word.jpg" /> 圖示來貼上 WORD 文字，避免跑版<br>
         編輯器上傳圖片或新增表格等時，請勿設定寬度及高度(將數字刪除) ，以免行動裝置顯示時會跑版。<br>
         檔案尺寸寬度超過 1600 或 高度超過1200 的圖片會被壓縮(PNG透明背景會變成不透明)<br>
         youtube 可勾選「用自適應縮放模式」
     </div>
-    @* 編輯器(含圖片上傳功能) *@
-    <textarea class="form-control" rows="15" placeholder="請輸入海外實績內容"></textarea>
+    <section>
+        <nav class="nav nav-tabs">
+            <a href="#tab1" class="js-tab active">實績簡介(右側)</a>
+            <a href="#tab2" class="js-tab">實績更多介紹(下方)</a>
+        </nav>
+        <div class="tab-content">
+            <article id="tab1" class="tab-pane active">
+                @* 編輯器(無圖檔上傳 configMin.js) *@
+                <textarea class="form-control" rows="8">
+使用期間：五個月
+使用前：收成數量不滿意
+使用後：水洗
+焙度：
+1. 提高產品，成長時間縮短，加強香菇顏色深度及Q度和香味
+2. 產量增加60%,香菇增大50%,增加太空包收成期40%
+                </textarea>
+            </article>
+            <article id="tab2" class="tab-pane">
+                @* 編輯器(含圖檔上傳 config.js) *@
+                <textarea class="form-control" rows="15" placeholder="請輸入海外實績內容"></textarea>
+            </article>
+        </div><!-- tab-content //-->
+    </section>
 
     <div class="form-action">
         <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm col-xs-offset-1 oi" data-glyph="circle-check">
