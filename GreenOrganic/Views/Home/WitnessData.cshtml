@@ -3,6 +3,15 @@
     ViewBag.Title = "浙江省山核桃治理專案";
     ViewBag.Title2 = "海外實績";
 }
+@section scripts {
+    <script>
+        $(".gallery .img-thumbnail").click(function(e){
+            e.preventDefault();
+            var src = $(this).attr("href");
+            $(".product-intro .img-thumbnail img").attr("src", src);
+        });
+    </script>
+}
 
 <div class="witness-content">
 
@@ -11,7 +20,7 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="http://lorempixel.com/530/335/" alt="">
+                <img src="http://lorempixel.com/530/335/" alt="">@* 抓上傳的照片的第一張 *@
             </figure>
 
             <section class="product-info">
@@ -23,14 +32,15 @@
                     <span class="label">山核桃</span>
                     <span class="label">山核桃</span>
                 </p>
-                <dl>
-                    <dt>使用期間</dt>
-                    <dd class="clearfix">五個月</dd>
-                    <dt>使用前</dt>
-                    <dd class="clearfix">收成數量不滿意</dd>
-                    <dt>使用後</dt>
-                    <dd class="clearfix">提高產量,成長時間縮短,加強香菇顏色深度及Q度和香味、產量增加60%,香菇增大50%,增加太空包收成期40%</dd>
-                </dl>
+                <div class="editor">
+                    <p><span style="font-size: 20px; color: #5e3e1d">使用期間：</span>五個月</p>
+                    <p><span style="font-size: 20px; color: #5e3e1d">使用前：</span>收成數量不滿意</p>
+                    <p>
+                        <span style="font-size: 20px; color: #5e3e1d">使用後：</span><br />
+                        1. 提高產量,成長時間縮短,加強香菇顏色深度及Q度和香味<br />
+                        2. 產量增加60%,香菇增大50%,增加太空包收成期40%
+                    </p>
+                </div>
             </section>
 
         </div>
@@ -38,24 +48,24 @@
 
         <section class="product-detail">
 
-            <ol class="gallery list-inline">@* 對照組的圖 *@
+            <ol class="gallery list-inline">
                 <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/530/335/" target="new">
+                    <a class="img-thumbnail" href="http://lorempixel.com/530/335/">@* 超連結內容同圖片網址 *@
                         <img src="http://lorempixel.com/530/335/" alt="">
                     </a>
                 </li>
                 <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/600/600/" target="new">
+                    <a class="img-thumbnail" href="http://lorempixel.com/600/600/">
                         <img src="http://lorempixel.com/600/600/" alt="">
                     </a>
                 </li>
                 <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/500/800/" target="new">
+                    <a class="img-thumbnail" href="http://lorempixel.com/500/800/">
                         <img src="http://lorempixel.com/500/800/" alt="">
                     </a>
                 </li>
                 <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/800/500/" target="new">
+                    <a class="img-thumbnail" href="http://lorempixel.com/800/500/">
                         <img src="http://lorempixel.com/800/500/" alt="">
                     </a>
                 </li>
