@@ -499,10 +499,12 @@
     <Content Include="Content\font\fontAwesome\fontawesome-webfont.svg" />
     <Content Include="Content\font\openIconic\open-iconic.svg" />
     <Content Include="Content\font\icomoon\icomoon.svg" />
+    <Content Include="Content\images\banner.jpg" />
     <Content Include="Content\images\bg_bottle1.gif" />
     <Content Include="Content\images\bg_bottle1_gry.gif" />
     <Content Include="Content\images\bg_bottle2.gif" />
     <Content Include="Content\images\bg_bottle2_gry.gif" />
+    <Content Include="Content\images\icon_lineDot.png" />
     <Content Include="Content\images\icon_select.gif" />
     <Content Include="Content\images\index\banner.mp4" />
     <Content Include="Content\images\index\bg_about.jpg" />
@@ -588,7 +590,6 @@
     <Content Include="Content\font\openIconic\open-iconic.otf" />
     <Content Include="Content\font\openIconic\open-iconic.ttf" />
     <Content Include="Content\font\openIconic\open-iconic.woff" />
-    <Content Include="Content\font\icomoon\icomoon.eot" />
     <Content Include="Content\font\icomoon\icomoon.ttf" />
     <Content Include="Content\font\icomoon\icomoon.woff" />
     <None Include="Properties\PublishProfiles\Official Web Site.pubxml" />
@@ -640,6 +641,12 @@
     <Content Include="Views\Home\NewsList.cshtml" />
     <Content Include="Views\Home\ProductList.cshtml" />
     <Content Include="Views\Home\ProductSublist.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\NewsData.cshtml" />
+    <Content Include="Views\Home\ProductData.cshtml" />
+    <Content Include="Views\Home\WitnessData.cshtml" />
+    <Content Include="Views\Home\WitnessList.cshtml" />
+    <Content Include="Views\Shared\_LayoutPopup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

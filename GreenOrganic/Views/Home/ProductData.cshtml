@@ -5,6 +5,62 @@
     ViewBag.BodyClass = "Product data";
     ViewBag.nav = "n3";
 }
+@section scripts {
+    <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
+    <script>
+        $('.popup-link').click(function(e){
+            e.preventDefault();
+            var hash = $(this).attr("href"); // get hash tag
+            var link = $(this).data("link"); // get actural link
+            $.ajax({
+                url: link,
+                success: function(data){
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            open: function() {
+                                window.location.href = window.location.href + hash;
+                                // add hash tag in the url after opened
+                            },
+                            close: function() {
+                                window.location.href = window.location.href.replace(hash,'');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        if(window.location.hash) {
+            var hash = window.location.hash; // get hash tag
+            var link = $(hash).data("link"); // get actural link from the btn with the hash tag
+            $.ajax({
+                url: link,
+                success: function(data){
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            close: function() {
+                                window.location.href = window.location.href.replace(hash,'');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+}
+@section css {
+    <link rel="stylesheet" href="~/Content/css/vendor/magnific-popup.css">
+}
 
 @section banner {
     <div id="banner">
@@ -25,7 +81,7 @@
             </figure>
 
             <section class="product-info">
-                <h2 class="h2">
+                <h2 class="h2 underline">
                     <small>@ViewBag.Title2</small>
                     @ViewBag.Title
                 </h2>
@@ -71,7 +127,7 @@
                     <div class="article-content">
                         <h3 class="h3">種植物種植物</h3>
                         <p>國別 地點</p>
-                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                        <a href="#data-001" id="data-001" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                     </div>
                 </article>
             </div>
@@ -81,7 +137,7 @@
                     <div class="article-content">
                         <h3 class="h3">山核桃</h3>
                         <p>中國 蘇州</p>
-                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                        <a href="#data-002" id="data-002" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                     </div>
                 </article>
             </div>
@@ -91,7 +147,7 @@
                     <div class="article-content">
                         <h3 class="h3">菸草</h3>
                         <p>中國 雲南昆明</p>
-                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                        <a href="#data-003" id="data-003" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                     </div>
                 </article>
             </div>
@@ -101,7 +157,7 @@
                     <div class="article-content">
                         <h3 class="h3">水稻</h3>
                         <p>柬埔寨 干拉</p>
-                        <a href="~/Home/WitnessData" class="more">Read more</a>
+                        <a href="#data-004" id="data-004" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                     </div>
                 </article>
             </div>

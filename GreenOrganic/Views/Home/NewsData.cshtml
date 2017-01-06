@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "新聞資訊";
+    ViewBag.BodyClass = "News";
+    ViewBag.nav = "n2";
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+	
+	<article class="news-data">
+		<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
+		<h2 class="h2 underline">最新消息最新消息</h2>
+
+		<div class="row">
+			<div class="editor col-xs-8">
+				<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
+			</div>
+
+			<figure class="col-xs-4">
+				<span class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></span>
+			</figure>
+		</div>
+
+	</article>
+
+	<p class="text-center clearfix"><a href="~/Home/NewsData" class="more">回列表</a></p>
+	
+</div></div>

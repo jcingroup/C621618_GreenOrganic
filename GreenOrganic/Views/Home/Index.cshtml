@@ -2,12 +2,12 @@
     ViewBag.Title = "WELCOME";
     ViewBag.IsFirstPage = true;
 }
-
 @section css {
-    
+    <link rel="stylesheet" href="~/Content/css/vendor/magnific-popup.css">
 }
 @section scripts {
     <script src="~/Content/js/jquery.scrollify.min.js"></script>
+    <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
     <script>
 
         $("#header").addClass("bottom");
@@ -33,6 +33,52 @@
                   $("#header").addClass("bottom");
              }
         });
+
+        $('.popup-link').click(function(){
+            var hash = $(this).attr("href"); // get hash tag
+            var link = $(this).data("link"); // get actural link
+            $.ajax({
+                url: link,
+                success: function(data){
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            close: function() {
+                                window.location.href = window.location.href.replace(hash,'');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        if(window.location.hash) {
+            var hash = window.location.hash; // get hash tag
+            if ( $(hash).attr("data-link") ) {
+                var link = $(hash).data("link"); // get actural link from the btn with the hash tag
+                $.ajax({
+                    url: link,
+                    success: function(data){
+                        $.magnificPopup.open({
+                            type: 'inline',
+                            items: {
+                                src: data
+                            },
+                            callbacks: {
+                                close: function() {
+                                    window.location.href = window.location.href.replace(hash,'');
+                                    // remove hash tag in the url after closed
+                                }
+                            }
+                        })
+                    }
+                });
+            }
+        }
 
     </script>
 }
@@ -74,7 +120,7 @@
                         <div class="article-content">
                             <h3 class="h3">種植物種植物</h3>
                             <p>國別 地點</p>
-                            <a href="~/Home/WitnessData" class="more">Read more</a>
+                            <a href="#data-001" id="data-001" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                         </div>
                     </article>
                 </div>
@@ -84,7 +130,7 @@
                         <div class="article-content">
                             <h3 class="h3">山核桃</h3>
                             <p>中國 蘇州</p>
-                            <a href="~/Home/WitnessData" class="more">Read more</a>
+                            <a href="#data-002" id="data-002" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                         </div>
                     </article>
                 </div>
@@ -94,7 +140,7 @@
                         <div class="article-content">
                             <h3 class="h3">菸草</h3>
                             <p>中國 雲南昆明</p>
-                            <a href="~/Home/WitnessData" class="more">Read more</a>
+                            <a href="#data-003" id="data-003" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                         </div>
                     </article>
                 </div>
@@ -104,7 +150,7 @@
                         <div class="article-content">
                             <h3 class="h3">水稻</h3>
                             <p>柬埔寨 干拉</p>
-                            <a href="~/Home/WitnessData" class="more">Read more</a>
+                            <a href="#data-004" id="data-004" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
                         </div>
                     </article>
                 </div>
@@ -205,22 +251,22 @@
             <h1 class="sr-only">最新消息</h1>
 
             <article class="article">
-                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
                 <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
                 <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-                <p><a href="~/NewsData" class="more">Read more</a></p>
+                <p><a href="~/Home/NewsData" class="more">Read more</a></p>
             </article>
             <article class="article">
-                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
                 <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
                 <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息</p>
-                <p><a href="~/NewsData" class="more">Read more</a></p>
+                <p><a href="~/Home/NewsData" class="more">Read more</a></p>
             </article>
             <article class="article">
-                <h2 class="h2"><a href="~/NewsData">最新消息最新消息</a></h2>
+                <h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
                 <p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
                 <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息</p>
-                <p><a href="~/NewsData" class="more">Read more</a></p>
+                <p><a href="~/Home/NewsData" class="more">Read more</a></p>
             </article>
             
         </section>
@@ -238,8 +284,8 @@
                         <ul class="list-unstyled">
                             <li><strong>桃園市龜山區振興路56號</strong></li>
                             <li>
-                                <em>電話</em> +886-3-329-8999
-                                <em>傳真</em> +883-3-329-9686
+                                <em>電話</em> 03-329-8999
+                                <em>傳真</em> 03-329-9686
                             </li>
                         </ul>
                     </div>

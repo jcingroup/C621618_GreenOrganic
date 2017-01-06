@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "聯繫我們";
+    ViewBag.BodyClass = "ContactUs";
+    ViewBag.nav = "n5";
+}
+@section scripts {
+	@* <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=E4805d16520de693a3fe707cdc962045"></script>
+	<script type="text/javascript">
+		//百度地图API功能
+		//加载第一张地图
+		var map1 = new BMap.Map("map1");            // 创建Map实例
+	    var point1 = new BMap.Point(116.404, 39.915);  
+	    map1.centerAndZoom(point1,15);               
+	    map1.enableScrollWheelZoom();                  //启用滚轮放大缩小
+		//加载第二张地图
+		var map2 = new BMap.Map("map2");            // 创建Map实例
+	    var point2 = new BMap.Point(121.350, 25.003);  
+	    map2.centerAndZoom(point2,15);                 
+	    map2.enableScrollWheelZoom();                  //启用滚轮放大缩小
+	</script> *@
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+
+	<div class="contact-list">
+
+		<article class="article row">
+			<div class="col-xs-5">
+				<iframe class="img-thumbnail" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.9004011009356!2d121.34855421500566!3d25.003500083986697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681e770d2686ab%3A0xd569637d0acfc24f!2zMzMz5qGD5ZyS5biC6b6c5bGx5Y2A5oyv6IiI6LevNTbomZ8!5e0!3m2!1szh-TW!2stw!4v1483591220239" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div class="article-content col-xs-7">
+				<h2 class="h2">台灣總公司</h2>
+				<dl>
+					<dt>諮詢專線</dt>
+					<dd>03-329-8999</dd>
+					<dt>傳真</dt>
+					<dd>03-329-9686</dd>
+					<dt>E-mail</dt>
+					<dd><a href="mailto:service@greenorganic.com.tw">service@greenorganic.com.tw</a></dd>
+					<dt>地址</dt>
+					<dd>
+						桃園市龜山區振興路56號
+						<a href="https://goo.gl/maps/mEDrzdmf6HK2" target="new" class="more"><i class="icon-search"></i> 地圖</a>
+					</dd>
+				</dl>
+			</div>
+		</article>
+
+		<article class="article row">
+			<div class="col-xs-5">
+				<iframe class="img-thumbnail" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3415.0579556365724!2d121.36027931548094!3d31.13590518149852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35b263dc54601a2f%3A0x64a5dc63c027c359!2z6LKh5a-MMTA45buj5aC0!5e0!3m2!1szh-TW!2stw!4v1483603176589" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div class="article-content col-xs-7">
+				<h2 class="h2">上海分公司</h2>
+				<dl>
+					<dt>聯絡人</dt>
+					<dd>上海分公司總經理兼業務總監 石益林</dd>
+					<dt>手機</dt>
+					<dd>13816628837</dd>
+					<dt>諮詢專線</dt>
+					<dd>021-60409020</dd>
+					<dt>傳真</dt>
+					<dd>021-60409022</dd>
+					<dt>E-mail</dt>
+					<dd><a href="mailto:jimshi@sinib.cn">jimshi@sinib.cn</a></dd>
+					<dt>地址</dt>
+					<dd>
+						上海市閔行區七莘路1839號財富108廣場南樓1012室
+						<a href="https://goo.gl/maps/ihK6TUUwqRS2" target="new" class="more"><i class="icon-search"></i> 地圖</a>
+					</dd>
+				</dl>
+			</div>
+		</article>
+
+		<article class="article row">
+			<div class="col-xs-5">
+				<iframe class="img-thumbnail" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.9004011009356!2d121.34855421500566!3d25.003500083986697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681e770d2686ab%3A0xd569637d0acfc24f!2zMzMz5qGD5ZyS5biC6b6c5bGx5Y2A5oyv6IiI6LevNTbomZ8!5e0!3m2!1szh-TW!2stw!4v1483591220239" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div class="article-content col-xs-7">
+				<h2 class="h2">柬埔寨分公司</h2>
+				<dl>
+					<dt>資料待補</dt>
+					<dd>資料待補</dd>
+				</dl>
+			</div>
+		</article>
+		
+	</div>
+	
+</div></div>

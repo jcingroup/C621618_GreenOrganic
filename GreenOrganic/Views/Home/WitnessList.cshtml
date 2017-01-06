@@ -6,10 +6,9 @@
 @section scripts {
 	<script src="~/Content/js/jquery.magnific-popup.min.js"></script>
 	<script>
-		$('.popup-link').click(function(e){
-			e.preventDefault();
-
-			var link = $(this).data("link");
+		$('.popup-link').click(function(){
+			var hash = $(this).attr("href"); // get hash tag
+			var link = $(this).data("link"); // get actural link
 			$.ajax({
 				url: link,
 				success: function(data){
@@ -17,40 +16,39 @@
 						type: 'inline',
 						items: {
 							src: data
+						},
+						callbacks: {
+							close: function() {
+								window.location.href = window.location.href.replace(hash,'');
+								// remove hash tag in the url after closed
+							}
 						}
-					})
+					});
 				}
 			});
 		});
 
 		if(window.location.hash) {
-			var hash = window.location.hash;
-
-			$(document).ready(function() {
-
-				var link = $(hash).data("link");
-				$.ajax({
-					url: link,
-					success: function(data){
-						$.magnificPopup.open({
-							type: 'inline',
-							items: {
-								src: data
+			var hash = window.location.hash; // get hash tag
+			var link = $(hash).data("link"); // get actural link from the btn with the hash tag
+			$.ajax({
+				url: link,
+				success: function(data){
+					$.magnificPopup.open({
+						type: 'inline',
+						items: {
+							src: data
+						},
+						callbacks: {
+							close: function() {
+								window.location.href = window.location.href.replace(hash,'');
+								// remove hash tag in the url after closed
 							}
-						})
-					}
-				});
-
+						}
+					})
+				}
 			});
-
-		} else {
-
 		}
-
-		$('.popup-link').on('mfpOpen', function(e /*, params */) {
-  console.log('Popup opened',  $.magnificPopup.instance);
-});
-
 	</script>
 }
 @section css {
@@ -141,7 +139,7 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+						<a href="#data-002" id="data-002" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
 					</td>
 					<td>中國</td>
 					<td>蘇州</td>
@@ -151,7 +149,7 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+						<a href="#data-003" id="data-003" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
 					</td>
 					<td>中國</td>
 					<td>蘇州</td>
@@ -161,7 +159,7 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="#data-001" id="data-001" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
+						<a href="#data-004" id="data-004" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData")">查看</a>
 					</td>
 					<td>中國</td>
 					<td>蘇州</td>
