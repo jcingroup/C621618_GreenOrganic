@@ -1,14 +1,14 @@
 
-$('.scroll').click(function(event) {
-    $('html, body').animate({
-        scrollTop: $($.attr(this, 'href')).offset().top - 50
-    }, 750);
-    event.preventDefault();
-});
-$('.goTop').click(function(event) {
-    $('body, html').stop(true).animate({scrollTop:0},750);
-    event.preventDefault();
-});
+// $('.scroll').click(function(event) {
+//     $('html, body').animate({
+//         scrollTop: $($.attr(this, 'href')).offset().top - 50
+//     }, 750);
+//     event.preventDefault();
+// });
+// $('.goTop').click(function(event) {
+//     $('body, html').stop(true).animate({scrollTop:0},750);
+//     event.preventDefault();
+// });
 
 
 // 縮放特效
@@ -29,11 +29,10 @@ $trigger = $('.mobile-trigger');
 $menuClose = $('.mobile-close');
 
 $trigger.click(function() {
-    $(this).toggleClass('active');
-    $('body').toggleClass('overlay');
+    $('#menu').fadeIn();
 });
 $menuClose.click(function() {
-    $('body').removeClass('overlay');
+    $('#menu').fadeOut();
 });
 
 // 行動裝置的產品分類選單
