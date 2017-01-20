@@ -7,6 +7,7 @@
     ViewBag.subNav = "n3-1";
 
     DataTable dt = (DataTable)ViewData["dt"];
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
     int row_count = 0;
     int page_count = 10;
     int page = (int)ViewData["page"];
@@ -18,17 +19,24 @@
     int max_row = 0;
     int total_page = 0;
 
-    string scenic_id = "";
-    string area_name = "";
-    string scenic_name = "";
-    string scenic_count = "";
+    string n_id = "";
+    string n_title = "";
+    string n_date = "";
+    string n_lang = "";
+    string n_sort = "";
+    string lang_name = "";
+    string is_index = "";
     string show = "";
     string show_class = "";
-    string txt_scenic_query = (string)ViewData["txt_scenic_query"];
-    string txt_area_query = (string)ViewData["txt_area_query"];
+    string txt_title_query = (string)ViewData["txt_title_query"];
     string txt_sort = (string)ViewData["txt_sort"];
     string txt_a_d = (string)ViewData["txt_a_d"];
+    string txt_start_date = (string)ViewData["txt_start_date"];
+    string txt_end_date = (string)ViewData["txt_end_date"];
+    string txt_lang = (string)ViewData["txt_lang"];
 
+    string c_selected = "";
+    
     string a_d = "";
 
     if(txt_a_d == "")
@@ -40,20 +48,32 @@
         a_d = "desc";
     }
 
-    string class_area = "";
-    string class_scenic_count = "";
+    string class_title = "";
+    string class_lang = "";
+    string class_date = "";
+    string class_sort = "";
     string class_status = "";
+    string class_index = "";
 
     switch(txt_sort)
     {
-        case "area":
-            class_area = a_d;
+        case "n_title":
+            class_title = a_d;
+            break;
+        case "n_date":
+            class_date = a_d;
+            break;
+        case "lang":
+            class_lang = a_d;
+            break;
+        case "sort":
+            class_sort = a_d;
+            break;
+        case "is_index":
+            class_index = a_d;
             break;
         case "status":
             class_status = a_d;
-            break;
-        case "scenic_count":
-            class_scenic_count = a_d;
             break;
     }
 
@@ -107,7 +127,7 @@
 
             }
 
-@section Breadcrumb {
+            @section Breadcrumb {
     <li>&#8227; 網站資訊維護</li>
     <li>&#8250; @ViewBag.Crumb</li>
 }
@@ -126,20 +146,32 @@
         <div class="table-filter">
             <div class="form-inline">
                 <label class="text-sm">標題</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." id="txt_title_query" name="txt_title_query">
 
                 <label class="text-sm w3-margin-left">日期</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
                 @* 用 datetimepicker (之類的東西) 選日期 *@
-                <input type="date" class="form-control form-control-sm">
+                <input type="date" class="form-control form-control-sm" id="txt_start_date" name="txt_start_date" value="@txt_start_date">
                 <label class="text-sm">~</label>
-                <input type="date" class="form-control form-control-sm">
+                <input type="date" class="form-control form-control-sm" id="txt_end_date" name="txt_end_date" value="@txt_end_date">
 
                 <label class="text-sm w3-margin-left">語系</label>
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>繁體中文</option>
-                    <option>简体中文</option>
-                    <option>English</option>
+                <select class="form-control form-control-sm" id="txt_lang" name="txt_lang">
+                    <option value="">全部</option>
+                    @if (d_lang.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_lang.Rows.Count; i++)
+                        {
+                            if (d_lang.Rows[i]["lang_id"].ToString() == txt_lang)
+                            {
+                                c_selected = "selected";
+                            }
+                            else
+                            {
+                                c_selected = "";
+                            }
+                            <option value="@d_lang.Rows[i]["lang_id"].ToString()" @c_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+                        }
+                    }
                 </select>
             </div>
         </div><!-- table-filter //-->
@@ -158,7 +190,7 @@
                 <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th class="text-xs-center">修改</th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">發佈日期</button>
+                    <button class="text-xs-center th-sort-toggle @class_date" name="btn_date" id="btn_date" onclick="sort('n_date');">發佈日期</button>
                 </th>
                 <th>
                     @* 如不需要排序功能: 純文字即可 *@
@@ -166,17 +198,17 @@
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle asc">語系</button>
+                    <button class="text-xs-center th-sort-toggle @class_lang" name="btn_lang" id="btn_lang" onclick="sort('lang');">語系</button>
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle desc">排序</button>
+                    <button class="text-xs-center th-sort-toggle @class_sort" name="btn_sort" id="btn_sort" onclick="sort('sort');">排序</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                    <button class="text-xs-center th-sort-toggle @class_status" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">顯示在首頁</button>
+                    <button class="text-xs-center th-sort-toggle @class_index" name="btn_index" id="btn_index" onclick="sort('is_index');" >顯示在首頁</button>
                 </th>
             </tr>
         </thead>
@@ -184,36 +216,42 @@
             @* 建議: 1頁10筆資料 *@
             @if (dt.Rows.Count > 0)
             {
-            for (int i = min_row - 1; i < max_row; i++)
-            {
-                scenic_id = dt.Rows[i]["_SEQ_ID"].ToString();
-                area_name = dt.Rows[i]["area_name"].ToString();
-                scenic_name = dt.Rows[i]["scenic_name"].ToString();
-                scenic_count = dt.Rows[i]["scenic_count"].ToString();
-                if (dt.Rows[i]["status"].ToString() == "Y")
+                for (int i = min_row - 1; i < max_row; i++)
                 {
-                    show = "已發佈";
-                    show_class = "label-success";
-                }
-                else
-                {
-                    show = "草稿";
-                    show_class = "label-default";
-                }
+                    n_id = dt.Rows[i]["n_id"].ToString();
+                    n_title = dt.Rows[i]["n_title"].ToString();
+                    n_date = dt.Rows[i]["n_date"].ToString();
+                    lang_name = dt.Rows[i]["lang_name"].ToString();
+                    n_sort = dt.Rows[i]["sort"].ToString();
+                    is_index = dt.Rows[i]["is_index"].ToString();
+                    if (dt.Rows[i]["status"].ToString() == "Y")
+                    {
+                        show = "已發佈";
+                        show_class = "label-success";
+                    }
+                    else
+                    {
+                        show = "草稿";
+                        show_class = "label-default";
+                    }
+
                     <tr>
                         <td class="text-xs-center">
-                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Del?scenic_id=" + scenic_id)';" class="btn btn-link text-danger oi" data-glyph="trash"></button>
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/News_Del?n_id=" + n_id)';" class="btn btn-link text-danger oi" data-glyph="trash"></button>
                         </td>
                         <td class="text-xs-center">
-                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Edit?scenic_id=" + scenic_id)';" class="btn btn-link oi" data-glyph="pencil"></button>
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/News_Edit?n_id=" + n_id)';" class="btn btn-link oi" data-glyph="pencil"></button>
                         </td>
-                        <td class="text-xs-center">2016-05-01</td>
-                        <td class="text-xs-left">印度尼西亞 泗水農業無毒種植拓展</td>
-                        <td class="text-xs-center">繁體中文</td>
-                        <td class="text-xs-center">10</td>
+                        <td class="text-xs-center">@n_date</td>
+                        <td class="text-xs-left">@n_title</td>
+                        <td class="text-xs-center">@lang_name</td>
+                        <td class="text-xs-center">@n_sort</td>
                         <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
                         <td class="text-xs-center">
-                            <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
+                            @if (is_index == "Y")
+                            {
+                                <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
+                            }
                         </td>
                     </tr>
                 }
@@ -221,7 +259,7 @@
             else
             {
                 <tr>
-                    <td class="text-xs-left" colspan="7">
+                    <td class="text-xs-left" colspan="8">
                         無資料
                     </td>
                 </tr>
@@ -229,7 +267,7 @@
         </tbody>
     </table>
     <footer class="table-footer clearfix">
-        <button type="button" onclick="location.href='@Url.Content("~/Manage/Add")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/News_Add")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
             新增
         </button>
         <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
@@ -262,14 +300,28 @@
         }
     });
 
-    $('#txt_scenic_query').on('keydown', function (e) {
+    $('#txt_title_query').on('keydown', function (e) {
         if (e.which == 13) {
             //alert('clicked');
             document.form1.submit();
         }
     });
 
-    $('#txt_area_query').on('keydown', function (e) {
+    $('#txt_start_date').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_end_date').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_lang').on('keydown', function (e) {
         if (e.which == 13) {
             //alert('clicked');
             document.form1.submit();

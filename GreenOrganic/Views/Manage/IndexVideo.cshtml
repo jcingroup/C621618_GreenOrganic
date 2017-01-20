@@ -1,9 +1,17 @@
-﻿
+﻿@using System.Data
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.Crumb = "首頁影片";
     ViewBag.nav = "n3";
     ViewBag.subNav = "n3-2";
+
+    DataTable d_video = (DataTable)ViewData["d_video"];
+    string mv = "";
+    if(d_video.Rows.Count > 0)
+    {
+        mv = d_video.Rows[0]["ad_mv"].ToString();
+    }
+
 }
 
 @section Breadcrumb {
@@ -12,14 +20,19 @@
 }
 
 <h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
+<script>
+    function form_ok() {
+        form1.submit();
+    }
+</script>
 
 <div class="alert alert-warning w3-padding-small text-sm">
     <strong>YouTube注意事項: </strong><br/>
     嵌入連結路徑如圖示 (<a href="/Content/images/sys/youtube.jpg" target="new">點選看圖示</a>)
 </div>
 
-<form action="" class="form">
-    <input type="text" class="form-control m-b-1" placeholder="請在此輸入Youtube嵌入連結路徑...">
+<form action="IndexVideo_Update" class="form" method="post" name="form1" id="form1">
+    <input type="text" class="form-control m-b-1" placeholder="請在此輸入Youtube嵌入連結路徑..." id="mv" name="mv" value="@mv">
 
     <div class="form-action text-xs-center">
         <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm oi" data-glyph="circle-check">
@@ -27,3 +40,4 @@
         </button>
     </div>
 </form>
+

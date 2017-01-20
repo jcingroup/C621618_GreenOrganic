@@ -8,62 +8,63 @@
 
     //變數設定
 
-    DataTable d_area = (DataTable)ViewData["d_area"];
-    DataTable d_scenic = (DataTable)ViewData["d_scenic"];
-    DataTable d_scenic_img_b = (DataTable)ViewData["d_scenic_img_b"];
-    DataTable d_scenic_img_s = (DataTable)ViewData["d_scenic_img_s"];
-    string scenic_id = "";
-    string area_id = "";
-    string scenic_name = "";
-    string scenic_desc = "";
-    string longitude = "";
-    string latitude = "";
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
+    DataTable d_news = (DataTable)ViewData["d_news"];
+
+    string n_id = "";
+    string lang = "";
+    string n_title = "";
+    string n_desc = "";
+    string n_date = "";
+    string n_url = "";
+    string sort = "";
     string action_sty = (string)ViewData["action_sty"];
     string action_name = "";
     string c_selected = "";
     string c_status = "";
     string c_status_Y = "";
     string c_status_N = "";
-    string small_pic = "";
-    string img_no = "";
-    string img_path = "../Images/";
-    string small_img = "";
-    string big_img = "";
-    string img_id = "";
+    string is_index = "";
+    string is_index_Y = "";
+    string is_index_N = "";
 
-    img_no = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-    if(action_sty == "add")
+    if (action_sty == "add")
     {
         action_name = "新增";
 
-        scenic_id = "";
-        area_id = "";
-        scenic_name = "";
-        longitude = "";
-        latitude = "";
-        scenic_desc = "";
-        small_pic = "";
+        n_id = "";
+        lang = "";
+        n_title = "";
+        n_desc = "";
+        n_date = "";
+        n_url = "";
         c_status = "Y";
         c_status_Y = "checked";
         c_status_N = "";
-
+        is_index = "Y";
+        is_index_Y = "checked";
+        is_index_N = "";
+        sort = "0";
     }
     else if(action_sty == "edit")
     {
         action_name = "修改";
 
-        //d_scenic = (DataTable)ViewData["d_scenic"];
+        //d_news = (DataTable)ViewData["d_news"];
+
         //d_scenic_img_b = (DataTable)ViewData["d_scenic_img_b"];
         //d_scenic_img_s = (DataTable)ViewData["d_scenic_img_s"];
 
-        scenic_id = d_scenic.Rows[0]["_SEQ_ID"].ToString();
-        area_id = d_scenic.Rows[0]["area_id"].ToString();
-        scenic_name = d_scenic.Rows[0]["scenic_name"].ToString();
-        longitude = d_scenic.Rows[0]["longitude"].ToString();
-        latitude = d_scenic.Rows[0]["latitude"].ToString();
-        scenic_desc = d_scenic.Rows[0]["scenic_desc"].ToString();
-        c_status = d_scenic.Rows[0]["status"].ToString();
+        n_id = d_news.Rows[0]["n_id"].ToString();
+        lang = d_news.Rows[0]["lang"].ToString();
+        n_title = d_news.Rows[0]["n_title"].ToString();
+        n_desc = d_news.Rows[0]["n_desc"].ToString();
+        n_date = d_news.Rows[0]["n_date"].ToString();
+        n_url = d_news.Rows[0]["n_url"].ToString();
+        is_index = d_news.Rows[0]["is_index"].ToString();
+        c_status = d_news.Rows[0]["status"].ToString();
+        sort = d_news.Rows[0]["sort"].ToString();
 
         switch (c_status)
         {
@@ -74,6 +75,18 @@
             case "N":
                 c_status_Y = "";
                 c_status_N = "checked";
+                break;
+        }
+
+        switch (is_index)
+        {
+            case "Y":
+                is_index_Y = "checked";
+                is_index_N = "";
+                break;
+            case "N":
+                is_index_Y = "";
+                is_index_N = "checked";
                 break;
         }
     }
@@ -87,165 +100,39 @@
 
 <h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> @action_name</small></h3>
 
-@* 引用 ajaxfileupload *@
-<script src="~/Scripts/ajaxfileupload.js"></script>
 @*1.引用ckeditor.js*@
 <script src="~/ckeditor/ckeditor.js"></script>
 <script>
     function form_ok() {
         form1.submit();
     }
-
-    function del_img(img_id,c_sty)
-    {
-        var cimg_no = "";
-        if ($("#scenic_id").val().length > 0) {
-            cimg_no = $("#scenic_id").val();
-        }else {
-            cimg_no = @img_no;
-        }
-
-        $.ajax({                
-            url: 'Img_Del',
-            data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no  }, //此参数非常严谨，写错一个引号都不行
-            type:"POST",
-            dataType: 'TEXT', //返回值类型 一般设置为json
-            async: false,
-            success: function(JData){
-                //alert(JData);
-                data = handleAjaxVPNMsg(JData);
-                i = 0;
-                c_html = "";
-
-                $.each($.parseJSON(data), function (idx, obj) {
-                    i = i + 1;
-                    c_html = c_html + "<li>";
-                    c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
-                    c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
-                    c_html = c_html + "</li>";
-                });
-
-                $('#c_img_' + c_sty).html(c_html);
-            },
-            error:function(xhr, ajaxOptions, thrownError){ 
-                alert(xhr.status); 
-                alert(thrownError); 
-            },
-            complete: function () {
-                //alert(tbl_new_list);
-                //alert('ajax complete');
-            }
-        });
-        return false;
-    }
-
-    function upload(c_sty)
-    {
-        if ($("#pic_" + c_sty).val().length > 0) {
-            //ajaxFileUpload('pic_small','small_img');
-            ajaxFileUpload(c_sty);
-        }
-        else {
-            alert("請選擇圖片");
-        }
-    }
-
-    function ajaxFileUpload(c_sty) {
-        var cimg_no = "";
-        var c_img = "pic_" + c_sty;
-
-        if ($("#scenic_id").val().length > 0) {
-            cimg_no = $("#scenic_id").val();
-        }else {
-            cimg_no = @img_no;
-        }
-
-        var chtml = "";
-        var i = 0;
-        $.ajaxFileUpload
-        (
-            {
-                url: 'Upload', //用于文件上传的服务器端请求地址
-                type: 'post',
-                data: { img_no: cimg_no, img_sta:c_sty }, //此参数非常严谨，写错一个引号都不行
-                secureuri: false, //一般设置为false
-                //fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
-                fileElementId: c_img, //文件上传空间的id属性  <input type="file" id="file" name="file" />
-                //dataType: 'HTML', //返回值类型 一般设置为json
-                dataType: 'JSON', //返回值类型 一般设置为json
-                success: function (JData, status)  //服务器成功响应处理函数
-                {
-                    //alert(JData);
-
-                    data = handleAjaxVPNMsg(JData);
-
-                    i = 0;
-                    c_html = "";
-                    $.each($.parseJSON(data), function (idx, obj) {
-                        i = i + 1;
-                        c_html = c_html + "<li>";
-                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
-                        c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
-                        c_html = c_html + "</li>";
-                    });
-
-                    $('#c_img_' + c_sty).html(c_html);
-                },
-                error: function (data, status, e)//服务器响应失败处理函数
-                {
-                    alert(e);
-                }
-            }
-        )
-        return false;
-    }
-
-    function handleAjaxVPNMsg(data) {
-        var firstRemoveIndexStart = data.indexOf("<SCRIPT");
-        var firstRemoveIndexEnd = data.indexOf("<\/SCRIPT>");
-        var newData = data;
-        while (firstRemoveIndexStart != -1) {
-            firstRemoveIndexStart = newData.indexOf("<SCRIPT");
-            firstRemoveIndexEnd = newData.indexOf("<\/SCRIPT>");
-            //alert('firstRemoveIndexStart:'+firstRemoveIndexStart);
-            if (firstRemoveIndexStart != -1) {
-                if (firstRemoveIndexStart == 0) {
-                    newData = newData.substr(firstRemoveIndexEnd + 9, newData.length);
-                } else {
-                    newDataHead = newData.substr(0, firstRemoveIndexStart);
-                    newDataTail = newData.substr(firstRemoveIndexEnd + 9, newData.length);
-                    //alert('newDataHead'+newDataHead);
-                    //alert('newDataTail'+newDataTail);
-                    newData = newDataHead + newDataTail;
-                }
-            }
-            //alert(newData);
-        }
-        //alert("before:second:"+newData);
-        var secondeRemoveIndex = newData.indexOf("<\/noscript>");
-        //alert(secondeRemoveIndex);
-        if (secondeRemoveIndex != -1) {
-            newData = newData = newData.substr(0, secondeRemoveIndex);
-        }
-        //alert(newData);
-        return newData;
-    }
 </script>
 
-<form action="Save" class="form form-sm" name="form1" id="form1" method="post" enctype="multipart/form-data" >
+<form action="News_Save" class="form form-sm" name="form1" id="form1" method="post" enctype="multipart/form-data" >
     <input type="hidden" name="action_sty" id="action_sty" value="@action_sty" />
-    <input type="hidden" name="scenic_id" id="scenic_id" value="@scenic_id" />
-    <input type="hidden" name="img_no" id="img_no" value="@img_no" />
-
+    <input type="hidden" name="n_id" id="n_id" value="@n_id" />
+    
     <div class="form-group row">
         <label class="col-xs-1 form-control-label text-xs-right">
             <span class="text-danger">*</span> 語系
         </label>
         <div class="col-xs-5">
-            <select class="form-control form-control-sm" required>
-                <option>繁體中文</option>
-                <option>简体中文</option>
-                <option>English</option>
+            <select class="form-control form-control-sm" id="lang" name="lang">
+                @if (d_lang.Rows.Count > 0)
+                {
+                    for (int i = 0; i < d_lang.Rows.Count; i++)
+                    {
+                        if (d_lang.Rows[i]["lang_id"].ToString() == lang)
+                        {
+                            c_selected = "selected";
+                        }
+                        else
+                        {
+                            c_selected = "";
+                        }
+                        <option value="@d_lang.Rows[i]["lang_id"].ToString()" @c_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+                    }
+                }
             </select>
         </div>
     </div>
@@ -254,7 +141,7 @@
             <span class="text-danger">*</span> 發佈日期
         </label>
         <div class="col-xs-5">
-            <input type="date" class="form-control form-control-sm" required> @* 用 datetimepicker (之類的東西) 選日期 *@
+            <input type="date" class="form-control form-control-sm" required id="n_date" name="n_date" value="@n_date"> @* 用 datetimepicker (之類的東西) 選日期 *@
         </div>
     </div>
     <div class="form-group row">
@@ -262,7 +149,7 @@
             <span class="text-danger">*</span> 標題
         </label>
         <div class="col-xs-5">
-            <input type="text" class="form-control form-control-sm" required>
+            <input type="text" class="form-control form-control-sm" required id="n_title" name="n_title" value="@n_title">
         </div>
     </div>
     <div class="form-group row">
@@ -270,7 +157,7 @@
             <span class="text-danger">*</span> 排序
         </label>
         <div class="col-xs-5">
-            <input type="number" min="0" value="0" class="form-control form-control-sm">
+            <input type="number" min="0" class="form-control form-control-sm" id="sort" name="sort" value="@sort">
         </div>
         <small class="col-xs-6 form-control-label text-muted">數字愈大排在愈上面</small>
     </div>
@@ -297,12 +184,12 @@
         </label>
         <div class="col-xs-6">
             <label class="c-input c-radio">
-                <input type="radio" name="hot" id="hot" value="Y" checked>
+                <input type="radio" name="hot" id="hot" value="Y" @is_index_Y>
                 <span class="c-indicator"></span>
                 <span class="text-sm">顯示在首頁</span>
             </label>
             <label class="c-input c-radio m-r-0">
-                <input type="radio" name="hot" id="hot" value="N">
+                <input type="radio" name="hot" id="hot" value="N" @is_index_N>
                 <span class="c-indicator"></span>
                 <span class="text-sm">不顯示在首頁</span>
             </label>
@@ -318,10 +205,10 @@
         youtube 可勾選「用自適應縮放模式」
     </div>
     @* 編輯器(含圖片上傳功能) *@
-    <textarea class="ckeditor form-control" rows="8" placeholder="請輸入最新消息內容" name="scenic_desc" id="scenic_desc">@scenic_desc</textarea>
+    <textarea class="ckeditor form-control" rows="8" placeholder="請輸入最新消息內容" name="n_desc" id="n_desc">@n_desc</textarea>
     @*加入圖片上傳頁籤，放在頁面底下，放在頁面head區的話，會抓不到myText DOM*@
     <script type="text/javascript">
-        CKEDITOR.replace('scenic_desc'
+        CKEDITOR.replace('n_desc'
     , { filebrowserImageUploadUrl: '@Url.Content("~/Images")' }
     );
     </script>

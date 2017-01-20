@@ -1,9 +1,127 @@
-﻿
+﻿@using System.Data
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.Crumb = "產品資料管理";
     ViewBag.nav = "n1";
     ViewBag.subNav = "n1-1";
+
+    DataTable dt = (DataTable)ViewData["dt"];
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
+    DataTable d_cate = (DataTable)ViewData["d_cate"];
+    int row_count = 0;
+    int page_count = 10;
+    int page = (int)ViewData["page"];
+    int pre_page = 0;
+    int top_page = 0;
+    int next_page = 0;
+    int end_page = 0;
+    int min_row = 0;
+    int max_row = 0;
+    int total_page = 0;
+
+    string prod_id = "";
+    string prod_name = "";
+    string cate_id = "";
+    string cate_name = "";
+    string lang = "";
+    string sort = "";
+    string lang_name = "";
+    string show = "";
+    string show_class = "";
+    string txt_prod_name_query = (string)ViewData["txt_prod_name_query"];
+    string txt_sort = (string)ViewData["txt_sort"];
+    string txt_a_d = (string)ViewData["txt_a_d"];
+    string txt_lang = (string)ViewData["txt_lang"];
+    string txt_cate = (string)ViewData["txt_cate"];
+    string txt_title_query = (string)ViewData["txt_title_query"];
+
+    string lang_selected = "";
+    string cate_selected = "";
+
+    string a_d = "";
+
+    if (txt_a_d == "")
+    {
+        a_d = "asc";
+    }
+    else
+    {
+        a_d = "desc";
+    }
+
+    string class_prod_name = "";
+    string class_lang = "";
+    string class_cate = "";
+    string class_sort = "";
+    string class_status = "";
+
+    switch (txt_sort)
+    {
+        case "prod_name":
+            class_prod_name = a_d;
+            break;
+        case "cate_name":
+            class_cate = a_d;
+            break;
+        case "lang":
+            class_lang = a_d;
+            break;
+        case "sort":
+            class_sort = a_d;
+            break;
+        case "status":
+            class_status = a_d;
+            break;
+    }
+
+    row_count = dt.Rows.Count;
+    if (row_count % page_count > 0)
+    {
+        total_page = (row_count / page_count) + 1;
+    }
+    else
+    {
+        total_page = row_count / page_count;
+    }
+
+    if (page > total_page)
+    {
+        page = total_page;
+    }
+    else if (page < 1)
+    {
+        page = 1;
+    }
+
+    top_page = 1;
+
+    if (page > 1)
+    {
+        pre_page = page - 1;
+    }
+    else
+    {
+        pre_page = 1;
+    }
+
+    if (total_page > page)
+    {
+        next_page = page + 1;
+    }
+    else
+    {
+        next_page = total_page;
+    }
+
+    end_page = total_page;
+
+    min_row = 10 * (page - 1) + 1;
+    max_row = 10 * page;
+    if (max_row > row_count)
+    {
+        max_row = row_count;
+    }
+
 }
 
 @section Breadcrumb {
@@ -17,26 +135,131 @@
     輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
 </div>
 
-<form name="" id="" action="" method="post">
+<script>
+    function form_ok() {
+        form1.submit();
+    }
+
+    function get_cate()
+    {
+        //  取得被選擇項目的值
+        //$("#select").find(":selected").val();
+        var c_lang = $("#txt_lang").find(":selected").val();
+        $.ajax({                
+            url: 'Prod_Cate_Get',
+            data: { lang: c_lang  }, //此参数非常严谨，写错一个引号都不行
+            type:"POST",
+            dataType: 'TEXT', //返回值类型 一般设置为json
+            async: false,
+            success: function(JData){
+                //alert(JData);
+                data = handleAjaxVPNMsg(JData);
+                i = 0;
+                c_html = "";
+
+                //  移除全部的項目
+                $("#txt_cate option").remove();
+                //新增空白
+                $("#txt_cate").append($("<option></option>").attr("value", "").text("全部"));
+
+                $.each($.parseJSON(data), function (idx, obj) {
+                    //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                    $("#txt_cate").append($("<option></option>").attr("value", obj.cate_id).text(obj.cate_name));
+                });
+            },
+            error:function(xhr, ajaxOptions, thrownError){ 
+                alert(xhr.status); 
+                alert(thrownError); 
+            },
+            complete: function () {
+                //alert(tbl_new_list);
+                //alert('ajax complete');
+            }
+        });
+        return false;
+    }
+
+    function handleAjaxVPNMsg(data) {
+        var firstRemoveIndexStart = data.indexOf("<SCRIPT");
+        var firstRemoveIndexEnd = data.indexOf("<\/SCRIPT>");
+        var newData = data;
+        while (firstRemoveIndexStart != -1) {
+            firstRemoveIndexStart = newData.indexOf("<SCRIPT");
+            firstRemoveIndexEnd = newData.indexOf("<\/SCRIPT>");
+            //alert('firstRemoveIndexStart:'+firstRemoveIndexStart);
+            if (firstRemoveIndexStart != -1) {
+                if (firstRemoveIndexStart == 0) {
+                    newData = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                } else {
+                    newDataHead = newData.substr(0, firstRemoveIndexStart);
+                    newDataTail = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                    //alert('newDataHead'+newDataHead);
+                    //alert('newDataTail'+newDataTail);
+                    newData = newDataHead + newDataTail;
+                }
+            }
+            //alert(newData);
+        }
+        //alert("before:second:"+newData);
+        var secondeRemoveIndex = newData.indexOf("<\/noscript>");
+        //alert(secondeRemoveIndex);
+        if (secondeRemoveIndex != -1) {
+            newData = newData = newData.substr(0, secondeRemoveIndex);
+        }
+        //alert(newData);
+        return newData;
+    }
+</script>
+
+<form name="form1" id="form1" action="" method="post">
+    <input type="hidden" id="txt_sort" name="txt_sort" value="@txt_sort" />
+    <input type="hidden" id="txt_a_d" name="txt_a_d" value="@txt_a_d" />
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
                 <label class="text-sm w3-margin-left sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
 
                 <label class="text-sm w3-margin-left">語系</label>
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>繁體中文</option>
-                    <option>简体中文</option>
-                    <option>English</option>
+                <select class="form-control form-control-sm" id="txt_lang" name="txt_lang" onclick="get_cate();">
+                    <option value="">全部</option>
+                    @if (d_lang.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_lang.Rows.Count; i++)
+                        {
+                            if (d_lang.Rows[i]["lang_id"].ToString() == txt_lang)
+                            {
+                                lang_selected = "selected";
+                            }
+                            else
+                            {
+                                lang_selected = "";
+                            }
+                            <option value="@d_lang.Rows[i]["lang_id"].ToString()" @lang_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+                        }
+                    }
                 </select>
 
                 <label class="text-sm w3-margin-left">產品類別</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>大地系列</option>
-                    <option>功能性系列</option>
+                <select class="form-control form-control-sm" name="txt_cate" id="txt_cate">
+                    <option value="">全部</option>
+                    @if (d_cate.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_cate.Rows.Count; i++)
+                        {
+                            if (d_cate.Rows[i]["cate_id"].ToString() == txt_cate)
+                            {
+                                cate_selected = "selected";
+                            }
+                            else
+                            {
+                                cate_selected = "";
+                            }
+
+                            <option value="@d_cate.Rows[i]["cate_id"].ToString()" @cate_selected>@d_cate.Rows[i]["cate_name"].ToString()</option>
+                        }
+
+                    }
                 </select>
             </div>
         </div><!-- table-filter //-->
@@ -54,77 +277,179 @@
                 <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th class="text-xs-center">修改</th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">產品類別</button>
+                    <button class="text-xs-center th-sort-toggle @class_cate" name="btn_cate" id="btn_cate" onclick="sort('cate_name');">產品類別</button>
                 </th>
                 <th>
-                    <button class="th-sort-toggle">產品名稱</button>
-                </th>
-                <th>
-                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle asc">語系</button>
+                    <button class="text-xs-center th-sort-toggle @class_prod_name" name="btn_prod" id="btn_prod" onclick="sort('prod_name');">產品名稱</button>
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle desc">排序</button>
+                    <button class="text-xs-center th-sort-toggle @class_lang" name="btn_lang" id="btn_lang" onclick="sort('lang');">語系</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
+                    @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
+                    <button class="text-xs-center th-sort-toggle @class_sort" name="btn_sort" id="btn_sort" onclick="sort('sort');">排序</button>
+                </th>
+                <th>
+                    <button class="text-xs-center th-sort-toggle @class_status" name="btn_status" id="btn_status" onclick="sort('status');">狀態</button>
                 </th>
             </tr>
         </thead>
         <tbody>
             @* 建議: 1頁10筆資料 *@
-            <tr>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
-                </td>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
-                </td>
-                <td class="text-xs-center">大地系列</td>
-                <td>大地OA 1號</td>
-                <td class="text-xs-center">繁體中文</td>
-                <td class="text-xs-center">10</td>
-                <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
-            </tr>
-            <tr>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
-                </td>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
-                </td>
-                <td class="text-xs-center">大地系列</td>
-                <td>大地OA 1號</td>
-                <td class="text-xs-center">繁體中文</td>
-                <td class="text-xs-center">10</td>
-                <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
-            </tr>
+            @if (dt.Rows.Count > 0)
+            {
+                for (int i = min_row - 1; i < max_row; i++)
+                {
+                    prod_id = dt.Rows[i]["prod_id"].ToString();
+                    prod_name = dt.Rows[i]["prod_name"].ToString();
+                    cate_name = dt.Rows[i]["cate_name"].ToString();
+                    lang_name = dt.Rows[i]["lang_name"].ToString();
+                    sort = dt.Rows[i]["sort"].ToString();
+                    if (dt.Rows[i]["status"].ToString() == "Y")
+                    {
+                        show = "已發佈";
+                        show_class = "label-success";
+                    }
+                    else
+                    {
+                        show = "草稿";
+                        show_class = "label-default";
+                    }
+
+                    <tr>
+                        <td class="text-xs-center">
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Prod_Del?prod_id=" + prod_id)';" class="btn btn-link text-danger oi" data-glyph="trash"></button>
+                        </td>
+                        <td class="text-xs-center">
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Prod_Edit?prod_id=" + prod_id)';" class="btn btn-link oi" data-glyph="pencil"></button>
+                        </td>
+                        <td class="text-xs-center">@cate_name</td>
+                        <td class="text-xs-left">@prod_name</td>
+                        <td class="text-xs-center">@lang_name</td>
+                        <td class="text-xs-center">@sort</td>
+                        <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-xs-left" colspan="7">
+                        無資料
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
     <footer class="table-footer clearfix">
-        <button type="button" onclick="location.href='@Url.Content("~/Manage/ProductData")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/Prod_Add")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
             新增
         </button>
-        <small class="pull-xs-right">第 1-10 筆，共 2 筆</small>
+        <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="" class="oi" data-glyph="media-step-backward"></a>
+                <a href="@Url.Content("~/Manage/ProductList?page=" + top_page.ToString())" class="oi" data-glyph="media-step-backward"></a>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="caret-left"></a>
+                <a href="@Url.Content("~/Manage//ProductList?page=" + pre_page.ToString())" class="oi" data-glyph="caret-left"></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
-                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="1">
-                <label>頁，共 1 頁</label>
+                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="@page">
+                <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="caret-right"></a>
+                <a href="@Url.Content("~/Manage//ProductList?page=" + next_page.ToString())" class="oi" data-glyph="caret-right"></a>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="media-step-forward"></a>
+                <a href="@Url.Content("~/Manage//ProductList?page=" + end_page.ToString())" class="oi" data-glyph="media-step-forward"></a>
             </li>
         </ul>
     </footer>
 </form>
+<script>
+    //$('#page').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
+
+    $('#txt_title_query').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_cate').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    $('#txt_lang').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            document.form1.submit();
+        }
+    });
+
+    function sort(c_sort)
+    {
+        var pre_sort = $('#txt_sort').val();
+        var pre_a_d = $('#txt_a_d').val();
+        var a_d = "";
+        var s_sort = "";
+        var class_a_d = "";
+
+        s_sort = c_sort;
+        if (pre_sort == c_sort) {
+            if (pre_a_d == "") {
+                a_d = "desc";
+            }
+            else {
+                a_d = "";
+            }
+        }
+        else {
+            a_d = "";
+        }
+
+        //alert("pre_sort:" + pre_sort + ";pre_a_d:" + pre_a_d + ";a_d:" + a_d + ";s_sort=" + s_sort)
+
+        $('#txt_sort').val(s_sort);
+        $('#txt_a_d').val(a_d);
+
+        $('#form1').submit();
+
+    }
+
+    //$('#btn_area').click(function (e) {
+    //    var pre_sort = $('#txt_sort').val();
+    //    var pre_a_d = $('#txt_a_d').val();
+    //    var a_d = "";
+    //    var sort = "";
+    //    if(pre_sort == "area")
+    //    {
+    //        if(pre_a_d == "")
+    //        {
+    //            a_d = "desc";
+    //        }
+    //        else
+    //        {
+    //            a_d = "";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        sort = "area";
+    //        a_d = "";
+    //    }
+    //});
+    //$('#page').click(function (e) {
+    //    alert('clicked');
+    //});
+</script>
