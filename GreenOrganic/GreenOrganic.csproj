@@ -593,7 +593,6 @@
     <Content Include="Content\font\openIconic\open-iconic.woff" />
     <Content Include="Content\font\icomoon\icomoon.ttf" />
     <Content Include="Content\font\icomoon\icomoon.woff" />
-    <None Include="Properties\PublishProfiles\Official Web Site.pubxml" />
     <None Include="Properties\PublishProfiles\Server Web Site.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
