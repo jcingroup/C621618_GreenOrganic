@@ -26,13 +26,30 @@
     }
 </script>
 
-<div class="alert alert-warning w3-padding-small text-sm">
+@* <div class="alert alert-warning w3-padding-small text-sm">
     <strong>YouTube注意事項: </strong><br/>
     嵌入連結路徑如圖示 (<a href="/Content/images/sys/youtube.jpg" target="new">點選看圖示</a>)
-</div>
+</div> *@
 
 <form action="IndexVideo_Update" class="form" method="post" name="form1" id="form1">
-    <input type="text" class="form-control m-b-1" placeholder="請在此輸入Youtube嵌入連結路徑..." id="mv" name="mv" value="@mv">
+    @* <input type="text" class="form-control m-b-1" placeholder="請在此輸入Youtube嵌入連結路徑..." id="mv" name="mv" value="@mv"> *@
+
+    <div class="form-group row">
+        <div class="col-xs-6">
+            <input type="file" class="form-control form-control-sm">
+            <small class="text-muted">可上傳 1 部影片，檔案最大不可超過 2 MB</small>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload">上傳</button>
+        </div>
+    </div>
+
+    @* 已上傳需顯示檔名，點選可開啟檔案 *@
+    <div class="form-group row">
+        <div class="col-xs-6">
+            <a href="#" target="new" class="btn btn-sm btn-info oi" data-glyph="document">banner.mp4</a>
+        </div>
+    </div>
 
     <div class="form-action text-xs-center">
         <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm oi" data-glyph="circle-check">
