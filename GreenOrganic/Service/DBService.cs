@@ -250,7 +250,7 @@ namespace Lib.Service
         }
         #endregion
 
-        #region 消息資料 News_Insert
+        #region 消息資料叮 News_Insert
         public string News_Insert(string  n_title= "", string n_date = "", string n_desc = "", string lang = "", string show = "", string hot = "", string sort = "")
         {
             string c_msg = "";
@@ -1231,6 +1231,494 @@ namespace Lib.Service
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@img_no", img_no);
                 cmd.Parameters.AddWithValue("@img_file", img_file);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 國別資料陳列 Country_List
+        public DataTable Country_List(string lang = "", string sort = "", string status = "", string country_query  = "")
+        {
+
+            string[] Array_country_query;
+
+            Array_country_query = country_query.Split(',');
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            csql = "select "
+                 + "  a1.* "
+                 + "from "
+                 + "("
+                 + "select "
+                 + "  a.*,b.lang_name "
+                 + "from "
+                 + "  Country a "
+                 + "left join lang b on a.lang = b.lang_id "
+                 + ") a1 "
+                 + "where "
+                 + "    a1.status <> 'D' ";
+            if (lang.Trim().Length > 0)
+            {
+                csql = csql + "and a1.lang = @lang ";
+            }
+
+            if (country_query.Trim().Length > 0)
+            {
+                csql = csql + " and (";
+                for (int i = 0; i < Array_country_query.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + " or ";
+                    }
+                    csql = csql + " a1.country_name like @str_country_query" + i.ToString() + " ";
+                }
+                csql = csql + ") ";
+            }
+
+            if (sort.Trim().Length > 0)
+            {
+                csql = csql + " order by " + sort + " ";
+            }
+            else
+            {
+                csql = csql + " order by a1.lang, a1.country_id ";
+            }
+
+            cmd.CommandText = csql;
+
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue("@lang", lang);
+            if (country_query.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_country_query.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_country_query" + i.ToString(), "%" + Array_country_query[i] + "%");
+                }
+            }
+
+
+            if (ds.Tables["country"] != null)
+            {
+                ds.Tables["country"].Clear();
+            }
+
+            SqlDataAdapter prod_category_ada = new SqlDataAdapter();
+            prod_category_ada.SelectCommand = cmd;
+            prod_category_ada.Fill(ds, "country");
+            prod_category_ada = null;
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+
+            return ds.Tables["country"];
+        }
+        #endregion
+
+        #region 海外實績 國別資料新增 Country_Add
+        public string Country_Add(string country_name="",string lang="",string show = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into Country(country_name,lang,status) "
+                     + "values(@country_name,@lang,@status)";
+
+                cmd.CommandText = csql;
+
+                ////讓ADO.NET自行判斷型別轉換
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country_name", country_name);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 國別資料更新 Countrty_Update
+        public string Country_Update(string country_id = "",string country_name = "", string lang = "", string show = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  Country "
+                     + "set "
+                     + "  country_name = @country_name "
+                     + ", lang = @lang "
+                     + ", status = @status "
+                     + ", _UPD_ID = 'System' "
+                     + ", _UPD_DT = getdate() "
+                     + "where "
+                     + "  country_id = @country_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country_id", country_id);
+                cmd.Parameters.AddWithValue("@country_name", country_name);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 國別資料刪除 Country_Del
+        public string Country_Del(string country_id = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from "
+                     + "  country "
+                     + "where "
+                     + "  country_id = @country_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country_id", country_id);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 區域資料陳列 Area_List
+        public DataTable Area_List(string lang = "",string country = "", string sort = "", string status = "", string txt_query = "")
+        {
+
+            string[] Array_txt_query;
+
+            Array_txt_query = txt_query.Split(',');
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            csql = "select "
+                 + "  a1.* "
+                 + "from "
+                 + "("
+                 + "select "
+                 + "  a.*,b.lang_name,c.country_name "
+                 + "from "
+                 + "  Area a "
+                 + "left join lang b on a.lang = b.lang_id "
+                 + "left join country c on a.country_id = c.country_id "
+                 + ") a1 "
+                 + "where "
+                 + "    a1.status <> 'D' ";
+            if (lang.Trim().Length > 0)
+            {
+                csql = csql + "and a1.lang = @lang ";
+            }
+
+            if (lang.Trim().Length > 0)
+            {
+                csql = csql + "and a1.lang = @lang ";
+            }
+
+            if (txt_query.Trim().Length > 0)
+            {
+                csql = csql + " and (";
+                for (int i = 0; i < Array_txt_query.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + " or ";
+                    }
+                    csql = csql + " a1.country_name like @str_txt_query" + i.ToString() + " ";
+                    csql = csql + " or ";
+                    csql = csql + " a1.area_name like @str_txt_query" + i.ToString() + " ";
+
+                }
+                csql = csql + ") ";
+            }
+
+            if (sort.Trim().Length > 0)
+            {
+                csql = csql + " order by " + sort + " ";
+            }
+            else
+            {
+                csql = csql + " order by a1.lang, a1.country_id,a1.area_id ";
+            }
+
+            cmd.CommandText = csql;
+
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue("@lang", lang);
+            if (txt_query.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_txt_query.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_txt_query" + i.ToString(), "%" + Array_txt_query[i] + "%");
+                }
+            }
+
+
+            if (ds.Tables["area"] != null)
+            {
+                ds.Tables["area"].Clear();
+            }
+
+            SqlDataAdapter prod_category_ada = new SqlDataAdapter();
+            prod_category_ada.SelectCommand = cmd;
+            prod_category_ada.Fill(ds, "area");
+            prod_category_ada = null;
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+
+            return ds.Tables["area"];
+        }
+        #endregion
+
+        #region 海外實績 區域資料新增 Area_Add
+        public string Area_Add(string area_name = "", string lang = "",string country_id = "", string show = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into Area(area_name,lang,country_id,status) "
+                     + "values(@area_name,@lang,@country_id,@status)";
+
+                cmd.CommandText = csql;
+
+                ////讓ADO.NET自行判斷型別轉換
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@area_name", area_name);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@country_id", country_id);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 區域資料更新 Area_Update
+        public string Area_Update(string area_id = "", string area_name = "", string lang = "",string country_id = "", string show = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  Area "
+                     + "set "
+                     + "  area_name = @area_name "
+                     + ", lang = @lang "
+                     + ", country_id = @country_id "
+                     + ", status = @status "
+                     + ", _UPD_ID = 'System' "
+                     + ", _UPD_DT = getdate() "
+                     + "where "
+                     + "  area_id = @area_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@area_id", area_id);
+                cmd.Parameters.AddWithValue("@country_id", country_id);
+                cmd.Parameters.AddWithValue("@area_name", area_name);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 國別資料刪除 Area_Del
+        public string Area_Del(string area_id = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from "
+                     + "  area "
+                     + "where "
+                     + "  area_id = @area_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@area_id", area_id);
 
                 cmd.ExecuteNonQuery();
             }

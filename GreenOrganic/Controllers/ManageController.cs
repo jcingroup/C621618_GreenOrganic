@@ -494,16 +494,198 @@ namespace GreenOrganic.Controllers
         }
 
         #region 海外實績
-        // 海外實績
-        public ActionResult ResultsKind1()
+
+        public ActionResult ResultsKind1(string txt_country_query="", int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "",string action_sty = "",string country_id = "")
         {
-            DataTable d_lang = DB.Lang_List();
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch(action_sty)
+            {
+                case "del":
+                    DB.Country_Del(country_id);
+                    action_sty = "";
+                    break;
+            }
+
+            //抓取產品資料
+            dt = DB.Country_List(txt_lang,c_sort,"",txt_country_query);
+            d_lang = DB.Lang_List("");
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["txt_country_query"] = txt_country_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = action_sty;
+            ViewData["country_id"] = country_id;
+
             return View();
         }
-        public ActionResult ResultsKind2()
+
+        public ActionResult ResultsKind1_Save(string txt_country_query, int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string action_sty = "", string country_id = "",string country_name = "",string lang="", string show = "")
         {
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch(action_sty)
+            {
+                case "add":
+                    DB.Country_Add(country_name,lang,show);
+                    break;
+                case "edit":
+                    DB.Country_Update(country_id, country_name, lang, show);
+                    break;
+            }
+
+
+            //抓取海外實績-國家資料
+            dt = DB.Country_List(txt_lang);
+            d_lang = DB.Lang_List("");
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["txt_country_query"] = txt_country_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = "";
+            ViewData["txt_country_id"] = "";
+
+            return View("ResultsKind1");
+        }
+
+        public ActionResult ResultsKind2(string txt_title_query = "", int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string txt_country = "",string action_sty = "", string area_id = "")
+        {
+
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+            DataTable d_country;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch (action_sty)
+            {
+                case "del":
+                    DB.Area_Del(area_id);
+                    action_sty = "";
+                    break;
+            }
+
+            //抓取產品資料
+            dt = DB.Area_List(txt_lang,txt_country, c_sort, "", txt_title_query);
+            d_lang = DB.Lang_List("");
+            d_country = DB.Country_List(txt_lang);
+           
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_country"] = d_country;
+            ViewData["txt_title_query"] = txt_title_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_country"] = txt_country;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = action_sty;
+            ViewData["area_id"] = area_id;
+
             return View();
         }
+
+        public ActionResult ResultsKind2_Save(string txt_title_query, int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string txt_country = "", string action_sty = "", string area_id = "", string area_name = "", string lang = "", string country = "",string show = "")
+        {
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+            DataTable d_country;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch (action_sty)
+            {
+                case "add":
+                    DB.Area_Add(area_name, lang, country, show);
+                    break;
+                case "edit":
+                    DB.Area_Update(area_id, area_name, lang, country, show);
+                    break;
+            }
+
+
+            //抓取海外實績-國家資料
+            dt = DB.Area_List(txt_lang, txt_country, c_sort, "", txt_title_query);
+            d_lang = DB.Lang_List("");
+            d_country = DB.Country_List(txt_lang);
+
+            //抓取產品資料
+            dt = DB.Area_List(txt_lang, txt_country, c_sort, "", txt_title_query);
+            d_lang = DB.Lang_List("");
+            d_country = DB.Country_List(txt_lang);
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_country"] = d_country;
+            ViewData["txt_title_query"] = txt_title_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_country"] = txt_country;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = "";
+            ViewData["area_id"] = area_id;
+            return View("ResultsKind2");
+        }
+
         public ActionResult ResultsPair()
         {
             return View();
@@ -516,6 +698,19 @@ namespace GreenOrganic.Controllers
         {
             return View();
         }
+
+        #region 國家資料取得 Country_Get
+        public ActionResult Country_Get(string lang)
+        {
+            string str_return = "";
+            DataTable Country;
+            Country = DB.Country_List(lang);
+            str_return = JsonConvert.SerializeObject(Country, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
         #endregion
 
         #region 產品
