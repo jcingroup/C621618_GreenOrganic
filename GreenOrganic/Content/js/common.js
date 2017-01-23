@@ -5,10 +5,17 @@
 //     }, 750);
 //     event.preventDefault();
 // });
-// $('.goTop').click(function(event) {
-//     $('body, html').stop(true).animate({scrollTop:0},750);
-//     event.preventDefault();
-// });
+$(window).scroll(function () {
+	if ($(this).scrollTop() > 100) {
+		$('.goTop').fadeIn();
+	} else {
+		$('.goTop').fadeOut();
+	}
+});
+$('.goTop').click(function(e) {
+    $('body, html').stop(true).animate({scrollTop:0},750);
+    e.preventDefault();
+});
 
 
 // 縮放特效
