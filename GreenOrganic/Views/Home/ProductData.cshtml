@@ -8,8 +8,7 @@
 @section scripts {
     <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
     <script>
-        $('.popup-link').click(function(e){
-            e.preventDefault();
+        $('.popup-link').click(function(){
             var hash = $(this).attr("href"); // get hash tag
             var link = $(this).data("link"); // get actural link
             $.ajax({
@@ -21,10 +20,10 @@
                             src: data
                         },
                         callbacks: {
-                            open: function() {
-                                window.location.href = window.location.href + hash;
-                                // add hash tag in the url after opened
-                            },
+                            // open: function() {
+                            //     window.location.href = window.location.href + hash;
+                            //     // add hash tag in the url after opened
+                            // },
                             close: function() {
                                 window.location.href = window.location.href.replace(hash,'');
                                 // remove hash tag in the url after closed
@@ -121,7 +120,7 @@
         <h2 class="h2">本產品應用海外實績</h2>
 
         <div class="related-item row row-center">
-            <div class="col-xs-3">
+            <div class="col-12 col-xs-6 col-md-3">
                 <article class="img-thumbnail">
                     <img src="http://lorempixel.com/530/335/" alt="">
                     <div class="article-content">
@@ -131,7 +130,7 @@
                     </div>
                 </article>
             </div>
-            <div class="col-xs-3">
+            <div class="col-12 col-xs-6 col-md-3">
                 <article class="img-thumbnail">
                     <img src="http://lorempixel.com/600/600/" alt="">
                     <div class="article-content">
@@ -141,7 +140,7 @@
                     </div>
                 </article>
             </div>
-            <div class="col-xs-3">
+            <div class="col-12 col-xs-6 col-md-3">
                 <article class="img-thumbnail">
                     <img src="http://lorempixel.com/500/800/" alt="">
                     <div class="article-content">
@@ -151,7 +150,7 @@
                     </div>
                 </article>
             </div>
-            <div class="col-xs-3">
+            <div class="col-12 col-xs-6 col-md-3">
                 <article class="img-thumbnail">
                     <img src="http://lorempixel.com/800/500/" alt="">
                     <div class="article-content">

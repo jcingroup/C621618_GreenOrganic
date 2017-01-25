@@ -60,14 +60,6 @@
 
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     <script src="~/Content/js/common.js"></script>
-    <script>
-        $(".goTop").click(function (e) {
-            e.preventDefault();
-            $('html, body').animate({
-                scrollTop: $($.attr(this, 'href')).offset().top
-            }, 1000);
-        });
-    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
