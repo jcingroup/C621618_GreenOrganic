@@ -31,7 +31,7 @@
     string prod_name = "";
     string lang = "";
     string lang_name = "";
-    
+
     string txt_sort = (string)ViewData["txt_sort"];
     string txt_a_d = (string)ViewData["txt_a_d"];
     string txt_lang = (string)ViewData["txt_lang"];
@@ -313,6 +313,8 @@
                         }
                     }
                 </select>
+
+                <button class="btn btn-sm btn-primary oi" data-glyph="magnifying-glass">查詢</button>
             </div>
         </div><!-- table-filter //-->
     </header>
@@ -468,7 +470,7 @@
                     </td>
                 </tr>
             }
-           
+
             @* 按下新增時顯示 *@
             @if (action_sty == "add")
             {
