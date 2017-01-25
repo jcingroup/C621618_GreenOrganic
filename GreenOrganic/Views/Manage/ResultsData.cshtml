@@ -1,9 +1,111 @@
-﻿
+﻿@using System.Data
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.Crumb = "海外實績專案管理";
     ViewBag.nav = "n2";
     ViewBag.subNav = "n2-3";
+
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
+    DataTable d_country = (DataTable)ViewData["d_country"];
+    DataTable d_area = (DataTable)ViewData["d_area"];
+    DataTable d_img = (DataTable)ViewData["d_img"];
+    DataTable d_proj = (DataTable)ViewData["d_proj"];
+
+    string proj_id = "";
+    string lang = "";
+    string country = "";
+    string area = "";
+    string proj_name = "";
+    string plant_name = "";
+    string proj_short_desc = "";
+    string proj_desc = "";
+    string sort = "";
+    string action_sty = (string)ViewData["action_sty"];
+    string action_name = "";
+    string lang_selected = "";
+    string country_selected = "";
+    string area_selected = "";
+    string c_status = "";
+    string c_status_Y = "";
+    string c_status_N = "";
+    string is_index = "";
+    string is_index_Y = "";
+    string is_index_N = "";
+    string small_pic = "";
+    string img_no = "";
+    string img_path = "../Images/";
+    string small_img = "";
+    string big_img = "";
+    string img_id = "";
+
+    img_no = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+    if (action_sty == "add")
+    {
+        action_name = "新增";
+
+        proj_id = "";
+        proj_name = "";
+        proj_short_desc = "";
+        proj_desc = "";
+        small_pic = "";
+        lang = "";
+        country = "";
+        area = "";
+        plant_name = "";
+
+        c_status = "Y";
+        c_status_Y = "checked";
+        c_status_N = "";
+
+        is_index = "Y";
+        is_index_Y = "checked";
+        is_index_N = "";
+        sort = "0";
+
+    }
+    else if (action_sty == "edit")
+    {
+        action_name = "修改";
+
+
+        proj_id = d_proj.Rows[0]["proj_id"].ToString();
+        proj_name = d_proj.Rows[0]["proj_name"].ToString();
+        proj_desc = d_proj.Rows[0]["proj_desc"].ToString();
+        proj_short_desc = d_proj.Rows[0]["proj_short_desc"].ToString();
+        c_status = d_proj.Rows[0]["status"].ToString();
+        sort = d_proj.Rows[0]["sort"].ToString();
+        lang = d_proj.Rows[0]["lang"].ToString();
+        country = d_proj.Rows[0]["country_id"].ToString();
+        area = d_proj.Rows[0]["area_id"].ToString();
+        is_index = d_proj.Rows[0]["is_index"].ToString();
+        plant_name = d_proj.Rows[0]["plant_name"].ToString();
+
+        switch (c_status)
+        {
+            case "Y":
+                c_status_Y = "checked";
+                c_status_N = "";
+                break;
+            case "N":
+                c_status_Y = "";
+                c_status_N = "checked";
+                break;
+        }
+
+        switch (is_index)
+        {
+            case "Y":
+                is_index_Y = "checked";
+                is_index_N = "";
+                break;
+            case "N":
+                is_index_Y = "";
+                is_index_N = "checked";
+                break;
+        }
+    }
+
 }
 
 @section IncludeCSS {
@@ -15,6 +117,13 @@
        用在種植物名稱
     *@
     <script src="~/Content/js/bootstrap/tagsinput.js"></script>
+@* 引用 ajaxfileupload *@
+<script src="~/Scripts/ajaxfileupload.js"></script>
+@*1.引用ckeditor.js*@
+<script src="~/ckeditor/ckeditor.js"></script>
+@* 引用 ajax_lib *@
+<script src="~/Scripts/ajax_lib.js"></script>
+
     <script>
         // 頁籤切換
         var tab = $('.js-tab');
@@ -27,6 +136,262 @@
             $(this).toggleClass('active');
             tab.not(this).removeClass('active');
         });
+
+        function form_ok() {
+            var c_msg = "";
+            var c_lang = $("#lang").find(":selected").val();
+            var c_country = $("#country").find(":selected").val();
+            var c_area = $("#area").find(":selected").val();
+            var proj_name = $("#proj_name").val();
+            var plant_name = $("#plant_name").val();
+
+            if(c_lang == "")
+            {
+                if(c_msg.length > 0)
+                {
+                    c_msg = c_msg + "\n";
+                }
+                c_msg = c_msg + "請選擇語系";
+            }
+
+            if(c_country == "")
+            {
+                if(c_msg.length > 0)
+                {
+                    c_msg = c_msg + "\n";
+                }
+                c_msg = c_msg + "請選擇國別";
+            }
+
+            if(c_area == "")
+            {
+                if(c_msg.length > 0)
+                {
+                    c_msg = c_msg + "\n";
+                }
+                c_msg = c_msg + "請選擇省份";
+            }
+
+            if(proj_name == "")
+            {
+                if(c_msg.length > 0)
+                {
+                    c_msg = c_msg + "\n";
+                }
+                c_msg = c_msg + "請填入專案名稱";
+            }
+            if(plant_name == "")
+            {
+                if(c_msg.length > 0)
+                {
+                    c_msg = c_msg + "\n";
+                }
+                c_msg = c_msg + "請填入種植物名稱";
+            }
+
+            if(c_msg == "")
+            {
+                form1.submit();
+            }
+            else
+            {
+                alert(c_msg);
+            }
+            
+        }
+
+        function get_country(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            //alert("12345");
+
+            var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+            $.ajax({
+                url: 'Country_Get',
+                data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "country option").remove();
+                    $("#" + c_pre + "area option").remove();
+
+                    //新增空白
+
+                    $("#" + c_pre + "country").append($("<option></option>").attr("value", "").text(""));
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "country").append($("<option></option>").attr("value", obj.country_id).text(obj.country_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+
+            //area
+            $("#" + c_pre + "country")[0].selectedIndex = 0; //選取第二個欄位 單位B (索引從0開始)
+            get_area('');
+            return false;
+        }
+
+        function get_area(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+            var c_country = $("#" + c_pre + "country").find(":selected").val();
+            //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+            $.ajax({
+                url: 'Area_Get',
+                data: { lang: c_lang, country: c_country }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "area option").remove();
+
+                    //新增空白
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text(""));
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+        function del_img(img_id,c_sty)
+        {
+            var cimg_no = "";
+            var c_cate = "Proj"
+            if ($("#proj_id").val().length > 0) {
+                cimg_no = $("#proj_id").val();
+            }else {
+                cimg_no = @img_no;
+            }
+
+            $.ajax({                
+                url: 'Img_Del',
+                data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no,img_cate: c_cate  }, //此参数非常严谨，写错一个引号都不行
+                type:"POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function(JData){
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        i = i + 1;
+                        c_html = c_html + "<li>";
+                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.img_id + "','" + c_sty + "');\" >&times;</button>";
+                        c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
+                        c_html = c_html + "</li>";
+                    });
+
+                    $('#c_img_' + c_sty).html(c_html);
+                },
+                error:function(xhr, ajaxOptions, thrownError){ 
+                    alert(xhr.status); 
+                    alert(thrownError); 
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+        function upload(c_sty)
+        {
+            if ($("#pic_" + c_sty).val().length > 0) {
+                //ajaxFileUpload('pic_small','small_img');
+                ajaxFileUpload(c_sty);
+            }
+            else {
+                alert("請選擇圖片");
+            }
+        }
+
+        function ajaxFileUpload(c_sty) {
+            var cimg_no = "";
+            var c_img = "pic_" + c_sty;
+            var c_cate = "Proj"
+
+            if ($("#proj_id").val().length > 0) {
+                cimg_no = $("#proj_id").val();
+            }else {
+                cimg_no = @img_no;
+            }
+
+            var chtml = "";
+            var i = 0;
+            $.ajaxFileUpload
+            (
+                {
+                    url: 'Upload', //用于文件上传的服务器端请求地址
+                    type: 'post',
+                    data: { img_no: cimg_no, img_sta:c_sty,img_cate: c_cate}, //此参数非常严谨，写错一个引号都不行
+                    secureuri: false, //一般设置为false
+                    //fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    fileElementId: c_img, //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    //dataType: 'HTML', //返回值类型 一般设置为json
+                    dataType: 'JSON', //返回值类型 一般设置为json
+                    success: function (JData, status)  //服务器成功响应处理函数
+                    {
+                        //alert(JData);
+
+                        data = handleAjaxVPNMsg(JData);
+
+                        i = 0;
+                        c_html = "";
+                        $.each($.parseJSON(data), function (idx, obj) {
+                            i = i + 1;
+                            c_html = c_html + "<li>";
+                            c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.img_id + "','" + c_sty + "');\" >&times;</button>";
+                            c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
+                            c_html = c_html + "</li>";
+                        });
+
+                        $('#c_img_' + c_sty).html(c_html);
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+            )
+            return false;
+        }
     </script>
 }
 
@@ -37,17 +402,58 @@
 
 <h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
 
-<form class="form form-sm">
+<form class="form form-sm" name="form1" id="form1" method="post" action="Proj_Save" enctype="multipart/form-data">
+    <input type="hidden" name="action_sty" id="action_sty" value="@action_sty" />
+    <input type="hidden" name="proj_id" id="proj_id" value="@proj_id" />
+    <input type="hidden" name="img_no" id="img_no" value="@img_no" />
     <section class="col-xs-6 m-b-1">
         <div class="form-group row">
             <label class="col-xs-2 form-control-label text-xs-right">
                 <span class="text-danger">*</span> 語系
             </label>
             <div class="col-xs-10">
-                <select class="form-control form-control-sm" required>
-                    <option>繁體中文</option>
-                    <option>简体中文</option>
-                    <option>English</option>
+                <select class="form-control form-control-sm" id="lang" name="lang" onchange="get_country('');">
+                    <option value="" ></option>
+                    @if (d_lang.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_lang.Rows.Count; i++)
+                        {
+                            if (d_lang.Rows[i]["lang_id"].ToString() == lang)
+                            {
+                                lang_selected = "selected";
+                            }
+                            else
+                            {
+                                lang_selected = "";
+                            }
+                            <option value="@d_lang.Rows[i]["lang_id"].ToString()" @lang_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-2 form-control-label text-xs-right">
+                <span class="text-danger">*</span> 國別
+            </label>
+            <div class="col-xs-10">
+                <select class="form-control form-control-sm" id="country" name="country" onchange="get_area('');">
+                    <option value=""></option>
+                    @if (d_country.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_country.Rows.Count; i++)
+                        {
+                            if (d_country.Rows[i]["country_id"].ToString() == country)
+                            {
+                                country_selected = "selected";
+                            }
+                            else
+                            {
+                                country_selected = "";
+                            }
+                            <option value="@d_country.Rows[i]["country_id"].ToString()" @country_selected>@d_country.Rows[i]["country_name"].ToString()</option>
+                        }
+                    }
                 </select>
             </div>
         </div>
@@ -56,16 +462,23 @@
                 <span class="text-danger">*</span> 地區分類
             </label>
             <div class="col-xs-10">
-                <select class="form-control form-control-sm" required>
-                    <optgroup label="中國">
-                        <option>蘇州</option>
-                        <option>雲南昆明</option>
-                        <option>寧夏</option>
-                    </optgroup>
-                    <optgroup label="柬埔寨">
-                        <option>寨磅針</option>
-                        <option>干拉</option>
-                    </optgroup>
+                <select class="form-control form-control-sm" id="area" name="area" >
+                    <option value=""></option>
+                    @if (d_area.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_area.Rows.Count; i++)
+                        {
+                            if (d_area.Rows[i]["area_id"].ToString() == area)
+                            {
+                                area_selected = "selected";
+                            }
+                            else
+                            {
+                                area_selected = "";
+                            }
+                            <option value="@d_area.Rows[i]["area_id"].ToString()" @area_selected>@d_area.Rows[i]["area_name"].ToString()</option>
+                        }
+                    }
                 </select>
             </div>
         </div>
@@ -74,7 +487,7 @@
                 <span class="text-danger">*</span> 專案名稱
             </label>
             <div class="col-xs-10">
-                <input type="text" class="form-control form-control-sm" required>
+                <input type="text" class="form-control form-control-sm" name="proj_name" id="proj_name" value="@proj_name" >
             </div>
         </div>
         <div class="form-group row">
@@ -82,7 +495,7 @@
                 <span class="text-danger">*</span> 種植物名稱
             </label>
             <div class="col-xs-10">
-                <input type="text" data-role="tagsinput" placeholder="輸入名稱後按Enter..." >
+                <input type="text" data-role="tagsinput" placeholder="輸入名稱後按Enter..." name="plant_name" id="plant_name" value="@plant_name" >
             </div>
         </div>
         @* 目前隱藏，若客戶有需求再製作
@@ -100,26 +513,26 @@
             </div>
         </div> *@
         <div class="form-group row">
-            <label class="col-xs-2 form-control-label text-xs-right">
+            <label class="col-xs-3 form-control-label text-xs-right">
                 排序
             </label>
-            <div class="col-xs-10">
-                <input type="number" min="0" value="0" class="form-control form-control-sm">
+            <div class="col-xs-9">
+                <input type="number" min="0" class="form-control form-control-sm" required id="sort" name="sort" value="@sort">
                 <small class="text-muted">數字愈大排在愈上面</small>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-xs-2 form-control-label text-xs-right">
+            <label class="col-xs-3 form-control-label text-xs-right">
                 狀態
             </label>
-            <div class="col-xs-10">
+            <div class="col-xs-9">
                 <label class="c-input c-radio">
-                    <input type="radio" name="show" id="show" value="Y" checked>
+                    <input type="radio" name="show" id="show" value="Y" @c_status_Y>
                     <span class="c-indicator"></span>
                     <span class="text-sm">發佈</span>
                 </label>
                 <label class="c-input c-radio m-r-0">
-                    <input type="radio" name="show" id="show" value="N">
+                    <input type="radio" name="show" id="show" value="N" @c_status_N>
                     <span class="c-indicator"></span>
                     <span class="text-sm">草稿</span>
                 </label>
@@ -131,12 +544,12 @@
             </label>
             <div class="col-xs-10">
                 <label class="c-input c-radio">
-                    <input type="radio" name="hot" id="hot" value="Y" checked>
+                    <input type="radio" name="hot" id="hot" value="Y" @is_index_Y>
                     <span class="c-indicator"></span>
                     <span class="text-sm">顯示在首頁</span>
                 </label>
                 <label class="c-input c-radio m-r-0">
-                    <input type="radio" name="hot" id="hot" value="N">
+                    <input type="radio" name="hot" id="hot" value="N" @is_index_N>
                     <span class="c-indicator"></span>
                     <span class="text-sm">不顯示在首頁</span>
                 </label>
@@ -150,17 +563,23 @@
             </label>
             <div class="col-xs-10">
                 @* 瀏覽&上傳檔案 *@
-                <input type="file" name="pic_S" id="pic_S" accept="image/*" class="form-control form-control-sm">
-                <button type="button" name="btn_small_pic" onclick="upload('S');" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload">
+                <input type="file" name="pic_B" id="pic_B" accept="image/*" class="form-control form-control-sm">
+                <button type="button" name="btn_big_pic" onclick="upload('B');" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload">
                     上傳
                 </button>
                 <br>
                 @* 照片縮圖(上傳圖片後顯示) *@
-                <ol class="upload-img list-inline" id="c_img_S" name="c_img_small">
-                    <li>
-                        <button type="button" class="close text-sm" title="按此刪除">&#10005;</button>
-                        <img src="" alt="">
-                    </li>
+                <ol class="upload-img list-inline" id="c_img_B" name="c_img_big">
+                    @for (int b = 0; b < d_img.Rows.Count; b++)
+                    {
+                        big_img = img_path + d_img.Rows[b]["img_file"].ToString();
+                        img_id = d_img.Rows[b]["img_id"].ToString();
+                        <li>
+                            <button class="close text-sm" id="btn_close_B_@b" name="btn_close_B_@b" onclick="del_img('@img_id','B');"  title="按此刪除">&times;</button>
+                            <img id="img_B_@b" name="img_B_@b" src="@big_img" alt="">
+                        </li>
+                    }
+
                 </ol>
                 <small class="text-muted">可上傳多張照片，建議尺寸為 795px*503px 或等比例長寬，每張圖最大不可超過 500kb</small>
             </div>
@@ -182,18 +601,19 @@
         <div class="tab-content">
             <article id="tab1" class="tab-pane active">
                 @* 編輯器(無圖檔上傳 configMin.js) *@
-                <textarea class="form-control" rows="8">
-使用期間：五個月
-使用前：收成數量不滿意
-使用後：水洗
-焙度：
-1. 提高產品，成長時間縮短，加強香菇顏色深度及Q度和香味
-2. 產量增加60%,香菇增大50%,增加太空包收成期40%
+                <textarea class="ckeditor form-control" rows="8" id="proj_short_desc" name="proj_short_desc">@proj_short_desc
                 </textarea>
             </article>
             <article id="tab2" class="tab-pane">
                 @* 編輯器(含圖檔上傳 config.js) *@
-                <textarea class="form-control" rows="15" placeholder="請輸入海外實績內容"></textarea>
+                <textarea class="ckeditor form-control" rows="15" placeholder="請輸入海外實績內容" id="proj_desc" name="proj_desc">
+                    @proj_desc
+                </textarea>
+                <script type="text/javascript">
+                        CKEDITOR.replace('proj_desc'
+                    , { filebrowserImageUploadUrl: '@Url.Content("~/Images")' }
+                    );
+                </script>
             </article>
         </div><!-- tab-content //-->
     </section>
@@ -207,3 +627,12 @@
         </button>
     </div>
 </form>
+
+<script>
+    $('#plant_name').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            //$('#form1').submit();
+        }
+    });
+</script>

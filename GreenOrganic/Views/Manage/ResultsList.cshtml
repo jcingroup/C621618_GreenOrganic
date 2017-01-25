@@ -1,9 +1,139 @@
-﻿
+﻿@using System.Data
 @{
     Layout = "~/Views/Shared/_LayoutManage.cshtml";
     ViewBag.Crumb = "海外實績專案管理";
     ViewBag.nav = "n2";
     ViewBag.subNav = "n2-3";
+
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
+    DataTable dt = (DataTable)ViewData["dt"];
+    DataTable d_country = (DataTable)ViewData["d_country"];
+    DataTable d_area = (DataTable)ViewData["d_area"];
+
+    int row_count = 0;
+    int page_count = 10;
+    int page = (int)ViewData["page"];
+    int pre_page = 0;
+    int top_page = 0;
+    int next_page = 0;
+    int end_page = 0;
+    int min_row = 0;
+    int max_row = 0;
+    int total_page = 0;
+
+    string proj_id = "";
+    string proj_name = "";
+    string n_sort = "";
+    string is_index = "";
+    string area_name = "";
+    string country_name = "";
+    string plant_name = "";
+    string lang = "";
+    string lang_name = "";
+    string show = "";
+    string show_class = "";
+    string txt_sort = (string)ViewData["txt_sort"];
+    string txt_a_d = (string)ViewData["txt_a_d"];
+    string txt_lang = (string)ViewData["txt_lang"];
+    string txt_title_query = (string)ViewData["txt_title_query"];
+    string txt_country = (string)ViewData["txt_country"];
+    string txt_area = (string)ViewData["txt_area"];
+
+
+    string lang_selected = "";
+    string country_selected = "";
+    string area_selected = "";
+
+    string a_d = "";
+
+    if (txt_a_d == "")
+    {
+        a_d = "asc";
+    }
+    else
+    {
+        a_d = "desc";
+    }
+
+    string class_country = "";
+    string class_lang = "";
+    string class_status = "";
+    string class_area = "";
+    string class_sort = "";
+    string class_index = "";
+
+
+    switch (txt_sort)
+    {
+        case "country_name":
+            class_country = a_d;
+            break;
+        case "lang":
+            class_lang = a_d;
+            break;
+        case "status":
+            class_status = a_d;
+            break;
+        case "area_name":
+            class_area = a_d;
+            break;
+        case "sort":
+            class_sort = a_d;
+            break;
+        case "is_index":
+            class_index = a_d;
+            break;
+    }
+
+    row_count = dt.Rows.Count;
+    if (row_count % page_count > 0)
+    {
+        total_page = (row_count / page_count) + 1;
+    }
+    else
+    {
+        total_page = row_count / page_count;
+    }
+
+    if (page > total_page)
+    {
+        page = total_page;
+    }
+    else if (page < 1)
+    {
+        page = 1;
+    }
+
+    top_page = 1;
+
+    if (page > 1)
+    {
+        pre_page = page - 1;
+    }
+    else
+    {
+        pre_page = 1;
+    }
+
+    if (total_page > page)
+    {
+        next_page = page + 1;
+    }
+    else
+    {
+        next_page = total_page;
+    }
+
+    end_page = total_page;
+
+    min_row = 10 * (page - 1) + 1;
+    max_row = 10 * page;
+    if (max_row > row_count)
+    {
+        max_row = row_count;
+    }
+
+
 }
 
 @section Breadcrumb {
@@ -18,33 +148,183 @@
     輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
 </div>
 
+@* 引用 ajax_lib *@
+<script src="~/Scripts/ajax_lib.js"></script>
+<script>
+    function form_ok() {
+        //form1.submit();
+        $('#form1').submit();
+    }
+
+    function form_action(c_val,c_action,action_url)
+    {
+
+        $('#action_sty').val(c_action);
+        $('#area_id').val(c_val);
+
+                if (action_url.length > 0)
+                {
+            $("#form1").attr("action", action_url);
+                }
+                else
+                {
+            $("#form1").attr("action", '@Url.Content("~/Manage/ResultsKind2")');
+                }
+
+                form_ok();
+    }
+
+    function get_country(c_pre) {
+        //  取得被選擇項目的值
+        //$("#select").find(":selected").val();
+        var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+        $.ajax({
+            url: 'Country_Get',
+            data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
+            type: "POST",
+            dataType: 'TEXT', //返回值类型 一般设置为json
+            async: false,
+            success: function (JData) {
+                //alert(JData);
+                data = handleAjaxVPNMsg(JData);
+                i = 0;
+                c_html = "";
+
+                //  移除全部的項目
+                $("#" + c_pre + "country option").remove();
+                $("#" + c_pre + "area option").remove();
+
+                //新增空白
+                if (c_pre == "txt_")
+                {
+                    $("#" + c_pre + "country").append($("<option></option>").attr("value", "").text("全部"));
+                }
+
+                $.each($.parseJSON(data), function (idx, obj) {
+                    //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                    $("#" + c_pre + "country").append($("<option></option>").attr("value", obj.country_id).text(obj.country_name));
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            complete: function () {
+                //alert(tbl_new_list);
+                //alert('ajax complete');
+            }
+        });
+        return false;
+    }
+
+    function get_area(c_pre) {
+        //  取得被選擇項目的值
+        //$("#select").find(":selected").val();
+        var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+        var c_country = $("#" + c_pre + "country").find(":selected").val();
+        $.ajax({
+            url: 'Area_Get',
+            data: { lang: c_lang, country: c_country }, //此参数非常严谨，写错一个引号都不行
+            type: "POST",
+            dataType: 'TEXT', //返回值类型 一般设置为json
+            async: false,
+            success: function (JData) {
+                //alert(JData);
+                data = handleAjaxVPNMsg(JData);
+                i = 0;
+                c_html = "";
+
+                //  移除全部的項目
+                $("#" + c_pre + "area option").remove();
+
+                //新增空白
+                if (c_pre == "txt_") {
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部"));
+                }
+
+                $.each($.parseJSON(data), function (idx, obj) {
+                    //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            complete: function () {
+                //alert(tbl_new_list);
+                //alert('ajax complete');
+            }
+        });
+        return false;
+    }
+</script>
+
 <form name="" id="" action="" method="post">
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
                 <label class="text-sm w3-margin-left sr-only">關鍵字</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字...">
+                <input type="text" class="form-control form-control-sm" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
 
                 <label class="text-sm w3-margin-left">語系</label>
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>繁體中文</option>
-                    <option>简体中文</option>
-                    <option>English</option>
+                <select class="form-control form-control-sm" id="txt_lang" name="txt_lang" onclick="get_country('txt_');">
+                    <option value="">全部</option>
+                    @if (d_lang.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_lang.Rows.Count; i++)
+                        {
+                            if (d_lang.Rows[i]["lang_id"].ToString() == txt_lang)
+                            {
+                                lang_selected = "selected";
+                            }
+                            else
+                            {
+                                lang_selected = "";
+                            }
+                            <option value="@d_lang.Rows[i]["lang_id"].ToString()" @lang_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+                        }
+                    }
                 </select>
 
                 <label class="text-sm w3-margin-left">國別</label> @* 如要顯示文字: 把 sr-only 拿掉 *@
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>中國</option>
+                <select class="form-control form-control-sm" id="txt_country" name="txt_country" onclick="get_area('txt_');">
+                    <option value="">全部</option>
+                    @if (d_country.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_country.Rows.Count; i++)
+                        {
+                            if (d_country.Rows[i]["country_id"].ToString() == txt_country)
+                            {
+                                country_selected = "selected";
+                            }
+                            else
+                            {
+                                country_selected = "";
+                            }
+                            <option value="@d_country.Rows[i]["country_id"].ToString()" @country_selected>@d_country.Rows[i]["country_name"].ToString()</option>
+                        }
+                    }
                 </select>
 
                 <label class="text-sm w3-margin-left">省</label>
-                <select class="form-control form-control-sm">
-                    <option>全部</option>
-                    <option>蘇州</option>
-                    <option>雲南昆明</option>
-                    <option>寧夏</option>
+                <select class="form-control form-control-sm" id="txt_area" name="txt_area">
+                    <option value="">全部</option>
+                    @if (d_area.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_area.Rows.Count; i++)
+                        {
+                            if (d_area.Rows[i]["area_id"].ToString() == txt_country)
+                            {
+                                area_selected = "selected";
+                            }
+                            else
+                            {
+                                area_selected = "";
+                            }
+                            <option value="@d_area.Rows[i]["area_id"].ToString()" @area_selected>@d_area.Rows[i]["area_name"].ToString()</option>
+                        }
+                    }
                 </select>
             </div>
         </div><!-- table-filter //-->
@@ -64,10 +344,10 @@
                 <th class="text-xs-center">刪除</th> @* 文字置中: class="text-xs-center" / 置右: class="text-xs-right" *@
                 <th class="text-xs-center">修改</th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">國別</button>
+                    <button class="text-xs-center th-sort-toggle @class_country" name="btn_country" id="btn_country" onclick="sort('country_name');">國別</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">省</button>
+                    <button class="text-xs-center th-sort-toggle @class_area" name="btn_country" id="btn_area" onclick="sort('area_name');">省</button>
                 </th>
                 <th>
                     @* 如不需要排序功能: 純文字即可 *@
@@ -78,83 +358,168 @@
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle asc">語系</button>
+                    <button class="text-xs-center th-sort-toggle @class_lang" name="btn_lang" id="btn_lang" onclick="sort('lang');">語系</button>
                 </th>
                 <th>
                     @* 點選排序功能 (點一下遞增 asc, 點兩下遞減 desc) *@
-                    <button class="text-xs-center th-sort-toggle desc">排序</button>
+                    <button class="text-xs-center th-sort-toggle @class_sort" name="btn_sort" id="btn_sort" onclick="sort('sort');">排序</button>
                 </th>
                 <th>
                     <button class="text-xs-center th-sort-toggle" name="btn_status" id="btn_status" onclick="sort('status');" >狀態</button>
                 </th>
                 <th>
-                    <button class="text-xs-center th-sort-toggle">顯示在首頁</button>
+                    <button class="text-xs-center th-sort-toggle @class_index" name="btn_index" id="btn_index" onclick="sort('is_index');">顯示在首頁</button>
                 </th>
             </tr>
         </thead>
         <tbody>
             @* 建議: 1頁10筆資料 *@
-            <tr>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
-                </td>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
-                </td>
-                <td class="text-xs-center">中國</td>
-                <td class="text-xs-center">蘇州</td>
-                <td>浙江省山核桃治理專案</td>
-                <td>山核桃</td>
-                <td class="text-xs-center">繁體中文</td>
-                <td class="text-xs-center">10</td>
-                <td class="text-xs-center"><span class="w3-tag label-success w3-round">已發佈</span></td>
-                <td class="text-xs-center">
-                    <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
-                </td>
-            </tr>
-            <tr>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/Del")';" class="btn btn-link text-danger oi" data-glyph="trash" title="確認刪除"></button>
-                </td>
-                <td class="text-xs-center">
-                    <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-link oi" data-glyph="pencil" title="按我修改"></button>
-                </td>
-                <td class="text-xs-center">中國</td>
-                <td class="text-xs-center">雲南昆明</td>
-                <td>雲南昆明菸草種植(2014~2016)</td>
-                <td>煙草</td>
-                <td class="text-xs-center">繁體中文</td>
-                <td class="text-xs-center">9</td>
-                <td class="text-xs-center"><span class="w3-tag label-default w3-round">草稿</span></td>
-                <td class="text-xs-center">
-                    <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
-                </td>
-            </tr>
+            @if (dt.Rows.Count > 0)
+            {
+                for (int i = min_row - 1; i < max_row; i++)
+                {
+                    proj_id = dt.Rows[i]["proj_id"].ToString();
+                    proj_name = dt.Rows[i]["proj_name"].ToString();
+                    plant_name = dt.Rows[i]["plant_name"].ToString();
+                    country_name = dt.Rows[i]["country_name"].ToString();
+                    area_name = dt.Rows[i]["area_name"].ToString();
+                    lang_name = dt.Rows[i]["lang_name"].ToString();
+                    n_sort = dt.Rows[i]["sort"].ToString();
+                    is_index = dt.Rows[i]["is_index"].ToString();
+                    if (dt.Rows[i]["status"].ToString() == "Y")
+                    {
+                        show = "已發佈";
+                        show_class = "label-success";
+                    }
+                    else
+                    {
+                        show = "草稿";
+                        show_class = "label-default";
+                    }
+
+                    <tr>
+                        <td class="text-xs-center">
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Proj_Del?proj_id=" + proj_id)';" class="btn btn-link text-danger oi" data-glyph="trash"></button>
+                        </td>
+                        <td class="text-xs-center">
+                            <button type="button" onclick="location.href='@Url.Content("~/Manage/Proj_Edit?proj_id=" + proj_id)';" class="btn btn-link oi" data-glyph="pencil"></button>
+                        </td>
+                        <td class="text-xs-center">@country_name</td>
+                        <td class="text-xs-center">@area_name</td>
+                        <td class="text-xs-left">@proj_name</td>
+                        <td class="text-xs-center">@plant_name</td>
+                        <td class="text-xs-center">@lang_name</td>
+                        <td class="text-xs-center">@n_sort</td>
+                        <td class="text-xs-center"><span class="w3-tag @show_class w3-round">@show</span></td>
+                        <td class="text-xs-center">
+                            @if (is_index == "Y")
+                            {
+                                <i class="oi text-primary" data-glyph="check"></i> @* 有顯示在首頁就打勾 *@
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-xs-left" colspan="10">
+                        無資料
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
     <footer class="table-footer clearfix">
-        <button type="button" onclick="location.href='@Url.Content("~/Manage/ResultsData")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
+        <button type="button" onclick="location.href='@Url.Content("~/Manage/Proj_Add")';" class="btn btn-sm btn-success pull-xs-left oi" data-glyph="plus">
             新增
         </button>
-        <small class="pull-xs-right">第 1-10 筆，共 2 筆</small>
+        <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="" class="oi" data-glyph="media-step-backward"></a>
+                <a href="@Url.Content("~/Manage/ResultList?page=" + top_page.ToString())" class="oi" data-glyph="media-step-backward"></a>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="caret-left"></a>
+                <a href="@Url.Content("~/Manage//ResultList?page=" + pre_page.ToString())" class="oi" data-glyph="caret-left"></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
-                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="1">
-                <label>頁，共 1 頁</label>
+                <input type="text" class="form-control form-control-sm text-xs-center" style="width:100px" name="page" id="page" value="@page">
+                <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="caret-right"></a>
+                <a href="@Url.Content("~/Manage//ResultList?page=" + next_page.ToString())" class="oi" data-glyph="caret-right"></a>
             </li>
             <li>
-                <a href="" class="oi" data-glyph="media-step-forward"></a>
+                <a href="@Url.Content("~/Manage//ResultList?page=" + end_page.ToString())" class="oi" data-glyph="media-step-forward"></a>
             </li>
         </ul>
     </footer>
 </form>
+
+<script>
+    //$('#page').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
+
+    $('#txt_title_query').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            $('#form1').submit();
+        }
+    });
+
+    $('#txt_lang').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            $('#form1').submit();
+        }
+    });
+
+    $('#txt_country').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            $('#form1').submit();
+        }
+    });
+
+    $('#txt_area').on('keydown', function (e) {
+        if (e.which == 13) {
+            //alert('clicked');
+            $('#form1').submit();
+        }
+    });
+
+    function sort(c_sort)
+    {
+        var pre_sort = $('#txt_sort').val();
+        var pre_a_d = $('#txt_a_d').val();
+        var a_d = "";
+        var s_sort = "";
+        var class_a_d = "";
+
+        s_sort = c_sort;
+        if (pre_sort == c_sort) {
+            if (pre_a_d == "") {
+                a_d = "desc";
+            }
+            else {
+                a_d = "";
+            }
+        }
+        else {
+            a_d = "";
+        }
+
+        //alert("pre_sort:" + pre_sort + ";pre_a_d:" + pre_a_d + ";a_d:" + a_d + ";s_sort=" + s_sort)
+
+        $('#txt_sort').val(s_sort);
+        $('#txt_a_d').val(a_d);
+
+        $('#form1').submit();
+
+    }
+</script>

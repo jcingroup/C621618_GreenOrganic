@@ -73,6 +73,7 @@
         manure_ingredients = d_prod.Rows[0]["manure_ingredients"].ToString();
         manure_trait = d_prod.Rows[0]["manure_trait"].ToString();
         prod_desc = d_prod.Rows[0]["prod_desc"].ToString();
+        lang = d_prod.Rows[0]["lang"].ToString();
 
         c_status = d_prod.Rows[0]["status"].ToString();
         sort = d_prod.Rows[0]["sort"].ToString();
@@ -105,6 +106,7 @@
 
 <script>
     function form_ok() {
+        //檢查資料
         form1.submit();
     }
 
@@ -148,15 +150,16 @@
     function del_img(img_id,c_sty)
     {
         var cimg_no = "";
-        if ($("#name_id").val().length > 0) {
-            cimg_no = $("#name_id").val();
+        var c_cate = "Prod"
+        if ($("#prod_id").val().length > 0) {
+            cimg_no = $("#prod_id").val();
         }else {
             cimg_no = @img_no;
         }
 
         $.ajax({                
-            url: 'Prod_Img_Del',
-            data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no  }, //此参数非常严谨，写错一个引号都不行
+            url: 'Img_Del',
+            data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no,img_cate: c_cate  }, //此参数非常严谨，写错一个引号都不行
             type:"POST",
             dataType: 'TEXT', //返回值类型 一般设置为json
             async: false,
@@ -169,7 +172,7 @@
                 $.each($.parseJSON(data), function (idx, obj) {
                     i = i + 1;
                     c_html = c_html + "<li>";
-                    c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
+                    c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.img_id + "','" + c_sty + "');\" >&times;</button>";
                     c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
                     c_html = c_html + "</li>";
                 });
@@ -234,7 +237,7 @@
                     $.each($.parseJSON(data), function (idx, obj) {
                         i = i + 1;
                         c_html = c_html + "<li>";
-                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj._SEQ_ID + "','" + c_sty + "');\" >&times;</button>";
+                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.img_id + "','" + c_sty + "');\" >&times;</button>";
                         c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.img_file + "\" alt=\"\">";
                         c_html = c_html + "</li>";
                     });

@@ -320,6 +320,9 @@ namespace GreenOrganic.Controllers
                 case "Prod":
                     chk_file = DB.Prod_Img_List(img_no);
                     break;
+                case "Proj":
+                    chk_file = DB.Proj_Img_List(img_no);
+                    break;
                 default:
                     chk_file = OverlookDB.Img_List(img_no, img_sta);
                     break;
@@ -345,6 +348,9 @@ namespace GreenOrganic.Controllers
                         case "Prod":
                             DB.Prod_Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename);
                             break;
+                        case "Proj":
+                            DB.Proj_Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename);
+                            break;
                         default:
                             //OverlookDB.Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename, img_sta);
                             break;
@@ -357,30 +363,37 @@ namespace GreenOrganic.Controllers
                         case "Prod":
                             DB.Prod_Img_Update(img_no, img_no + "_" + img_sta + "_" + filename);
                             break;
+                        case "Proj":
+                            DB.Proj_Img_Update(img_no, img_no + "_" + img_sta + "_" + filename);
+                            break;
                         default:
                             //OverlookDB.Img_Update(chk_file.Rows[0]["_SEQ_ID"].ToString(), img_no + "_" + img_sta + "_" + filename);
                             break;
                     }
-                    
 
                     //刪除原本檔案
-                    string Pre_Path = Server.MapPath(pre_filename);
-
-                    // Delete a file by using File class static method...
-                    if (System.IO.File.Exists(Pre_Path))
+                    if (pre_filename == "")
                     {
-                        // Use a try block to catch IOExceptions, to
-                        // handle the case of the file already being
-                        // opened by another process.
-                        try
+                        string Pre_Path = Server.MapPath(pre_filename);
+
+                        // Delete a file by using File class static method...
+                        if (System.IO.File.Exists(Pre_Path))
                         {
-                            System.IO.File.Delete(Pre_Path);
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            str_return = str_return + e.Message;
+                            // Use a try block to catch IOExceptions, to
+                            // handle the case of the file already being
+                            // opened by another process.
+                            try
+                            {
+                                System.IO.File.Delete(Pre_Path);
+                            }
+                            catch (System.IO.IOException e)
+                            {
+                                str_return = str_return + e.Message;
+                            }
                         }
                     }
+
+
                     break;
             }
 
@@ -389,6 +402,9 @@ namespace GreenOrganic.Controllers
             {
                 case "Prod":
                     img_file = DB.Prod_Img_List(img_no);
+                    break;
+                case "Proj":
+                    img_file = DB.Proj_Img_List(img_no);
                     break;
                 default:
                     img_file = OverlookDB.Img_List(img_no, img_sta);
@@ -403,7 +419,7 @@ namespace GreenOrganic.Controllers
 
         }
 
-        public ActionResult Img_Del(string img_id,string img_sta,string img_no)
+        public ActionResult Img_Del(string img_id,string img_sta,string img_no, string img_cate)
         {
             string str_return = "";
             DataTable img_file;
@@ -412,13 +428,26 @@ namespace GreenOrganic.Controllers
             string file_path = "../Images/";
             string imgPath = "";
 
-            chk_file = OverlookDB.Img_List(img_no, img_sta);
+            switch (img_cate)
+            {
+                case "Prod":
+                    chk_file = DB.Prod_Img_List(img_no);
+                    break;
+                case "Proj":
+                    chk_file = DB.Proj_Img_List(img_no);
+                    break;
+                default:
+                    chk_file = OverlookDB.Img_List(img_no, img_sta);
+                    break;
+            }
+            
             filename = "";
+
             if (chk_file.Rows.Count > 0)
             {
                 for(int i = 0; i< chk_file.Rows.Count; i++)
                 {
-                    if(img_id == chk_file.Rows[i]["_SEQ_ID"].ToString())
+                    if(img_id == chk_file.Rows[i]["img_id"].ToString())
                     {
                         filename = chk_file.Rows[i]["img_file"].ToString();
                         break;
@@ -446,9 +475,32 @@ namespace GreenOrganic.Controllers
                 }
             }
 
-            OverlookDB.Img_Delete(img_id);
+            switch (img_cate)
+            {
+                case "Prod":
+                    DB.Prod_Img_Delete(img_id);
+                    break;
+                case "Proj":
+                    DB.Proj_Img_Delete(img_id);
+                    break;
+                default:
+                    OverlookDB.Img_Delete(img_id);
+                    break;
+            }
+
             //抓取資料
-            img_file = OverlookDB.Img_List(img_no, img_sta);
+            switch (img_cate)
+            {
+                case "Prod":
+                    img_file = DB.Prod_Img_List(img_no);
+                    break;
+                case "Proj":
+                    img_file = DB.Proj_Img_List(img_no);
+                    break;
+                default:
+                    img_file = OverlookDB.Img_List(img_no, img_sta);
+                    break;
+            }
             str_return = JsonConvert.SerializeObject(img_file, Newtonsoft.Json.Formatting.Indented);
             return Content(str_return);
         }
@@ -686,18 +738,238 @@ namespace GreenOrganic.Controllers
             return View("ResultsKind2");
         }
 
-        public ActionResult ResultsPair()
+        public ActionResult ResultsPair(string txt_title_query = "", int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string txt_prod = "", string action_sty = "", string idxno = "")
         {
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+            DataTable d_proj;
+            DataTable d_prod;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch (action_sty)
+            {
+                case "del":
+                    DB.Proj_Prod_Del(idxno);
+                    action_sty = "";
+                    break;
+            }
+
+            //抓取專案-產品資料
+            dt = DB.Proj_Prod_List(txt_lang, txt_prod, c_sort, "", txt_title_query);
+            d_lang = DB.Lang_List("");
+            d_proj = DB.Proj_List(txt_lang);
+            d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_proj"] = d_proj;
+            ViewData["d_prod"] = d_prod;
+            ViewData["txt_title_query"] = txt_title_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_prod"] = txt_prod;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = action_sty;
+            ViewData["idxno"] = idxno;
+
             return View();
         }
-        public ActionResult ResultsList()
+
+        public ActionResult ResultsPair_Save(string idxno = "", string txt_title_query = "", int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string txt_prod = "", string action_sty = "", string proj = "", string lang = "", string s_prod = "")
         {
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_lang;
+            DataTable d_proj;
+            DataTable d_prod;
+
+            
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            switch (action_sty)
+            {
+                case "add":
+                    DB.Proj_Prod_Add(proj, s_prod);
+                    break;
+                case "edit":
+                    DB.Area_Update(idxno, proj, s_prod);
+                    break;
+            }
+
+
+            //抓取專案-產品資料
+            dt = DB.Proj_Prod_List(txt_lang, txt_prod, c_sort, "", txt_title_query);
+            d_lang = DB.Lang_List("");
+            d_proj = DB.Proj_List(txt_lang);
+            d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_proj"] = d_proj;
+            ViewData["d_prod"] = d_prod;
+            ViewData["txt_title_query"] = txt_title_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_prod"] = txt_prod;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+            ViewData["action_sty"] = "";
+            ViewData["idxno"] = idxno;
+
+            return View("ResultsPair");
+        }
+
+        #region 海外實績 專案 ResultList
+        public ActionResult ResultsList(string txt_title_query = "", int page = 1, string txt_sort = "", string txt_a_d = "", string txt_lang = "", string txt_country = "",string txt_area = "")
+        {
+            //定義變數
+            string c_sort = "";
+            DataTable dt;
+            DataTable d_country;
+            DataTable d_lang;
+            DataTable d_area;
+
+            //排序設定
+            if (txt_sort.Trim().Length > 0)
+            {
+                c_sort = c_sort + "a1." + txt_sort;
+            }
+            if (txt_a_d.Trim().Length > 0)
+            {
+                c_sort = c_sort + " " + txt_a_d;
+            }
+
+            //抓取專案資料
+            dt = DB.Proj_List("", c_sort, "", txt_title_query, txt_lang, txt_country,txt_area);
+            d_lang = DB.Lang_List("");
+            d_country = DB.Country_List(txt_lang);
+            d_area = DB.Area_List(txt_lang, txt_country);
+
+            //設定傳值
+            ViewData["page"] = page;
+            ViewData["dt"] = dt;
+            ViewData["d_country"] = d_country;
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_area"] = d_area;
+            ViewData["txt_title_query"] = txt_title_query;
+            ViewData["txt_lang"] = txt_lang;
+            ViewData["txt_country"] = txt_country;
+            ViewData["txt_area"] = txt_area;
+            ViewData["txt_sort"] = txt_sort;
+            ViewData["txt_a_d"] = txt_a_d;
+
             return View();
         }
-        public ActionResult ResultsData()
+        #endregion
+
+        #region 專案資料新增 Proj_Add
+        public ActionResult Proj_Add()
         {
-            return View();
+            DataTable d_lang;
+            DataTable d_country;
+            DataTable d_area;
+            DataTable d_img;
+            string str_lang = "";
+            string str_country = "";
+
+
+            d_lang = DB.Lang_List();
+            if(d_lang.Rows.Count > 0)
+            {
+                str_lang = d_lang.Rows[0]["lang_id"].ToString();
+            }
+
+            d_country = DB.Country_List(str_lang);
+            if(d_country.Rows.Count > 0)
+            {
+                str_country = d_country.Rows[0]["country_id"].ToString();
+            }
+
+            d_area = DB.Area_List(str_lang, str_country);
+            d_img = DB.Prod_Img_List("");
+
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_country"] = d_country;
+            ViewData["d_area"] = d_area;
+            ViewData["d_img"] = d_img;
+            ViewData["action_sty"] = "add";
+
+            return View("ResultsData");
         }
+        #endregion
+
+        #region 專案資料修改 Proj_Edit
+        public ActionResult Proj_Edit(string proj_id = "")
+        {
+            DataTable d_proj = DB.Proj_List(proj_id);
+            DataTable d_lang = DB.Lang_List();
+            DataTable d_country = DB.Country_List(d_proj.Rows[0]["lang"].ToString());
+            DataTable d_area = DB.Area_List(d_proj.Rows[0]["lang"].ToString(), d_proj.Rows[0]["country_id"].ToString());
+            DataTable d_img = DB.Proj_Img_List(proj_id);
+
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_proj"] = d_proj;
+            ViewData["d_country"] = d_country;
+            ViewData["d_area"] = d_area;
+            ViewData["d_img"] = d_img;
+            ViewData["action_sty"] = "edit";
+
+            return View("ResultsData");
+        }
+        #endregion
+
+        #region 專案資料儲存 Proj_Save
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Proj_Save(string action_sty, string proj_id, string proj_name, string plant_name, string proj_short_desc, string proj_desc, string lang,string country, string area, string show, string sort, string img_no, string hot)
+        {
+            //OverlookDBService OverlookDB = new OverlookDBService();
+
+            switch (action_sty)
+            {
+                case "add":
+                    DB.Proj_Insert(proj_name, plant_name, proj_short_desc, proj_desc, lang, country, area, show, sort, img_no,hot);
+                    break;
+                case "edit":
+                    DB.Proj_Update(proj_id, proj_name, plant_name, proj_short_desc, proj_desc, country, area, lang, show, sort,hot);
+                    break;
+            }
+
+            return RedirectToAction("ResultsList");
+        }
+        #endregion
+
+        #region 專案資料刪除 Proj_Del
+        public ActionResult Proj_Del(string proj_id = "")
+        {
+            //OverlookDBService OverlookDB = new OverlookDBService();
+            DB.Proj_Del(proj_id);
+            return RedirectToAction("ResultsList");
+        }
+        #endregion
 
         #region 國家資料取得 Country_Get
         public ActionResult Country_Get(string lang)
@@ -706,6 +978,42 @@ namespace GreenOrganic.Controllers
             DataTable Country;
             Country = DB.Country_List(lang);
             str_return = JsonConvert.SerializeObject(Country, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
+        #region 省份取得 Area_Get
+        public ActionResult Area_Get(string lang,string country)
+        {
+            string str_return = "";
+            DataTable Area;
+            Area = DB.Area_List(lang,country);
+            str_return = JsonConvert.SerializeObject(Area, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
+        #region 專案資料取得 Proj_Get
+        public ActionResult Proj_Get(string lang)
+        {
+            string str_return = "";
+            DataTable Proj;
+            Proj = DB.Proj_List("", "", "", "", lang, "", "");
+            str_return = JsonConvert.SerializeObject(Proj, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
+        #region 產品資料取得 Prod_Get
+        public ActionResult Prod_Get(string lang)
+        {
+            string str_return = "";
+            DataTable Prod;
+            Prod = DB.Prod_List("", "", "", "", lang, "");
+            str_return = JsonConvert.SerializeObject(Prod, Newtonsoft.Json.Formatting.Indented);
 
             return Content(str_return);
         }
@@ -847,6 +1155,54 @@ namespace GreenOrganic.Controllers
 
             return RedirectToAction("IndexVideo");
         }
+
+        //public ActionResult Mv_Upload(string img_no, string img_sta, string img_cate)
+        public ActionResult Mv_Upload()
+        {
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("rec_time", System.Type.GetType("System.String")); //Empid
+            dt.Columns.Add("filename", System.Type.GetType("System.String")); //Ae_Code
+
+            HttpFileCollection hfc = System.Web.HttpContext.Current.Request.Files;
+            string imgPath = "";
+            string filename = "";
+            string file_name = "";
+            string file_path = "../Images/";
+            string str_return = "";
+            string[] files;
+            string chk_sty = "";
+            string pre_filename = "";
+            int files_count = 0;
+
+            if (hfc.Count > 0)
+            {
+                file_name = hfc[0].FileName;
+                files = file_name.Split('\\');
+                files_count = files.Count();
+                filename = files[files_count - 1];
+
+                imgPath = file_path + filename;
+                string PhysicalPath = Server.MapPath(imgPath);
+                hfc[0].SaveAs(PhysicalPath);
+
+                //-------------------------------------------------//
+                DataRow new_row = dt.NewRow();
+                new_row[0] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                new_row[1] = filename;
+                dt.Rows.Add(new_row);
+                //-------------------------------------------------//
+            }
+
+
+            str_return = JsonConvert.SerializeObject(dt, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+
+
+        }
+
+ 
         // 關於我們
         public ActionResult AboutUs(string lang="cn")
         {

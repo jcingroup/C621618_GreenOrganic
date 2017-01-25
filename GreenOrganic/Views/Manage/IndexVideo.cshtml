@@ -7,9 +7,11 @@
 
     DataTable d_video = (DataTable)ViewData["d_video"];
     string mv = "";
+    string mv_url = "";
     if(d_video.Rows.Count > 0)
     {
         mv = d_video.Rows[0]["ad_mv"].ToString();
+        mv_url = "../Images/" + mv;
     }
 
 }
@@ -20,10 +22,73 @@
 }
 
 <h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
+
+@* 引用 ajaxfileupload *@
+<script src="~/Scripts/ajaxfileupload.js"></script>
+@* 引用 ajax_lib *@
+<script src="~/Scripts/ajax_lib.js"></script>
+
 <script>
     function form_ok() {
         form1.submit();
     }
+
+    function upload()
+    {
+        if ($("#mv_file").val().length > 0) {
+            //ajaxFileUpload('pic_small','small_img');
+            ajaxFileUpload();
+        }
+        else {
+            alert("請選擇影片");
+        }
+    }
+
+    function ajaxFileUpload() {
+        var cimg_no = "a";
+        var c_img = "mv_file";
+        var c_cate = "a"
+        var c_sty = "a";
+        var chtml = "a";
+        var i = 0;
+        //alert("12345");
+        $.ajaxFileUpload
+        (
+            {
+                url: 'Mv_Upload', //用于文件上传的服务器端请求地址
+                type: 'post',
+                data: { img_no:'', img_sta:'',img_cate: ''}, //此参数非常严谨，写错一个引号都不行
+                secureuri: false, //一般设置为false
+                //fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                fileElementId: c_img, //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                //dataType: 'HTML', //返回值类型 一般设置为json
+                dataType: 'JSON', //返回值类型 一般设置为json
+                success: function (JData, status)  //服务器成功响应处理函数
+                {
+                    //alert(JData);
+
+                    data = handleAjaxVPNMsg(JData);
+
+                    i = 0;
+                    c_html = "";
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        i = i + 1;
+                        $("#mv_href").attr("href", "../Images/" + obj.filename);
+                        $("#mv_href").text(obj.filename);
+                        $("#mv").val(obj.filename);
+                    });
+
+                    //$('#c_img_' + c_sty).html(c_html);
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                }
+            }
+        )
+        return false;
+    }
+
 </script>
 
 @* <div class="alert alert-warning w3-padding-small text-sm">
@@ -31,23 +96,23 @@
     嵌入連結路徑如圖示 (<a href="/Content/images/sys/youtube.jpg" target="new">點選看圖示</a>)
 </div> *@
 
-<form action="IndexVideo_Update" class="form" method="post" name="form1" id="form1">
+<form action="IndexVideo_Update" class="form" method="post" name="form1" id="form1" enctype="multipart/form-data">
     @* <input type="text" class="form-control m-b-1" placeholder="請在此輸入Youtube嵌入連結路徑..." id="mv" name="mv" value="@mv"> *@
-
+    <input type="hidden" id="mv" name="mv" value="" />
     <div class="form-group row">
         <div class="col-xs-6">
-            <input type="file" class="form-control form-control-sm">
+            <input type="file" class="form-control form-control-sm" name="mv_file" id="mv_file">
             <small class="text-muted">可上傳 1 部影片，檔案最大不可超過 2 MB</small>
         </div>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload">上傳</button>
+            <button type="button" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload" onclick="upload();">上傳</button>
         </div>
     </div>
 
     @* 已上傳需顯示檔名，點選可開啟檔案 *@
     <div class="form-group row">
         <div class="col-xs-6">
-            <a href="#" target="new" class="btn btn-sm btn-info oi" data-glyph="document">banner.mp4</a>
+            <a href="@mv_url" target="new" class="btn btn-sm btn-info oi" data-glyph="document" id="mv_href" name="mv_href">@mv</a>
         </div>
     </div>
 

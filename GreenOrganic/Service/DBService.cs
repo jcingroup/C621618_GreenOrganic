@@ -849,7 +849,7 @@ namespace Lib.Service
 
                 //抓取其編號
                 csql = @"select distinct "
-                     + "  _SEQ_ID "
+                     + "  prod_id "
                      + "from "
                      + "   Prod "
                      + "where "
@@ -894,7 +894,7 @@ namespace Lib.Service
 
                 if (ds.Tables["chk_prod"].Rows.Count > 0)
                 {
-                    prod_id = ds.Tables["chk_prod"].Rows[0]["_SEQ_ID"].ToString();
+                    prod_id = ds.Tables["chk_prod"].Rows[0]["prod_id"].ToString();
                     if (img_no.Trim().Length > 0)
                     {
                         csql = @"update "
@@ -1136,7 +1136,7 @@ namespace Lib.Service
 
             try
             {
-                csql = @"delete from prod_img where _SEQ_ID = @img_id ";
+                csql = @"delete from prod_img where img_id = @img_id ";
 
                 cmd.CommandText = csql;
                 cmd.Parameters.Clear();
@@ -1525,9 +1525,9 @@ namespace Lib.Service
                 csql = csql + "and a1.lang = @lang ";
             }
 
-            if (lang.Trim().Length > 0)
+            if (country.Trim().Length > 0)
             {
-                csql = csql + "and a1.lang = @lang ";
+                csql = csql + "and a1.country_id = @country ";
             }
 
             if (txt_query.Trim().Length > 0)
@@ -1560,6 +1560,8 @@ namespace Lib.Service
 
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@lang", lang);
+            cmd.Parameters.AddWithValue("@country", country);
+
             if (txt_query.Trim().Length > 0)
             {
                 for (int i = 0; i < Array_txt_query.Length; i++)
@@ -1721,6 +1723,949 @@ namespace Lib.Service
                 cmd.Parameters.AddWithValue("@area_id", area_id);
 
                 cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案資料陳列 Proj_List
+        public DataTable Proj_List(string proj_id = "", string sort = "", string status = "", string title_query = "", string lang = "", string country_id = "", string area_id = "")
+        {
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            string[] Array_proj_id;
+            string[] Array_title_query;
+            string[] Array_country_id;
+            string[] Array_area_id;
+
+            Array_proj_id = proj_id.Split(',');
+            Array_title_query = title_query.Split(',');
+            Array_country_id = country_id.Split(',');
+            Array_area_id = area_id.Split(',');
+
+            csql = "select "
+                 + "  a1.* "
+                 + "from "
+                 + "("
+                 + "select "
+                 + "  a1.*,a2.lang_name,a3.country_name,a4.area_name "
+                 + "from "
+                 + "   proj a1 "
+                 + "left join lang a2 on a1.lang = a2.lang_id "
+                 + "left join country a3 on a1.country_id = a3.country_id "
+                 + "left join area a4 on a1.area_id = a4.area_id "
+                 + "where "
+                 + "  a1.status <> 'D' ";
+
+
+            if (status.Trim().Length > 0)
+            {
+                csql = csql + " and a1.status = @status ";
+            }
+
+            if (proj_id.Trim().Length > 0)
+            {
+                csql = csql + " and a1.proj_id in (";
+                for (int i = 0; i < Array_proj_id.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_proj_id" + i.ToString();
+                }
+                csql = csql + ") ";
+            }
+
+            if (country_id.Trim().Length > 0)
+            {
+                csql = csql + " and a1.country_id in (";
+                for (int i = 0; i < Array_country_id.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_country_id" + i.ToString();
+                }
+                csql = csql + ") ";
+            }
+
+            if (area_id.Trim().Length > 0)
+            {
+                csql = csql + " and a1.area_id in (";
+                for (int i = 0; i < Array_area_id.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_area_id" + i.ToString();
+                }
+                csql = csql + ") ";
+            }
+
+            if (title_query.Trim().Length > 0)
+            {
+                csql = csql + " and (";
+                for (int i = 0; i < Array_title_query.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + " or ";
+                    }
+                    csql = csql + " a1.proj_name like @str_title_query" + i.ToString() + " ";
+
+                }
+                csql = csql + ") ";
+            }
+
+
+            if (lang.Trim().Length > 0)
+            {
+                csql = csql + "and a1.lang = @lang ";
+            }
+
+            csql = csql + ") a1 ";
+
+            if (sort.Trim().Length > 0)
+            {
+                csql = csql + " order by " + sort + " ";
+            }
+            else
+            {
+                csql = csql + " order by a1.sort desc ";
+            }
+
+            cmd.CommandText = csql;
+
+            //---------------------------------------------------------------//
+            cmd.Parameters.Clear();
+            if (status.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@status", status);
+            }
+
+
+            if (lang.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@lang", lang);
+            }
+
+            if (proj_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_proj_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_proj_id" + i.ToString(), Array_proj_id[i]);
+                }
+            }
+
+            if (title_query.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_title_query.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_title_query" + i.ToString(), "%" + Array_title_query[i] + "%");
+                }
+            }
+
+            //--------------------------------------------------------------//
+
+            if (ds.Tables["proj"] != null)
+            {
+                ds.Tables["proj"].Clear();
+            }
+
+            SqlDataAdapter news_ada = new SqlDataAdapter();
+            news_ada.SelectCommand = cmd;
+            news_ada.Fill(ds, "proj");
+            news_ada = null;
+
+            cmd = null;
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+
+            return ds.Tables["proj"];
+        }
+        #endregion
+
+        #region 海外實績 專案資料刪除 Proj_Del
+        public string Proj_Del(string proj_id = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from "
+                     + "  proj "
+                     + "where "
+                     + "  proj_id = @proj_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@proj_id", proj_id);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案資料新增 Proj_Insert
+        //prod_name, manure_no, manure_info, manure_ingredients , manure_trait , prod_desc , lang, show, sort
+        public string Proj_Insert(string proj_name = "", string plant_name = "", string proj_short_desc = "", string proj_desc = "", string lang = "",string country = "", string area = "", string show = "", string sort = "", string img_no = "", string hot = "")
+        {
+            string c_msg = "";
+            string proj_id = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into Proj(country_id, area_id, proj_name, plant_name, proj_short_desc, proj_desc, lang, is_index, sort ,status) "
+                     + "values(@country,@area,@proj_name,@plant_name,@proj_short_desc,@proj_desc,@lang,@is_index,@sort,@status)";
+
+                cmd.CommandText = csql;
+
+                ////讓ADO.NET自行判斷型別轉換
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country", country);
+                cmd.Parameters.AddWithValue("@area", area);
+                cmd.Parameters.AddWithValue("@proj_name", proj_name);
+                cmd.Parameters.AddWithValue("@plant_name", plant_name);
+                cmd.Parameters.AddWithValue("@proj_short_desc", proj_short_desc);
+                cmd.Parameters.AddWithValue("@proj_desc", proj_desc);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@is_index", hot);
+                cmd.Parameters.AddWithValue("@sort", sort);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                cmd.ExecuteNonQuery();
+
+                //抓取其編號
+                csql = @"select distinct "
+                     + "  proj_id "
+                     + "from "
+                     + "   Proj "
+                     + "where "
+                     + "    country_id = @country "
+                     + "and area_id = @area "
+                     + "and proj_name = @proj_name "
+                     + "and plant_name = @plant_name "
+                     + "and proj_short_desc = @proj_short_desc "
+                     + "and proj_desc = @proj_desc "
+                     + "and lang = @lang "
+                     + "and is_index = @is_index "
+                     + "and sort = @sort "
+                     + "and status = @status ";
+
+                cmd.CommandText = csql;
+
+                ////讓ADO.NET自行判斷型別轉換
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country", country);
+                cmd.Parameters.AddWithValue("@area", area);
+                cmd.Parameters.AddWithValue("@proj_name", proj_name);
+                cmd.Parameters.AddWithValue("@plant_name", plant_name);
+                cmd.Parameters.AddWithValue("@proj_short_desc", proj_short_desc);
+                cmd.Parameters.AddWithValue("@proj_desc", proj_desc);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@is_index", hot);
+                cmd.Parameters.AddWithValue("@sort", sort);
+                cmd.Parameters.AddWithValue("@status", show);
+
+                if (ds.Tables["chk_proj"] != null)
+                {
+                    ds.Tables["chk_proj"].Clear();
+                }
+
+                SqlDataAdapter proj_chk_ada = new SqlDataAdapter();
+                proj_chk_ada.SelectCommand = cmd;
+                proj_chk_ada.Fill(ds, "chk_proj");
+                proj_chk_ada = null;
+
+                if (ds.Tables["chk_proj"].Rows.Count > 0)
+                {
+                    proj_id = ds.Tables["chk_proj"].Rows[0]["proj_id"].ToString();
+                    if (img_no.Trim().Length > 0)
+                    {
+                        csql = @"update "
+                             + "  proj_img "
+                             + "set "
+                             + "  img_no = @proj_id "
+                             + "where "
+                             + "  img_no = @img_no ";
+
+                        cmd.CommandText = csql;
+
+                        ////讓ADO.NET自行判斷型別轉換
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@proj_id", proj_id);
+                        cmd.Parameters.AddWithValue("@img_no", img_no);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案資料更新 Proj_Update
+        //更新內容
+        public string Proj_Update(string proj_id = "", string proj_name = "", string plant_name = "", string proj_short_desc = "", string proj_desc = "", string country = "", string area = "", string lang = "", string show = "", string sort = "", string hot = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  proj "
+                     + "set "
+                     + "  country_id = @country "
+                     + " ,area_id = @area "
+                     + " ,proj_name = @proj_name "
+                     + " ,plant_name = @plant_name "
+                     + " ,proj_short_desc = @proj_short_desc "
+                     + " ,proj_desc = @proj_desc "
+                     + " ,lang = @lang "
+                     + " ,is_index = @is_index "
+                     + " ,sort = @sort "
+                     + " ,status = @status "
+                     + ", _UPD_ID = 'System' "
+                     + ", _UPD_DT = getdate() "
+                     + "where "
+                     + "  proj_id = @proj_id ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@country", country);
+                cmd.Parameters.AddWithValue("@area", area);
+                cmd.Parameters.AddWithValue("@proj_name", proj_name);
+                cmd.Parameters.AddWithValue("@plant_name", plant_name);
+                cmd.Parameters.AddWithValue("@proj_short_desc", proj_short_desc);
+                cmd.Parameters.AddWithValue("@proj_desc", proj_desc);
+                cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@is_index", hot);
+                cmd.Parameters.AddWithValue("@sort", sort);
+                cmd.Parameters.AddWithValue("@status", show);
+                cmd.Parameters.AddWithValue("@proj_id", proj_id);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+
+        }
+        #endregion
+
+        #region 海外實績 專案資料圖片陳列 Prod_Img_List
+        public DataTable Proj_Img_List(string img_no = "")
+        {
+            DataSet dt = new DataSet();
+            DataTable d_t;
+            SqlConnection conn = new SqlConnection(conn_str);
+            string[] cimg_no;
+            string str_img_no = "";
+            cimg_no = img_no.Split(',');
+
+            for (int i = 0; i < cimg_no.Length; i++)
+            {
+                if (i > 0)
+                {
+                    str_img_no = str_img_no + ",";
+                }
+                str_img_no = str_img_no + "'" + cimg_no[i] + "'";
+            }
+
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            csql = "select * from proj_img where status = 'Y' and img_no in (";
+            for (int i = 0; i < cimg_no.Length; i++)
+            {
+                if (i > 0)
+                {
+                    csql = csql + ",";
+                }
+                csql = csql + "@str_img_no" + i.ToString() + " ";
+            }
+            csql = csql + ") ";
+
+            cmd.CommandText = csql;
+
+            cmd.Parameters.Clear();
+            for (int i = 0; i < cimg_no.Length; i++)
+            {
+                cmd.Parameters.AddWithValue("@str_img_no" + i.ToString(), cimg_no[i]);
+            }
+
+
+            if (dt.Tables["img"] != null)
+            {
+                dt.Tables["img"].Clear();
+            }
+
+            SqlDataAdapter scenic_ada = new SqlDataAdapter();
+            scenic_ada.SelectCommand = cmd;
+            scenic_ada.Fill(dt, "img");
+            scenic_ada = null;
+
+            d_t = dt.Tables["img"];
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+            dt = null;
+
+            return d_t;
+        }
+        #endregion
+
+        #region 海外實績 專案資料圖片新增 Prod_Img_Insert
+        public string Proj_Img_Insert(string img_no = "", string img_file = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into proj_img(img_no, img_file) "
+                     + "values(@img_no ,@img_file)";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_no", img_no);
+                cmd.Parameters.AddWithValue("@img_file", img_file);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案資料圖片刪除 Proj_Img_Delete
+        public string Proj_Img_Delete(string img_id = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from proj_img where img_id = @img_id ";
+
+                cmd.CommandText = csql;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_id", img_id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案資料圖片更新 Proj_Img_Update
+        public string Proj_Img_Update(string img_no = "", string img_file = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  proj_img "
+                     + "set "
+                     + "  img_file = @img_file "
+                     + "where "
+                     + "  img_no = @img_no ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_file", img_file);
+                cmd.Parameters.AddWithValue("@img_no", img_no);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案-產品資料陳列 Proj_Prod_List
+        public DataTable Proj_Prod_List(string idxno = "", string sort = "", string status = "", string title_query = "", string lang = "", string prod_id = "", string proj_id = "")
+        {
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            string[] Array_idxno;
+            string[] Array_title_query;
+            string[] Array_proj_id;
+            string[] Array_prod_id;
+
+            Array_proj_id = proj_id.Split(',');
+            Array_title_query = title_query.Split(',');
+            Array_idxno = idxno.Split(',');
+            Array_prod_id = prod_id.Split(',');
+
+            csql = "select "
+                 + "  a1.* "
+                 + "from "
+                 + "("
+                 + "select "
+                 + "  a1.*,a2.lang,a3.lang_name,a2.proj_name "
+                 + "from "
+                 + "   proj_prod a1 "
+                 + "left join proj a2 on a1.proj_id = a2.proj_id "
+                 + "left join lang a3 on a2.lang = a3.lang_id "
+
+                 + ") a1 "
+                 +"where "
+                 + "  a1.status <> 'D' ";
+
+
+            if (status.Trim().Length > 0)
+            {
+                csql = csql + " and a1.status = @status ";
+            }
+
+            if (proj_id.Trim().Length > 0)
+            {
+                csql = csql + " and a1.proj_id in (";
+                for (int i = 0; i < Array_proj_id.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_proj_id" + i.ToString();
+                }
+                csql = csql + ") ";
+            }
+
+            if (idxno.Trim().Length > 0)
+            {
+                csql = csql + " and a1.idxno in (";
+                for (int i = 0; i < Array_idxno.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_idxno" + i.ToString();
+                }
+                csql = csql + ") ";
+            }
+
+            if (prod_id.Trim().Length > 0)
+            {
+                csql = csql + " and (";
+                //"a1.area_id in (";
+                for (int i = 0; i < Array_prod_id.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + " or ";
+                    }
+                    csql = csql + "a1.prod_id like @str_prod_id_a" + i.ToString();
+                    csql = csql + " or ";
+                    csql = csql + "a1.prod_id like @str_prod_id_b" + i.ToString();
+                    csql = csql + " or ";
+                    csql = csql + "a1.prod_id like @str_prod_id_c" + i.ToString();
+
+
+                }
+                csql = csql + ") ";
+            }
+
+
+            if (lang.Trim().Length > 0)
+            {
+                csql = csql + "and a1.lang = @lang ";
+            }
+
+            if (title_query.Trim().Length > 0)
+            {
+                csql = csql + " and (";
+                for (int i = 0; i < Array_title_query.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        csql = csql + " or ";
+                    }
+                    csql = csql + " a1.proj_name like @str_title_query" + i.ToString() + " ";
+
+                }
+                csql = csql + ") ";
+            }
+
+            if (sort.Trim().Length > 0)
+            {
+                csql = csql + " order by " + sort + " ";
+            }
+            else
+            {
+                csql = csql + " order by a1.lang,a1.proj_id desc ";
+            }
+
+            cmd.CommandText = csql;
+
+            //---------------------------------------------------------------//
+            cmd.Parameters.Clear();
+            if (status.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@status", status);
+            }
+
+
+            if (lang.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@lang", lang);
+            }
+
+            if (proj_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_proj_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_proj_id" + i.ToString(), Array_proj_id[i]);
+                }
+            }
+
+            if (prod_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_prod_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_prod_id_a" + i.ToString(), Array_prod_id[i] + ",%");
+                    cmd.Parameters.AddWithValue("@str_prod_id_b" + i.ToString(), "%," + Array_prod_id[i] + ",%");
+                    cmd.Parameters.AddWithValue("@str_prod_id_c" + i.ToString(), "%," + Array_prod_id[i]);
+                }
+            }
+
+            if (title_query.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_title_query.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_title_query" + i.ToString(), "%" + Array_title_query[i] + "%");
+                }
+            }
+
+            //--------------------------------------------------------------//
+
+            if (ds.Tables["proj_prod"] != null)
+            {
+                ds.Tables["proj_prod"].Clear();
+            }
+
+            SqlDataAdapter news_ada = new SqlDataAdapter();
+            news_ada.SelectCommand = cmd;
+            news_ada.Fill(ds, "proj_prod");
+            news_ada = null;
+
+            cmd = null;
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+
+            return ds.Tables["proj_prod"];
+        }
+        #endregion
+
+        #region 海外實績 專案-產品資料刪除 Proj_Prod_Del
+        public string Proj_Prod_Del(string idxno = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from "
+                     + "  proj_prod "
+                     + "where "
+                     + "  idxno = @idxno ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@idxno", idxno);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案-產品資料更新 Proj_Prod_Update
+        public string Proj_Prod_Update(string idxno = "", string proj = "", string lang = "", string prod = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  proj_prod "
+                     + "set "
+                     + "  proj_id = @proj "
+                     + ", prod_id = @prod "
+                     + ", _UPD_ID = 'System' "
+                     + ", _UPD_DT = getdate() "
+                     + "where "
+                     + "  idxno = @idxno ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@idxno", idxno);
+                cmd.Parameters.AddWithValue("@proj_id", proj);
+                cmd.Parameters.AddWithValue("@prod_id", prod);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 海外實績 專案-產品資料新增 Proj_Prod_Add
+        public string Proj_Prod_Add(string proj = "", string prod = "")
+        {
+            string c_msg = "";
+
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into proj_prod(proj_id,prod_id) "
+                     + "values(@proj,@prod)";
+
+                cmd.CommandText = csql;
+
+                ////讓ADO.NET自行判斷型別轉換
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@proj",proj);
+                cmd.Parameters.AddWithValue("@prod", prod);
+
+                cmd.ExecuteNonQuery();
+
             }
             catch (Exception ex)
             {
