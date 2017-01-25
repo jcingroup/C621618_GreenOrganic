@@ -21,28 +21,23 @@ html {
 @-moz-viewport {
   width: device-width;
 }
-
 @-ms-viewport {
   width: device-width;
 }
-
 @-o-viewport {
   width: device-width;
 }
-
 @-webkit-viewport {
   width: device-width;
 }
-
 @viewport {
   width: device-width;
 }
-
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, \5FAE\8EDF\6B63\9ED1\9AD4, "微軟正黑體", "Microsoft JhengHei", sans-serif;
   line-height: 1.5;
   color: #333;
-  background: false;
+  background: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -57,7 +52,6 @@ a {
   -webkit-transition: color 0.35s, background 0.3s;
   transition: color 0.35s, background 0.3s;
 }
-
 a:hover, a:active, a.active {
   color: #00B1E2;
 }
@@ -72,7 +66,7 @@ h1 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 1rem;
+  margin: 1.2rem 0 0.5rem 0;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -124,7 +118,6 @@ hr {
 p {
   margin: 0;
 }
-
 p + p {
   margin-top: 1rem;
 }
@@ -853,7 +846,7 @@ textarea {
 
 .underline {
   border-bottom: 1px solid #30d2ff;
-  padding-bottom: 0.66667rem;
+  padding-bottom: 0.7rem;
 }
 
 .text-left {
@@ -989,4 +982,54 @@ body {
 h1, h2, h3, h4, h5, h6, p, blockquote,
 ul, ol, li, dl, dt, dd {
   text-align: left;
+}
+
+h2 {
+  color: #5e3e1d;
+}
+
+h3 {
+  color: #78aa1e;
+}
+
+h4 {
+  color: #616161;
+}
+
+h5 {
+  color: #00B1E2;
+}
+
+p {
+  margin-bottom: 0.5rem;
+}
+
+table th, table td {
+  border: 1px solid #e9e9e9;
+}
+
+@media (max-width: 47.9375em) {
+  h1 {
+    font-size: 3.20625em;
+  }
+
+  h2 {
+    font-size: 1.85625em;
+  }
+
+  h3 {
+    font-size: 1.575em;
+  }
+
+  h4 {
+    font-size: 1.40625em;
+  }
+
+  h5 {
+    font-size: 1.18125em;
+  }
+
+  h6 {
+    font-size: 0.95625em;
+  }
 }

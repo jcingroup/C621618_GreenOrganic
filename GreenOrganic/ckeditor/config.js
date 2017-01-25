@@ -22,7 +22,7 @@ CKEDITOR.editorConfig = function (config) {
         // { name: "styles", items: ["Styles", "Format"] },
         { name: "styles", items: ["Styles"] },
         { name: "links", items: ["Link", "Unlink", "Anchor"] },
-        { name: 'insert', items: ['Youtube', 'Smiley', 'Iframe'] },
+        { name: 'insert', items: ['Image', 'Table', 'Youtube'] },
         {
             name: "clipboard",
             items: ["Cut", "Copy", "PasteText", "PasteFromWord", "Undo", "Redo"]
