@@ -27,7 +27,7 @@ namespace GreenOrganic.Controllers
         {
             if(Convert.ToString(Session["IsLogined"]) == "Y")
             {
-                return RedirectToAction("NewsList"); 
+                return RedirectToAction("ProductList"); 
             }
             else
             {
@@ -132,7 +132,7 @@ namespace GreenOrganic.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("NewsList");
+                    return RedirectToAction("ProductList");
                 }
 
             }
