@@ -439,10 +439,10 @@
         <small class="pull-xs-right">第 1-10 筆，共 @row_count 筆</small>
         <ul class="pager pager-sm">
             <li>
-                <a href="@Url.Content("~/Manage/ResultList?page=" + top_page.ToString())" class="oi" data-glyph="media-step-backward"></a>
+                <a href="@Url.Content("~/Manage/ResultsList?page=" + top_page.ToString())" class="oi" data-glyph="media-step-backward"></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//ResultList?page=" + pre_page.ToString())" class="oi" data-glyph="caret-left"></a>
+                <a href="@Url.Content("~/Manage//ResultsList?page=" + pre_page.ToString())" class="oi" data-glyph="caret-left"></a>
             </li>
             <li class="form-inline">
                 <label>第</label>
@@ -450,10 +450,10 @@
                 <label>頁，共 @total_page 頁</label>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//ResultList?page=" + next_page.ToString())" class="oi" data-glyph="caret-right"></a>
+                <a href="@Url.Content("~/Manage//ResultsList?page=" + next_page.ToString())" class="oi" data-glyph="caret-right"></a>
             </li>
             <li>
-                <a href="@Url.Content("~/Manage//ResultList?page=" + end_page.ToString())" class="oi" data-glyph="media-step-forward"></a>
+                <a href="@Url.Content("~/Manage//ResultsList?page=" + end_page.ToString())" class="oi" data-glyph="media-step-forward"></a>
             </li>
         </ul>
     </footer>

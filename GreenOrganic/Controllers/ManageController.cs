@@ -768,7 +768,7 @@ namespace GreenOrganic.Controllers
             //抓取專案-產品資料
             dt = DB.Proj_Prod_List(idxno,c_sort,"",txt_title_query,txt_lang, txt_prod, "");
             d_lang = DB.Lang_List("");
-            d_proj = DB.Proj_List(txt_lang);
+            d_proj = DB.Proj_List("","","","",txt_lang,"","");
             d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
 
             //設定傳值
@@ -822,7 +822,7 @@ namespace GreenOrganic.Controllers
             //抓取專案-產品資料
             dt = DB.Proj_Prod_List(txt_lang, txt_prod, c_sort, "", txt_title_query);
             d_lang = DB.Lang_List("");
-            d_proj = DB.Proj_List(txt_lang);
+            d_proj = DB.Proj_List("","","","",txt_lang,"","");
             d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
 
             //設定傳值
