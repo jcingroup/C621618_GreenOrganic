@@ -766,7 +766,7 @@ namespace GreenOrganic.Controllers
             }
 
             //抓取專案-產品資料
-            dt = DB.Proj_Prod_List(txt_lang, txt_prod, c_sort, "", txt_title_query);
+            dt = DB.Proj_Prod_List(idxno,c_sort,"",txt_title_query,txt_lang, txt_prod, "");
             d_lang = DB.Lang_List("");
             d_proj = DB.Proj_List(txt_lang);
             d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
@@ -814,7 +814,7 @@ namespace GreenOrganic.Controllers
                     DB.Proj_Prod_Add(proj, s_prod);
                     break;
                 case "edit":
-                    DB.Area_Update(idxno, proj, s_prod);
+                    DB.Proj_Prod_Update(idxno, proj, s_prod);
                     break;
             }
 
@@ -1171,8 +1171,8 @@ namespace GreenOrganic.Controllers
             string file_path = "../Images/";
             string str_return = "";
             string[] files;
-            string chk_sty = "";
-            string pre_filename = "";
+            //string chk_sty = "";
+            //string pre_filename = "";
             int files_count = 0;
 
             if (hfc.Count > 0)

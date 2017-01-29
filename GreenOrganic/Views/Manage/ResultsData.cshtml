@@ -629,6 +629,15 @@
 </form>
 
 <script>
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
     $('#plant_name').on('keydown', function (e) {
         if (e.which == 13) {
             //alert('clicked');

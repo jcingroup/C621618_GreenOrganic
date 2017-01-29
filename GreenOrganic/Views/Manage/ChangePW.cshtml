@@ -34,7 +34,7 @@
     }
 </script>
 
-<form class="form form-sm" name="form1" method="post" action="">
+<form class="form form-sm" name="form1" id="form1" method="post" action="">
     <div class="form-group row">
         <label class="col-xs-2 form-control-label text-xs-right">
             <span class="text-danger">*</span> 目前密碼
@@ -65,7 +65,16 @@
         </button>
     </div>
 </form>
-
+<script>
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
 @if (TempData["message"] != null)
 {
     <script type="text/javascript">

@@ -17,7 +17,7 @@
     輸入多個關鍵字時，請使用逗號 , 作為區隔 ex. 浙江,臨安,山核桃
 </div>
 
-<form name="" id="" action="" method="post">
+<form name="form1" id="form1" action="" method="post">
     <header class="table-header">
         <div class="table-filter">
             <div class="form-inline">
@@ -121,3 +121,13 @@
         </ul>
     </footer>
 </form>
+<script>
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>

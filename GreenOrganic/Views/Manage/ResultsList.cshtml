@@ -467,33 +467,41 @@
     //    }
     //});
 
-    $('#txt_title_query').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
         }
     });
+    //$('#txt_title_query').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
-    $('#txt_lang').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
-        }
-    });
+    //$('#txt_lang').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
-    $('#txt_country').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
-        }
-    });
+    //$('#txt_country').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
-    $('#txt_area').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
-        }
-    });
+    //$('#txt_area').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
     function sort(c_sort)
     {

@@ -160,7 +160,7 @@
     {
 
         $('#action_sty').val(c_action);
-        $('#area_id').val(c_val);
+        $('#idxno').val(c_val);
 
                 if (action_url.length > 0)
                 {
@@ -266,7 +266,7 @@
     <input type="hidden" name="action_sty" id="action_sty" value="@action_sty" />
     <input type="hidden" id="txt_sort" name="txt_sort" value="@txt_sort" />
     <input type="hidden" id="txt_a_d" name="txt_a_d" value="@txt_a_d" />
-    <input type="hidden" id="idxno" name="area_id" value="@idxno" />
+    <input type="hidden" id="idxno" name="idxno" value="@idxno" />
     <input type="hidden" id="s_prod" name="s_prod" value="" />
     <header class="table-header">
         <div class="table-filter">
@@ -407,7 +407,7 @@
                                     {
                                         for (int j = 0; j < d_proj.Rows.Count; j++)
                                         {
-                                            if (d_proj.Rows[j]["country_id"].ToString() == dt.Rows[i]["country_id"].ToString())
+                                            if (d_proj.Rows[j]["proj_id"].ToString() == dt.Rows[i]["proj_id"].ToString())
                                             {
                                                 proj_selected = "selected";
                                             }
@@ -426,15 +426,19 @@
                                     {
                                         for (int j = 0; j < d_prod.Rows.Count; j++)
                                         {
+                                            prod_selected = "";
                                             for(int k = 0; k < Array_prod_id.Length; k++)
                                             {
-                                                if (d_prod.Rows[j]["prod_id"].ToString() == Array_prod_id[k])
+                                                if(prod_selected.Length == 0)
                                                 {
-                                                    prod_selected = "selected";
-                                                }
-                                                else
-                                                {
-                                                    prod_selected = "";
+                                                    if (d_prod.Rows[j]["prod_id"].ToString() == Array_prod_id[k])
+                                                    {
+                                                        prod_selected = "selected";
+                                                    }
+                                                    else
+                                                    {
+                                                        prod_selected = "";
+                                                    }
                                                 }
                                             }
 
@@ -555,24 +559,33 @@
     //    }
     //});
 
-    $('#txt_title_query').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
-        }
-    });
+    //$('#txt_title_query').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
-    $('#txt_lang').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
-        }
-    });
+    //$('#txt_lang').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
 
-    $('#txt_prod').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            $('#form1').submit();
+    //$('#txt_prod').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        $('#form1').submit();
+    //    }
+    //});
+
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
         }
     });
 

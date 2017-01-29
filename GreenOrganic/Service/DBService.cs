@@ -2498,6 +2498,14 @@ namespace Lib.Service
                 }
             }
 
+            if (idxno.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_idxno.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_idxno" + i.ToString(), Array_idxno[i]);
+                }
+            }
+
             if (prod_id.Trim().Length > 0)
             {
                 for (int i = 0; i < Array_prod_id.Length; i++)
@@ -2587,7 +2595,7 @@ namespace Lib.Service
         #endregion
 
         #region 海外實績 專案-產品資料更新 Proj_Prod_Update
-        public string Proj_Prod_Update(string idxno = "", string proj = "", string lang = "", string prod = "")
+        public string Proj_Prod_Update(string idxno = "", string proj = "", string prod = "")
         {
             string c_msg = "";
             SqlConnection conn = new SqlConnection(conn_str);
@@ -2615,8 +2623,8 @@ namespace Lib.Service
 
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@idxno", idxno);
-                cmd.Parameters.AddWithValue("@proj_id", proj);
-                cmd.Parameters.AddWithValue("@prod_id", prod);
+                cmd.Parameters.AddWithValue("@proj", proj);
+                cmd.Parameters.AddWithValue("@prod", prod);
 
                 cmd.ExecuteNonQuery();
             }

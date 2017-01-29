@@ -174,7 +174,7 @@
                     }
                 </select>
 
-                <button class="btn btn-sm btn-primary oi" data-glyph="magnifying-glass">查詢</button>
+                <button class="btn btn-sm btn-primary oi" data-glyph="magnifying-glass" id="btn_query" name="btn_query" onclick="form_ok();">查詢</button>
             </div>
         </div><!-- table-filter //-->
     </header>
@@ -295,40 +295,47 @@
     </footer>
 </form>
 <script>
-    $('#page').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            document.form1.submit();
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
         }
     });
+    //$('#page').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
 
-    $('#txt_title_query').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            document.form1.submit();
-        }
-    });
+    //$('#txt_title_query').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
 
-    $('#txt_start_date').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            document.form1.submit();
-        }
-    });
+    //$('#txt_start_date').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
 
-    $('#txt_end_date').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            document.form1.submit();
-        }
-    });
+    //$('#txt_end_date').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
 
-    $('#txt_lang').on('keydown', function (e) {
-        if (e.which == 13) {
-            //alert('clicked');
-            document.form1.submit();
-        }
-    });
+    //$('#txt_lang').on('keydown', function (e) {
+    //    if (e.which == 13) {
+    //        //alert('clicked');
+    //        document.form1.submit();
+    //    }
+    //});
 
     function sort(c_sort)
     {
