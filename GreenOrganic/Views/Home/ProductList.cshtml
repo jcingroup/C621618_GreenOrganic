@@ -1,7 +1,12 @@
-﻿@{
+﻿@using System.Data
+@{
     ViewBag.Title = "系列產品";
     ViewBag.BodyClass = "Product";
     ViewBag.nav = "n3";
+
+    DataTable d_prod_cate = (DataTable)ViewData["d_prod_cate"];
+    string prod_cate_name = "";
+    string prod_cate_id = "";
 }
 
 @section banner {
@@ -10,30 +15,42 @@
 	</div></div>
 }
 
-<div id="content"><div class="wrap">
+<div id="content">
+    <div class="wrap">
 
-    <div class="product-list row">
-        
-        <div class="col-12 col-xs-6">
-            <article class="article">
-                <h2 class="sr-only">大地系列</h2>
-                <a href="~/Home/ProductSublist">
-                    <img src="~/Content/images/product/cat1.jpg" alt="">
-                    <span>大地系列</span>
-                </a>
-            </article>
-        </div>
+    @if (d_prod_cate.Rows.Count > 0)
+    {
 
-        <div class="col-12 col-xs-6">
-            <article class="article">
-                <h2 class="sr-only">功能性系列</h2>
-                <a href="~/Home/ProductSublist">
-                    <img src="~/Content/images/product/cat2.jpg" alt="">
-                    <span>功能性系列</span>
-                </a>
-            </article>
-        </div>
+        for (int i = 0; i < d_prod_cate.Rows.Count; i++)
+        {
+            prod_cate_id = d_prod_cate.Rows[i]["cate_id"].ToString();
+            prod_cate_name = d_prod_cate.Rows[i]["cate_name"].ToString();
+            if (i % 2 == 0)
+            {
+                @:<div class="product-list row">
+            }
 
-    </div>
+            <div class="col-12 col-xs-6">
+                <article class="article">
+                    <h2 class="sr-only">@prod_cate_name</h2>
+                    <a href="~/Home/ProductSublist?cate_id=@prod_cate_id">
+                        <img src="~/Content/images/product/cat1.jpg" alt="">
+                        <span>@prod_cate_name</span>
+                    </a>
+                </article>
+            </div>
+
+            if (i % 2 == 1)
+            {
+                @:</div>
+            }
+
+        }
+
+        if (d_prod_cate.Rows.Count % 2 == 0)
+        {
+            @:</div>
+        }
+    }
 	
 </div></div>

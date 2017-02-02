@@ -1,9 +1,44 @@
-﻿@{
+﻿@using System.Data
+@{
     ViewBag.Title = "大地OA 1號";
     ViewBag.Title2 = "大地系列";
     ViewBag.Title3 = "系列產品";
     ViewBag.BodyClass = "Product data";
     ViewBag.nav = "n3";
+
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+    DataTable d_prod_img = (DataTable)ViewData["d_prod_img"];
+
+    string prod_id = "";
+    string prod_name = "";
+    string manure_info = "";
+    string manure_no = "";
+    string manure_trait = "";
+    string manure_ingredients = "";
+    string prod_desc = "";
+    string img_id = "";
+    string img_file = "";
+    string img_desc = "";
+
+    if(d_prod.Rows.Count > 0)
+    {
+        prod_id = d_prod.Rows[0]["prod_id"].ToString();
+        prod_name = d_prod.Rows[0]["prod_name"].ToString();
+        manure_info = d_prod.Rows[0]["manure_info"].ToString();
+        manure_no = d_prod.Rows[0]["manure_no"].ToString();
+        manure_trait = d_prod.Rows[0]["manure_trait"].ToString();
+        manure_ingredients = d_prod.Rows[0]["manure_ingredients"].ToString();
+        prod_desc = d_prod.Rows[0]["prod_desc"].ToString();
+    }
+
+    if(d_prod_img.Rows.Count > 0)
+    {
+        img_id = d_prod_img.Rows[0]["img_id"].ToString();
+        img_file = d_prod_img.Rows[0]["img_file"].ToString();
+        img_desc = d_prod_img.Rows[0]["img_desc"].ToString();
+    }
+
+
 }
 @section scripts {
     <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
@@ -76,7 +111,7 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="http://lorempixel.com/530/335/" alt="">
+                <img src="@Url.Content("~/Images/" + img_file.ToString())" alt="">
             </figure>
 
             <section class="product-info">
@@ -86,13 +121,13 @@
                 </h2>
                 <dl>
                     <dt>肥料登記字號</dt>
-                    <dd class="clearfix">肥製(質)字第0528002號</dd>
+                    <dd class="clearfix">@manure_no</dd>
                     <dt>製肥原料</dt>
-                    <dd class="clearfix">新鮮狀況之魚或魚骨等物質、保持100%新鮮蛋白質</dd>
+                    <dd class="clearfix">@manure_info</dd>
                     <dt>登記成份</dt>
-                    <dd class="clearfix">全氮5.0%、全磷酐2.0%、全氧化鉀2.0%、有機質30%</dd>
+                    <dd class="clearfix">@manure_ingredients</dd>
                     <dt>性狀</dt>
-                    <dd class="clearfix">暗色液態</dd>
+                    <dd class="clearfix">@manure_trait</dd>
                 </dl>
             </section>
 
@@ -105,7 +140,7 @@
 
             <div class="editor">
 
-                <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外，尚包含作物生長所需之多種必要元素及胺基酸，並有完整促進作物快速營養生長之獨特完全營養配方，美國特殊配方土壤調理劑等，能在極短時間內將養分迅速轉化成容易被吸收的型態。產品中含有腐植酸、多種氨基酸及作物生長所需之多種營養元素，長期使用可減少肥料之施用量。</p>
+                <p>@Html.Raw(prod_desc)</p>
                 
             </div>@* editor *@
             

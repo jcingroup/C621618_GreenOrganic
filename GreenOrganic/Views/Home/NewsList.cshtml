@@ -1,7 +1,14 @@
-﻿@{
+﻿@using System.Data
+@{
     ViewBag.Title = "新聞資訊";
     ViewBag.BodyClass = "News";
     ViewBag.nav = "n2";
+
+    DataTable d_news = (DataTable)ViewData["d_news"];
+    string n_id = "";
+    string n_title = "";
+    string n_date = "";
+
 }
 
 @section banner {
@@ -13,20 +20,30 @@
 <div id="content"><div class="wrap">
 	
 	<div class="news-list">
+        @if (d_news.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < d_news.Rows.Count; i++)
+                        {
+                            n_id = d_news.Rows[i]["n_id"].ToString();
+                            n_title = d_news.Rows[i]["n_title"].ToString();
+                            n_date = d_news.Rows[i]["n_date"].ToString();
 
-		<article class="article">
-			<div class="row">
-				<figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-					<a href="~/Home/NewsData" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
-				</figure>
-				<div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
-					<h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
-					<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
-					<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-					<p><a href="~/Home/NewsData" class="more">Read more</a></p>
-				</div>
-			</div>
-		</article>
+                <article class="article">
+                    <div class="row">
+                        <figure class="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <a href="~/Home/NewsData?n_id=@n_id" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
+                        </figure>
+                        <div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
+                            <h2 class="h2"><a href="~/Home/NewsData?n_id=@n_id">@n_title</a></h2>
+                            <p class="date"><i class="icon-calendar"></i> @n_date</p>
+                            <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
+                            <p><a href="~/Home/NewsData" class="more">Read more</a></p>
+                        </div>
+                    </div>
+                </article>
+            }
+        }
+
 
 		<article class="article">
 			<div class="row">

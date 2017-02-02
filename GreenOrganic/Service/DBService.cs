@@ -769,6 +769,14 @@ namespace Lib.Service
                 cmd.Parameters.AddWithValue("@lang", lang);
             }
 
+            if (cate_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_cate_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_cate_id" + i.ToString(), Array_cate_id[i]);
+                }
+            }
+
             if (prod_id.Trim().Length > 0)
             {
                 for (int i = 0; i < Array_prod_id.Length; i++)

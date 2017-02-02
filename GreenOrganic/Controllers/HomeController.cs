@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebUser.Controller;
 using SkyView.Service;
+using Lib.Service;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -18,6 +19,9 @@ namespace GreenOrganic.Controllers
 {
     public class HomeController : WebUserController
     {
+        OverlookDBService OverlookDB = new OverlookDBService();
+        DBService DB = new DBService();
+
         // GET: Home
         public ActionResult Index()
         {
@@ -38,6 +42,10 @@ namespace GreenOrganic.Controllers
         // 新聞資訊
         public ActionResult NewsList()
         {
+            string lang = "cn";
+            DataTable d_news;
+            d_news = DB.News_List("", "", "Y", "", "", "", "cn");
+            ViewData["d_news"] = d_news;
             return View();
         }
         public ActionResult NewsData()
@@ -48,14 +56,29 @@ namespace GreenOrganic.Controllers
         // 系列產品
         public ActionResult ProductList()
         {
+            DataTable d_prod_cate;
+            string lang = "cn";
+            d_prod_cate = DB.Prod_Cate_List(lang);
+            ViewData["d_prod_cate"] = d_prod_cate;
             return View();
         }
-        public ActionResult ProductSublist()
+        public ActionResult ProductSublist(string cate_id = "")
         {
+            DataTable d_prod;
+            string lang = "cn";
+            d_prod = DB.Prod_List("","","Y","",lang,cate_id);
+            ViewData["d_prod"] = d_prod;
             return View();
         }
-        public ActionResult ProductData()
+        public ActionResult ProductData(string prod_id = "")
         {
+            DataTable d_prod;
+            DataTable d_prod_img;
+            string lang = "cn";
+            d_prod = DB.Prod_List(prod_id, "", "Y", "", lang, "");
+            d_prod_img = DB.Prod_Img_List(prod_id);
+            ViewData["d_prod"] = d_prod;
+            ViewData["d_prod_img"] = d_prod_img;
             return View();
         }
 
