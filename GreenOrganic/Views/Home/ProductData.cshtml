@@ -29,6 +29,8 @@
         manure_trait = d_prod.Rows[0]["manure_trait"].ToString();
         manure_ingredients = d_prod.Rows[0]["manure_ingredients"].ToString();
         prod_desc = d_prod.Rows[0]["prod_desc"].ToString();
+        ViewBag.Title2 = d_prod.Rows[0]["cate_name"].ToString();
+        ViewBag.Title = d_prod.Rows[0]["prod_name"].ToString();
     }
 
     if(d_prod_img.Rows.Count > 0)
