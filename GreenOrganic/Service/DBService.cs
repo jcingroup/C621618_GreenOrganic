@@ -681,11 +681,12 @@ namespace Lib.Service
                  + "from "
                  + "("
                  + "select "
-                 + "  a1.*,a2.cate_name,a3.lang_name "
+                 + "  a1.*,a2.cate_name,a3.lang_name, a4.img_id, a4.img_file, a4.img_desc "
                  + "from "
                  + "   prod a1 "
                  + "left join prod_category a2 on a1.cate_id = a2.cate_id "
                  + "left join lang a3 on a1.lang = a3.lang_id "
+                 + "left join prod_img a4 on Convert(nvarchar,a1.prod_id) = a4.img_no "
                  + "where "
                  + "  a1.status <> 'D' ";
 
@@ -1086,16 +1087,21 @@ namespace Lib.Service
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
 
-            csql = "select * from prod_img where status = 'Y' and img_no in (";
-            for (int i = 0; i < cimg_no.Length; i++)
+            csql = "select * from prod_img where status = 'Y' ";
+            if(img_no != "ALL")
             {
-                if (i > 0)
+                csql = csql + "and img_no in (";
+                for (int i = 0; i < cimg_no.Length; i++)
                 {
-                    csql = csql + ",";
+                    if (i > 0)
+                    {
+                        csql = csql + ",";
+                    }
+                    csql = csql + "@str_img_no" + i.ToString() + " ";
                 }
-                csql = csql + "@str_img_no" + i.ToString() + " ";
+                csql = csql + ") ";
             }
-            csql = csql + ") ";
+
 
             cmd.CommandText = csql;
 
@@ -2388,12 +2394,25 @@ namespace Lib.Service
                  + "from "
                  + "("
                  + "select "
-                 + "  a1.*,a2.lang,a3.lang_name,a2.proj_name "
+                 + "  a1.*, a2.lang, a3.lang_name, a2.proj_name, a2.country_id, a4.country_name "
+                 + " , a2.area_id, a5.area_name ,a6.img_id, a6.img_file, a6.img_desc "
+                 + "  "
                  + "from "
                  + "   proj_prod a1 "
                  + "left join proj a2 on a1.proj_id = a2.proj_id "
                  + "left join lang a3 on a2.lang = a3.lang_id "
-
+                 + "left join Country a4 on a2.country_id = a4.country_id "
+                 + "left join Area a5 on a2.area_id = a5.area_id "
+                 + "left join "
+                 + "("
+                 + " select distinct "
+                 + "     b1.img_id,b1.img_no,b1.img_file,b1.img_desc "
+                 + " from "
+                 + "     proj_img b1 "
+                 + " inner join "
+                 + "   (select img_no, min(img_id) as img_id from proj_img group by img_no)b2 "
+                 + " on b1.img_id = b2.img_id "
+                 + ") a6 on a1.proj_id = a6.img_no "
                  + ") a1 "
                  +"where "
                  + "  a1.status <> 'D' ";
@@ -2447,7 +2466,8 @@ namespace Lib.Service
                     csql = csql + "a1.prod_id like @str_prod_id_b" + i.ToString();
                     csql = csql + " or ";
                     csql = csql + "a1.prod_id like @str_prod_id_c" + i.ToString();
-
+                    csql = csql + " or ";
+                    csql = csql + "a1.prod_id = @str_prod_id_d" + i.ToString();
 
                 }
                 csql = csql + ") ";
@@ -2521,6 +2541,7 @@ namespace Lib.Service
                     cmd.Parameters.AddWithValue("@str_prod_id_a" + i.ToString(), Array_prod_id[i] + ",%");
                     cmd.Parameters.AddWithValue("@str_prod_id_b" + i.ToString(), "%," + Array_prod_id[i] + ",%");
                     cmd.Parameters.AddWithValue("@str_prod_id_c" + i.ToString(), "%," + Array_prod_id[i]);
+                    cmd.Parameters.AddWithValue("@str_prod_id_d" + i.ToString(),Array_prod_id[i]);
                 }
             }
 

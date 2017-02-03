@@ -1,7 +1,16 @@
-﻿@{
+﻿@using System.Data
+@{
     ViewBag.Title = "海外實績";
     ViewBag.BodyClass = "Witness";
     ViewBag.nav = "n4";
+
+    DataTable d_proj;
+    DataTable d_country;
+    DataTable d_area;
+    DataTable d_prod;
+    DataTable d_plant;
+    
+
 }
 @section scripts {
 	<script src="~/Content/js/jquery.magnific-popup.min.js"></script>
@@ -63,7 +72,7 @@
 
 <div id="content"><div class="wrap">
 	
-	<form action="" class="search-form form-inline">
+	<form action="" class="search-form form-inline" id="form1" name="form1" >
 
 		<label class="sr-only">國別</label>
 		<select name="" id="" class="form-element custom-input">

@@ -1,8 +1,53 @@
-﻿@{
+﻿@using System.Data
+@{
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
-    ViewBag.Title = "浙江省山核桃治理專案";
+    ViewBag.Title = "";
     ViewBag.Title2 = "海外實績";
+
+    DataTable d_proj = (DataTable)ViewData["d_proj"];
+    DataTable d_proj_img = (DataTable)ViewData["d_proj_img"];
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+
+    string proj_id = "";
+    string proj_name = "";
+    string proj_short_desc = "";
+    string proj_desc = "";
+    string proj_plant_name = "";
+    string prod_id = "";
+    string prod_name = "";
+    string prod_img = "";
+    string prod_desc = "";
+    string country_name = "";
+    string area_name = "";
+    string img_id = "";
+    string img_no = "";
+    string img_file = "";
+    string img_desc = "";
+    string proj_img_id = "";
+    string proj_img_no = "";
+    string proj_img_file = "";
+    string Proj_img_desc = "";
+    string c_url_id = "";
+
+    if (d_proj.Rows.Count > 0)
+    {
+        proj_id = d_proj.Rows[0]["proj_id"].ToString();
+        proj_name = d_proj.Rows[0]["proj_name"].ToString();
+        proj_short_desc = d_proj.Rows[0]["proj_short_desc"].ToString();
+        proj_desc = d_proj.Rows[0]["proj_desc"].ToString();
+        proj_plant_name = d_proj.Rows[0]["plant_name"].ToString();
+        country_name = d_proj.Rows[0]["country_name"].ToString();
+        area_name = d_proj.Rows[0]["area_name"].ToString();
+        ViewBag.Title = proj_name;
+    }
+
+    if(d_proj_img.Rows.Count > 0)
+    {
+        proj_img_id = d_proj_img.Rows[0]["img_id"].ToString();
+        proj_img_file = d_proj_img.Rows[0]["img_file"].ToString();
+    }
 }
+
 @section scripts {
     <script>
         $(".gallery .img-thumbnail").click(function(e){
@@ -20,26 +65,26 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="http://lorempixel.com/530/335/" alt="">@* 抓上傳的照片的第一張 *@
+                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
             </figure>
 
             <section class="product-info">
                 <h2 class="h2 underline">
                     @ViewBag.Title
-                    <small>中國 蘇州</small>
+                    <small>@country_name @area_name</small>
                 </h2>
                 <p class="plant">
-                    <span class="label">山核桃</span>
-                    <span class="label">山核桃</span>
+                    @if(proj_plant_name.Length > 0)
+                    {
+                        string[] Array_plant = proj_plant_name.Split(',');
+                        for(int i = 0; i < Array_plant.Length; i++)
+                        {
+                            @:<span class="label">@Array_plant[i]</span>
+                        }
+                    }                    
                 </p>
                 <div class="editor">
-                    <p><span style="font-size: 20px; color: #5e3e1d">使用期間：</span>五個月</p>
-                    <p><span style="font-size: 20px; color: #5e3e1d">使用前：</span>收成數量不滿意</p>
-                    <p>
-                        <span style="font-size: 20px; color: #5e3e1d">使用後：</span><br />
-                        1. 提高產量,成長時間縮短,加強香菇顏色深度及Q度和香味<br />
-                        2. 產量增加60%,香菇增大50%,增加太空包收成期40%
-                    </p>
+                    @Html.Raw(@proj_short_desc)
                 </div>
             </section>
 
@@ -48,33 +93,29 @@
 
         <section class="product-detail">
 
-            <ol class="gallery list-inline">
-                <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/530/335/">@* 超連結內容同圖片網址 *@
-                        <img src="http://lorempixel.com/530/335/" alt="">
-                    </a>
-                </li>
-                <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/600/600/">
-                        <img src="http://lorempixel.com/600/600/" alt="">
-                    </a>
-                </li>
-                <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/500/800/">
-                        <img src="http://lorempixel.com/500/800/" alt="">
-                    </a>
-                </li>
-                <li>
-                    <a class="img-thumbnail" href="http://lorempixel.com/800/500/">
-                        <img src="http://lorempixel.com/800/500/" alt="">
-                    </a>
-                </li>
-            </ol>
+            
+                @if (d_proj_img.Rows.Count > 0)
+                {
+                    @:<ol class="gallery list-inline">
+                    for (int i = 0; i < d_proj_img.Rows.Count; i++)
+                    {
+                        img_id = d_proj_img.Rows[i]["img_id"].ToString();
+                        img_file = d_proj_img.Rows[i]["img_file"].ToString();
+                        img_desc = d_proj_img.Rows[i]["img_desc"].ToString();
+                        @:<li>
+                        @:    <a class="img-thumbnail" href="@Url.Content("~/Images/" + img_file)">
+                        @* 超連結內容同圖片網址 *@
+                        @:    <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                        @:</a>
+                        @:</li>
+
+                    }
+                    @:</ol>
+                }
+
 
             <div class="editor">
-
-                <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外，尚包含作物生長所需之多種必要元素及胺基酸，並有完整促進作物快速營養生長之獨特完全營養配方，美國特殊配方土壤調理劑等，能在極短時間內將養分迅速轉化成容易被吸收的型態。產品中含有腐植酸、多種氨基酸及作物生長所需之多種營養元素，長期使用可減少肥料之施用量。</p>
-                
+                @Html.Raw(proj_desc)                
             </div>@* editor *@
             
         </section>
@@ -86,29 +127,49 @@
     <section class="product-application"><div class="wrap">
 
         <h2 class="h2">所使用之肥料</h2>
+        @if(d_prod.Rows.Count > 0)
+        {
+            for (int i = 0; i < d_prod.Rows.Count; i++)
+            {
+                prod_id = d_prod.Rows[i]["prod_id"].ToString();
+                prod_name = d_prod.Rows[i]["prod_name"].ToString();
+                prod_img = d_prod.Rows[i]["img_file"].ToString();
+                prod_desc = d_prod.Rows[i]["prod_desc"].ToString().Substring(0, 30) + "...";
 
-        <div class="related-item row row-center">
-            <div class="col-12 col-xs-6 col-md-4">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/800/500/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">產品名稱</h3>
-                        <p>產品介紹</p>
-                        <a href="~/Home/ProductData" class="more">View Detail</a>
-                    </div>
-                </article>
-            </div>
-            <div class="col-12 col-xs-6 col-md-4">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/500/800/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">大地OA 1號</h3>
-                        <p>本產品選用來自大海的鮮魚為主要原料，有機質含量高，除氮、磷、鉀等大量元素外…</p>
-                        <a href="~/Home/ProductData" class="more">View Detail</a>
-                    </div>
-                </article>
-            </div>
-        </div>
+                if (i % 2 == 0)
+                {
+                    @:<div class="related-item row row-center">
+                }
+
+                @:<div class="col-12 col-xs-6 col-md-4">
+                @:    <article class="img-thumbnail">
+                @:        <img src="@Url.Content("~/Images/" + prod_img)" alt="">
+                @:        <div class="article-content">
+                @:            <h3 class="h3">@prod_name</h3>
+                @:            <p>@Html.Raw(prod_desc)</p>
+                @:            <a href="@Url.Content("~/Home/ProductData?prod_id=" + prod_id)" class="more">View Detail</a>
+                @:        </div>
+                @:    </article>
+                @:</div>
+
+                if (i % 2 == 1)
+                {
+                    @:</div>
+                }
+            }
+
+            switch (d_prod.Rows.Count % 2)
+            {
+                case 0:
+                    @:  <div class="col-12 col-xs-6 col-md-4">
+                    @:  </div>
+                    @:</div>
+                    break;
+                case 1:
+
+                    break;
+            }
+        }
 
     </div></section>
     @* product-application *@

@@ -8,6 +8,7 @@
 
     DataTable d_prod = (DataTable)ViewData["d_prod"];
     DataTable d_prod_img = (DataTable)ViewData["d_prod_img"];
+    DataTable d_proj_prod = (DataTable)ViewData["d_proj_prod"];
 
     string prod_id = "";
     string prod_name = "";
@@ -19,8 +20,15 @@
     string img_id = "";
     string img_file = "";
     string img_desc = "";
+    string proj_id = "";
+    string proj_name = "";
+    string proj_img = "";
+    string area_name = "";
+    string country_name = "";
+    string c_url_id = "";
 
-    if(d_prod.Rows.Count > 0)
+
+    if (d_prod.Rows.Count > 0)
     {
         prod_id = d_prod.Rows[0]["prod_id"].ToString();
         prod_name = d_prod.Rows[0]["prod_name"].ToString();
@@ -33,7 +41,7 @@
         ViewBag.Title = d_prod.Rows[0]["prod_name"].ToString();
     }
 
-    if(d_prod_img.Rows.Count > 0)
+    if (d_prod_img.Rows.Count > 0)
     {
         img_id = d_prod_img.Rows[0]["img_id"].ToString();
         img_file = d_prod_img.Rows[0]["img_file"].ToString();
@@ -45,12 +53,12 @@
 @section scripts {
     <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
     <script>
-        $('.popup-link').click(function(){
+        $('.popup-link').click(function () {
             var hash = $(this).attr("href"); // get hash tag
             var link = $(this).data("link"); // get actural link
             $.ajax({
                 url: link,
-                success: function(data){
+                success: function (data) {
                     $.magnificPopup.open({
                         type: 'inline',
                         items: {
@@ -61,8 +69,8 @@
                             //     window.location.href = window.location.href + hash;
                             //     // add hash tag in the url after opened
                             // },
-                            close: function() {
-                                window.location.href = window.location.href.replace(hash,'');
+                            close: function () {
+                                window.location.href = window.location.href.replace(hash, '');
                                 // remove hash tag in the url after closed
                             }
                         }
@@ -71,20 +79,20 @@
             });
         });
 
-        if(window.location.hash) {
+        if (window.location.hash) {
             var hash = window.location.hash; // get hash tag
             var link = $(hash).data("link"); // get actural link from the btn with the hash tag
             $.ajax({
                 url: link,
-                success: function(data){
+                success: function (data) {
                     $.magnificPopup.open({
                         type: 'inline',
                         items: {
                             src: data
                         },
                         callbacks: {
-                            close: function() {
-                                window.location.href = window.location.href.replace(hash,'');
+                            close: function () {
+                                window.location.href = window.location.href.replace(hash, '');
                                 // remove hash tag in the url after closed
                             }
                         }
@@ -143,63 +151,86 @@
             <div class="editor">
 
                 <p>@Html.Raw(prod_desc)</p>
-                
+
             </div>@* editor *@
-            
+
         </section>
         @* product-detail *@
 
     </div>@* wrap *@
 
 
-    <section class="product-application"><div class="wrap">
+    <section class="product-application">
+        <div class="wrap">
 
-        <h2 class="h2">本產品應用海外實績</h2>
+            <h2 class="h2">本產品應用海外實績</h2>
+            @if (d_proj_prod.Rows.Count > 0)
+            {
 
-        <div class="related-item row row-center">
-            <div class="col-12 col-xs-6 col-md-3">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/530/335/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">種植物種植物</h3>
-                        <p>國別 地點</p>
-                        <a href="#data-001" id="data-001" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
-                    </div>
-                </article>
-            </div>
-            <div class="col-12 col-xs-6 col-md-3">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/600/600/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">山核桃</h3>
-                        <p>中國 蘇州</p>
-                        <a href="#data-002" id="data-002" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
-                    </div>
-                </article>
-            </div>
-            <div class="col-12 col-xs-6 col-md-3">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/500/800/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">菸草</h3>
-                        <p>中國 雲南昆明</p>
-                        <a href="#data-003" id="data-003" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
-                    </div>
-                </article>
-            </div>
-            <div class="col-12 col-xs-6 col-md-3">
-                <article class="img-thumbnail">
-                    <img src="http://lorempixel.com/800/500/" alt="">
-                    <div class="article-content">
-                        <h3 class="h3">水稻</h3>
-                        <p>柬埔寨 干拉</p>
-                        <a href="#data-004" id="data-004" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData")">Read more</a>
-                    </div>
-                </article>
-            </div>
-        </div>
+                for (int i = 0; i < d_proj_prod.Rows.Count; i++)
+                {
+                    proj_id = d_proj_prod.Rows[i]["proj_id"].ToString();
+                    proj_name = d_proj_prod.Rows[i]["proj_name"].ToString();
+                    img_id = d_proj_prod.Rows[i]["img_id"].ToString();
+                    img_file = d_proj_prod.Rows[i]["img_file"].ToString();
+                    img_desc = d_proj_prod.Rows[i]["img_desc"].ToString();
+                    country_name = d_proj_prod.Rows[i]["country_name"].ToString();
+                    area_name = d_proj_prod.Rows[i]["area_name"].ToString();
+                    c_url_id = "data-00" + i.ToString();
 
-    </div></section>
-    @* product-application *@
+                    if (i % 4 == 0)
+                    {
+                        @:<div class="related-item row row-center">
+                    }
 
-</div>
+
+                            <div class="col-12 col-xs-6 col-md-3">
+                                <article class="img-thumbnail">
+                                    <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                                    <div class="article-content">
+                                        <h3 class="h3">@proj_name</h3>
+                                        <p>@country_name @area_name</p>
+                                        <a href="#@c_url_id" id="@c_url_id" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData?proj_id=" + proj_id)">Read more</a>
+                                    </div>
+                                </article>
+                            </div>
+
+                    if(i % 4 == 3)
+                    {
+                        @:</div>
+                    }
+                }
+
+                switch (d_proj_prod.Rows.Count % 4)
+                {
+                    case 0:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 1:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 2:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 3:
+
+                        break;
+                }
+
+            }
+            </div></section>
+            @* product-application *@
+
+            </div>
