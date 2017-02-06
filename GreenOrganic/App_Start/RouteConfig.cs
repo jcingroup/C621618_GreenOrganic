@@ -19,6 +19,13 @@ namespace SkyView
               defaults: new { controller = "Home", action = "Login" }
               ).DataTokens["UseNamespaceFallback"] = false;
 
+            ////網址加入多國語系寫法。
+            //routes.MapRoute(
+            //   name:"Default_Language",
+            //   url:"{language}/{controller}/{action}/{id}",
+            //   defaults:new {controller="Home",action="Index",language="",id=UrlParameter.Optional}    
+            //);
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

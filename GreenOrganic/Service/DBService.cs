@@ -2396,7 +2396,7 @@ namespace Lib.Service
                  + "select "
                  + "  a1.*, a2.lang, a3.lang_name, a2.proj_name, a2.country_id, a4.country_name "
                  + " , a2.area_id, a5.area_name ,a6.img_id, a6.img_file, a6.img_desc "
-                 + "  "
+                 + " , a2.plant_name "
                  + "from "
                  + "   proj_prod a1 "
                  + "left join proj a2 on a1.proj_id = a2.proj_id "

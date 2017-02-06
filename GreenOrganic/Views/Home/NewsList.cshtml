@@ -8,6 +8,7 @@
     string n_id = "";
     string n_title = "";
     string n_date = "";
+    string n_desc = "";
 
 }
 
@@ -21,86 +22,33 @@
 	
 	<div class="news-list">
         @if (d_news.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < d_news.Rows.Count; i++)
-                        {
-                            n_id = d_news.Rows[i]["n_id"].ToString();
-                            n_title = d_news.Rows[i]["n_title"].ToString();
-                            n_date = d_news.Rows[i]["n_date"].ToString();
+        {
+            for (int i = 0; i < d_news.Rows.Count; i++)
+            {
+                n_id = d_news.Rows[i]["n_id"].ToString();
+                n_title = d_news.Rows[i]["n_title"].ToString();
+                n_date = d_news.Rows[i]["n_date"].ToString();
+                n_desc = d_news.Rows[i]["n_desc"].ToString();
+                if(n_desc.Length > 20)
+                {
+                    n_desc = n_desc.Substring(0, 20) + "...";
+                }
 
                 <article class="article">
                     <div class="row">
                         <figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-                            <a href="~/Home/NewsData?n_id=@n_id" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
+                            <a href="@Url.Content("~/Home/NewsData?n_id=" + n_id)" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
                         </figure>
                         <div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
                             <h2 class="h2"><a href="~/Home/NewsData?n_id=@n_id">@n_title</a></h2>
                             <p class="date"><i class="icon-calendar"></i> @n_date</p>
-                            <p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-                            <p><a href="~/Home/NewsData" class="more">Read more</a></p>
+                            <p>@Html.Raw(n_desc)</p>
+                            <p><a href="@Url.Content("~/Home/NewsData?n_id=" + n_id )" class="more">Read more</a></p>
                         </div>
                     </div>
                 </article>
             }
         }
-
-
-		<article class="article">
-			<div class="row">
-				<figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-					<a href="~/Home/NewsData" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
-				</figure>
-				<div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
-					<h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
-					<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
-					<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-					<p><a href="~/Home/NewsData" class="more">Read more</a></p>
-				</div>
-			</div>
-		</article>
-
-		<article class="article">
-			<div class="row">
-				<figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-					<a href="~/Home/NewsData" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
-				</figure>
-				<div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
-					<h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
-					<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
-					<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-					<p><a href="~/Home/NewsData" class="more">Read more</a></p>
-				</div>
-			</div>
-		</article>
-
-		<article class="article">
-			<div class="row">
-				<figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-					<a href="~/Home/NewsData" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
-				</figure>
-				<div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
-					<h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
-					<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
-					<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-					<p><a href="~/Home/NewsData" class="more">Read more</a></p>
-				</div>
-			</div>
-		</article>
-
-		<article class="article">
-			<div class="row">
-				<figure class="col-12 col-sm-5 col-md-4 col-lg-3">
-					<a href="~/Home/NewsData" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
-				</figure>
-				<div class="article-content col-12 col-sm-7 col-md-8 col-lg-9">
-					<h2 class="h2"><a href="~/Home/NewsData">最新消息最新消息</a></h2>
-					<p class="date"><i class="icon-calendar"></i> 2016-01-01</p>
-					<p>最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息最新消息v</p>
-					<p><a href="~/Home/NewsData" class="more">Read more</a></p>
-				</div>
-			</div>
-		</article>
-
     </div>
 	
 </div></div>
