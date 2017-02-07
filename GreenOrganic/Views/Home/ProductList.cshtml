@@ -20,15 +20,16 @@
 
     @if (d_prod_cate.Rows.Count > 0)
     {
+        @:<div class="product-list row">
 
         for (int i = 0; i < d_prod_cate.Rows.Count; i++)
         {
             prod_cate_id = d_prod_cate.Rows[i]["cate_id"].ToString();
             prod_cate_name = d_prod_cate.Rows[i]["cate_name"].ToString();
-            if (i % 2 == 0)
+            @* if (i % 2 == 0)
             {
                 @:<div class="product-list row">
-            }
+            } *@
 
             <div class="col-12 col-xs-6">
                 <article class="article">
@@ -40,17 +41,19 @@
                 </article>
             </div>
 
-            if (i % 2 == 1)
+            @* if (i % 2 == 1)
             {
                 @:</div>
-            }
+            } *@
 
         }
 
-        if (d_prod_cate.Rows.Count % 2 == 0)
+        @* if (d_prod_cate.Rows.Count % 2 == 0)
         {
             @:</div>
-        }
+        } *@
+
+        @:</div>
     }
 	
 </div></div>

@@ -34,6 +34,8 @@
     <div class="wrap">
         @if(d_prod.Rows.Count > 0)
         {
+            @:<div class="product-sublist row">
+
             for(int i = 0; i < d_prod.Rows.Count; i++)
             {
                 prod_id = d_prod.Rows[i]["prod_id"].ToString();
@@ -56,17 +58,11 @@
 
                 if(img_file == "")
                 {
-                    img_file = "http://lorempixel.com/530/335/";
+                    img_file = Url.Content("~/Content/images/noPic.jpg");
                 }
                 else
                 {
                     img_file = Url.Content("~/Images/" + img_file);
-                }
-
-
-                if (i % 2 == 0)
-                {
-                    @:<div class="product-sublist row">
                 }
 
                 <div class="col-sm-6 col-md-4">
@@ -80,17 +76,15 @@
                     </article>
                 </div>
 
-                if (i % 2 == 1)
-                {
-                    @:</div>
-                }
             }
 
-            if (d_prod.Rows.Count % 2 == 0)
-            {
-                @:</div>
-            }
+            @:</div>
         }
+        else {
+            @:<h4 class="h4 text-center">暫無資料</h4>
+        }
+
+        <p class="text-center m-t-16"><a href="~/Home/ProductList" class="btn btn-primary">BACK</a></p>
 
     </div>
 </div>

@@ -10,6 +10,7 @@
     DataTable d_prod_img = (DataTable)ViewData["d_prod_img"];
     DataTable d_proj_prod = (DataTable)ViewData["d_proj_prod"];
 
+    string cate_id = "";
     string prod_id = "";
     string prod_name = "";
     string manure_info = "";
@@ -30,6 +31,7 @@
 
     if (d_prod.Rows.Count > 0)
     {
+        cate_id = d_prod.Rows[0]["cate_id"].ToString();
         prod_id = d_prod.Rows[0]["prod_id"].ToString();
         prod_name = d_prod.Rows[0]["prod_name"].ToString();
         manure_info = d_prod.Rows[0]["manure_info"].ToString();
@@ -121,7 +123,14 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="@Url.Content("~/Images/" + img_file.ToString())" alt="">
+                @if(img_file == "")
+                {
+                    <img src="~/Content/images/noPic.jpg" alt="">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Images/" + img_file.ToString())" alt="">
+                }
             </figure>
 
             <section class="product-info">
@@ -178,10 +187,12 @@
                     area_name = d_proj_prod.Rows[i]["area_name"].ToString();
                     c_url_id = "data-00" + i.ToString();
 
-                    if (i % 4 == 0)
+                    @:<div class="related-item row row-center">
+
+                    @* if (i % 4 == 0)
                     {
                         @:<div class="related-item row row-center">
-                    }
+                    } *@
 
 
                             <div class="col-12 col-xs-6 col-md-3">
@@ -195,13 +206,15 @@
                                 </article>
                             </div>
 
-                    if(i % 4 == 3)
+                    @* if(i % 4 == 3)
                     {
                         @:</div>
-                    }
+                    } *@
+
+                    @:</div>
                 }
 
-                switch (d_proj_prod.Rows.Count % 4)
+                @* switch (d_proj_prod.Rows.Count % 4)
                 {
                     case 0:
                           @:<div class="col-12 col-xs-6 col-md-3">
@@ -227,10 +240,17 @@
                     case 3:
 
                         break;
-                }
+                } *@
 
             }
-            </div></section>
-            @* product-application *@
+            else {
+                @:<h4 class="h4 text-center">暫無資料</h4>
+            }
 
-            </div>
+            <p class="text-center m-t-32"><a href="~/Home/ProductSublist?cate_id=@cate_id" class="btn btn-primary">BACK</a></p>
+
+        </div>
+    </section>
+    @* product-application *@
+
+</div>
