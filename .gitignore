@@ -242,7 +242,8 @@ ModelManifest.xml
 .paket/paket.exe
 
 # FAKE - F# Make
-/GreenOrganic/Content/sass
+/GreenOrganic/Images
 /GreenOrganic/ckeditor
 /GreenOrganic/Content/doc
+/GreenOrganic/Content/sass
 /GreenOrganic/Content/sass-sys
