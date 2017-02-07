@@ -214,7 +214,7 @@
 		<label class="sr-only">國別</label>
         <select class="form-element custom-input" id="country" name="country" onchange="get_area('');">
             <option value="" selected disabled>請選擇國別</option>
-            <option value=""></option>
+            <option value="">全部國家</option>
             @if (d_country.Rows.Count > 0)
             {
                 for (int i = 0; i < d_country.Rows.Count; i++)
@@ -234,7 +234,8 @@
 
         <label class="sr-only">省</label>
         <select class="form-element custom-input" id="area" name="area">
-            <option value="">全部</option>
+        	<option value="" selected disabled>請選擇省</option>
+            <option value="">全部地區</option>
             @if (d_area.Rows.Count > 0)
             {
                 for (int i = 0; i < d_area.Rows.Count; i++)
@@ -255,7 +256,7 @@
         <label class="sr-only">產品</label>
         <select class="form-element custom-input" id="prod" name="prod">
             <option value="" selected disabled>請選擇產品</option>
-            <option value="">不拘</option>
+            <option value="">產品不拘</option>
             @if (d_prod.Rows.Count > 0)
             {
                 for (int i = 0; i < d_prod.Rows.Count; i++)
@@ -276,7 +277,7 @@
         <label class="sr-only">種植物</label>
         <select name="" id="" class="form-element custom-input">
         	<option value="" selected disabled>請選擇種植物</option>
-        	<option value="">不拘</option>
+        	<option value="">種植物不拘</option>
         	<option value="">水稻</option>
             <option value="">山核桃</option>
         </select>

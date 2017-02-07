@@ -129,6 +129,8 @@
         <h2 class="h2">所使用之肥料</h2>
         @if(d_prod.Rows.Count > 0)
         {
+        @:<div class="related-item row row-center">
+
             for (int i = 0; i < d_prod.Rows.Count; i++)
             {
                 prod_id = d_prod.Rows[i]["prod_id"].ToString();
@@ -136,10 +138,10 @@
                 prod_img = d_prod.Rows[i]["img_file"].ToString();
                 prod_desc = d_prod.Rows[i]["prod_desc"].ToString().Substring(0, 30) + "...";
 
-                if (i % 2 == 0)
+                @* if (i % 2 == 0)
                 {
                     @:<div class="related-item row row-center">
-                }
+                } *@
 
                 @:<div class="col-12 col-xs-6 col-md-4">
                 @:    <article class="img-thumbnail">
@@ -152,13 +154,13 @@
                 @:    </article>
                 @:</div>
 
-                if (i % 2 == 1)
+                @* if (i % 2 == 1)
                 {
                     @:</div>
-                }
+                } *@
             }
 
-            switch (d_prod.Rows.Count % 2)
+            @* switch (d_prod.Rows.Count % 2)
             {
                 case 0:
                     @:  <div class="col-12 col-xs-6 col-md-4">
@@ -168,7 +170,9 @@
                 case 1:
 
                     break;
-            }
+            } *@
+
+        @:</div>
         }
 
     </div></section>
