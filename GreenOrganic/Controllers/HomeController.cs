@@ -25,7 +25,37 @@ namespace GreenOrganic.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
+
+            //設定變數
+            DataTable d_proj;
+            DataTable d_country;
+            DataTable d_area;
+            DataTable d_proj_prod;
+            DataTable d_prod;
+            DataTable d_news;
+            DataTable d_prod_cate;
+            DataTable d_ad;
+
+            //抓取資料
+            d_proj = DB.Proj_List("", "", "Y", "", lang, "", "","Y");
+            d_country = DB.Country_List(lang, "", "Y", "");
+            d_area = DB.Area_List(lang, "", "", "Y", "");
+            d_proj_prod = DB.Proj_Prod_List("", "", "Y", "", lang, "", "");
+            d_prod = DB.Prod_List("", "", "Y", "", lang, "");
+            d_news = DB.News_List("", "", "Y", "", "", "", lang, "Y");
+            d_prod_cate = DB.Prod_Cate_List(lang);
+            d_ad = DB.Video_List();
+
+            ViewData["d_proj"] = d_proj;
+            ViewData["d_country"] = d_country;
+            ViewData["d_area"] = d_area;
+            ViewData["d_proj_prod"] = d_proj_prod;
+            ViewData["d_prod"] = d_prod;
+            ViewData["d_ad"] = d_ad;
+            ViewData["d_prod_cate"] = d_prod_cate;
+            ViewData["d_news"] = d_news;
+
             return View();
         }
         // 導向後台首頁(登入頁)
@@ -37,7 +67,7 @@ namespace GreenOrganic.Controllers
         // 品牌故事
         public ActionResult AboutUs()
         {
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
             DataTable d_com_info = DB.Com_List("AboutUs", lang);
             ViewData["d_com_info"] = d_com_info;
             return View();
@@ -46,7 +76,7 @@ namespace GreenOrganic.Controllers
         // 新聞資訊
         public ActionResult NewsList()
         {
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
             DataTable d_news;
             d_news = DB.News_List("", "", "Y", "", "", "", lang);
             ViewData["d_news"] = d_news;
@@ -54,7 +84,7 @@ namespace GreenOrganic.Controllers
         }
         public ActionResult NewsData(string n_id = "")
         {
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
             DataTable d_news = DB.News_List(n_id,"","Y","","","",lang);
             
             if(d_news.Rows.Count > 0)
@@ -73,7 +103,7 @@ namespace GreenOrganic.Controllers
         public ActionResult ProductList()
         {
             DataTable d_prod_cate;
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
 
             d_prod_cate = DB.Prod_Cate_List(lang);
             ViewData["d_prod_cate"] = d_prod_cate;
@@ -83,7 +113,7 @@ namespace GreenOrganic.Controllers
         {
             DataTable d_prod;
             DataTable d_prod_img;
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
 
             d_prod = DB.Prod_List("","","Y","",lang,cate_id);
             d_prod_img = DB.Prod_Img_List("ALL");
@@ -104,7 +134,7 @@ namespace GreenOrganic.Controllers
             DataTable d_prod;
             DataTable d_prod_img;
             DataTable d_proj_prod;
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
 
             d_prod = DB.Prod_List(prod_id, "", "Y", "", lang, "");
             d_prod_img = DB.Prod_Img_List(prod_id);
@@ -133,7 +163,7 @@ namespace GreenOrganic.Controllers
             DataTable d_area;
             DataTable d_proj_prod;
             DataTable d_prod;
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
 
             //抓取資料
             d_proj = DB.Proj_List("", "", "Y", "", lang, "", "");
@@ -157,7 +187,7 @@ namespace GreenOrganic.Controllers
             DataTable d_prod;
             DataTable d_proj_img;
 
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
             string prod_id = "";
 
             d_proj = DB.Proj_List(proj_id,"","Y","",lang,country_id,area_id);
@@ -181,7 +211,7 @@ namespace GreenOrganic.Controllers
         // 聯繫我們
         public ActionResult ContactUs()
         {
-            string lang = Convert.ToString(Session["lang"]);
+            string lang = get_lang();
             return View();
         }
 
@@ -190,7 +220,7 @@ namespace GreenOrganic.Controllers
         {
             string str_return = "";
             DataTable Country;
-            lang = Convert.ToString(Session["lang"]);
+            lang = get_lang();
             Country = DB.Country_List(lang);
             str_return = JsonConvert.SerializeObject(Country, Newtonsoft.Json.Formatting.Indented);
 
@@ -203,7 +233,7 @@ namespace GreenOrganic.Controllers
         {
             string str_return = "";
             DataTable Area;
-            lang = Convert.ToString(Session["lang"]);
+            lang = get_lang();
             Area = DB.Area_List(lang, country);
             str_return = JsonConvert.SerializeObject(Area, Newtonsoft.Json.Formatting.Indented);
 
@@ -216,7 +246,7 @@ namespace GreenOrganic.Controllers
         {
             string str_return = "";
             DataTable Proj;
-            lang = Convert.ToString(Session["lang"]);
+            lang = get_lang();
             Proj = DB.Proj_List("", "", "", "", lang, "", "");
             str_return = JsonConvert.SerializeObject(Proj, Newtonsoft.Json.Formatting.Indented);
 
@@ -229,7 +259,7 @@ namespace GreenOrganic.Controllers
         {
             string str_return = "";
             DataTable Prod;
-            lang = Convert.ToString(Session["lang"]);
+            lang = get_lang();
             Prod = DB.Prod_List("", "", "", "", lang, "");
             str_return = JsonConvert.SerializeObject(Prod, Newtonsoft.Json.Formatting.Indented);
 
@@ -253,5 +283,21 @@ namespace GreenOrganic.Controllers
         }
         #endregion
 
+        #region 語系取得
+        public string get_lang()
+        {
+            string clang = "";
+            //設定語系
+            if (Convert.ToString(Session["lang"]) == "")
+            {
+                Session["lang"] = "cn";
+                
+            }
+
+            clang = Convert.ToString(Session["lang"]);
+
+            return clang;
+        }
+        #endregion
     }
 }

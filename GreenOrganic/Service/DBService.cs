@@ -16,7 +16,7 @@ namespace Lib.Service
         DataSet ds = new DataSet();
 
         #region 消息資料抓取 News_List
-        public DataTable News_List(string news_id = "", string sort = "", string status = "", string title_query = "", string start_date = "", string end_date = "", string lang = "")
+        public DataTable News_List(string news_id = "", string sort = "", string status = "", string title_query = "", string start_date = "", string end_date = "", string lang = "",string is_index = "")
         {
             SqlConnection conn = new SqlConnection(conn_str);
             if (conn.State == ConnectionState.Closed)
@@ -96,6 +96,11 @@ namespace Lib.Service
                 csql = csql + "and a1.lang = @lang ";
             }
 
+            if(is_index.Trim().Length > 0)
+            {
+                csql = csql + "and a1.is_index = @is_index ";
+            }
+
             csql = csql + ")a1 ";
 
             if (sort.Trim().Length > 0)
@@ -145,6 +150,11 @@ namespace Lib.Service
                 {
                     cmd.Parameters.AddWithValue("@str_title_query" + i.ToString(), "%" + Array_title_query[i] + "%");
                 }
+            }
+
+            if(is_index.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@is_index", is_index);
             }
 
             //--------------------------------------------------------------//
@@ -1283,7 +1293,7 @@ namespace Lib.Service
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
 
-            csql = "select "
+            csql = "select distinct "
                  + "  a1.* "
                  + "from "
                  + "("
@@ -1326,7 +1336,6 @@ namespace Lib.Service
             cmd.CommandText = csql;
 
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@lang", lang);
             if (country_query.Trim().Length > 0)
             {
                 for (int i = 0; i < Array_country_query.Length; i++)
@@ -1335,6 +1344,10 @@ namespace Lib.Service
                 }
             }
 
+            if (lang.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@lang", lang);
+            }
 
             if (ds.Tables["country"] != null)
             {
@@ -1757,7 +1770,7 @@ namespace Lib.Service
         #endregion
 
         #region 海外實績 專案資料陳列 Proj_List
-        public DataTable Proj_List(string proj_id = "", string sort = "", string status = "", string title_query = "", string lang = "", string country_id = "", string area_id = "")
+        public DataTable Proj_List(string proj_id = "", string sort = "", string status = "", string title_query = "", string lang = "", string country_id = "", string area_id = "",string is_index = "")
         {
             SqlConnection conn = new SqlConnection(conn_str);
             if (conn.State == ConnectionState.Closed)
@@ -1783,12 +1796,22 @@ namespace Lib.Service
                  + "from "
                  + "("
                  + "select "
-                 + "  a1.*,a2.lang_name,a3.country_name,a4.area_name "
+                 + "  a1.*,a2.lang_name,a3.country_name,a4.area_name,a6.img_id, a6.img_file, a6.img_desc "
                  + "from "
                  + "   proj a1 "
                  + "left join lang a2 on a1.lang = a2.lang_id "
                  + "left join country a3 on a1.country_id = a3.country_id "
                  + "left join area a4 on a1.area_id = a4.area_id "
+                 + "left join "
+                 + "("
+                 + " select distinct "
+                 + "     b1.img_id,b1.img_no,b1.img_file,b1.img_desc "
+                 + " from "
+                 + "     proj_img b1 "
+                 + " inner join "
+                 + "   (select img_no, min(img_id) as img_id from proj_img group by img_no)b2 "
+                 + " on b1.img_id = b2.img_id "
+                 + ") a6 on a1.proj_id = a6.img_no "
                  + "where "
                  + "  a1.status <> 'D' ";
 
@@ -1861,6 +1884,11 @@ namespace Lib.Service
                 csql = csql + "and a1.lang = @lang ";
             }
 
+            if(is_index.Trim().Length > 0)
+            {
+                csql = csql + "and a1.is_index = @is_index ";
+            }
+
             csql = csql + ") a1 ";
 
             if (sort.Trim().Length > 0)
@@ -1885,6 +1913,11 @@ namespace Lib.Service
             if (lang.Trim().Length > 0)
             {
                 cmd.Parameters.AddWithValue("@lang", lang);
+            }
+
+            if (is_index.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@is_index", is_index);
             }
 
             if (proj_id.Trim().Length > 0)

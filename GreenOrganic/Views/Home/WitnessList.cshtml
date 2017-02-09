@@ -156,6 +156,8 @@
 		    return false;
 		}
 
+        
+
 		function get_prod(c_pre) {
 		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
@@ -182,6 +184,94 @@
 		            $.each($.parseJSON(data), function (idx, obj) {
 		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
 		                $("#" + c_pre + "prod").append($("<option></option>").attr("value", obj.prod_id).text(obj.prod_name));
+		            });
+		        },
+		        error: function (xhr, ajaxOptions, thrownError) {
+		            alert(xhr.status);
+		            alert(thrownError);
+		        },
+		        complete: function () {
+		            //alert(tbl_new_list);
+		            //alert('ajax complete');
+		        }
+		    });
+		    return false;
+		}
+
+		function get_area(c_pre) {
+		    //  取得被選擇項目的值
+		    //$("#select").find(":selected").val();
+		    var c_country = $("#" + c_pre + "country").find(":selected").val();
+		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+		    $.ajax({
+		        url: 'Area_Get',
+		        data: { country: c_country }, //此参数非常严谨，写错一个引号都不行
+		        type: "POST",
+		        dataType: 'TEXT', //返回值类型 一般设置为json
+		        async: false,
+		        success: function (JData) {
+		            //alert(JData);
+		            data = handleAjaxVPNMsg(JData);
+		            i = 0;
+		            c_html = "";
+
+		            //  移除全部的項目
+		            $("#" + c_pre + "area option").remove();
+
+		            //新增空白
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected",true).attr("disabled",true).text("請選擇省"));
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
+
+		            $.each($.parseJSON(data), function (idx, obj) {
+		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+		                $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
+		            });
+		        },
+		        error: function (xhr, ajaxOptions, thrownError) {
+		            alert(xhr.status);
+		            alert(thrownError);
+		        },
+		        complete: function () {
+		            //alert(tbl_new_list);
+		            //alert('ajax complete');
+		        }
+		    });
+		    return false;
+		}
+
+		function get_prod(c_pre) {
+		    //  取得被選擇項目的值
+		    //$("#select").find(":selected").val();
+		    var c_country = $("#" + c_pre + "country").find(":selected").val();
+		    var c_area = $("#" + c_pre + "country").find(":selected").val();
+
+		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+		    $.ajax({
+		        url: 'Prod_Get',
+		        data: { lang: c_lang, country: c_country }, //此参数非常严谨，写错一个引号都不行
+		        type: "POST",
+		        dataType: 'TEXT', //返回值类型 一般设置为json
+		        async: false,
+		        success: function (JData) {
+		            //alert(JData);
+		            data = handleAjaxVPNMsg(JData);
+		            i = 0;
+		            c_html = "";
+
+		            //  移除全部的項目
+		            $("#" + c_pre + "area option").remove();
+
+		            //新增空白
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇省"));
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
+
+		            $.each($.parseJSON(data), function (idx, obj) {
+		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+		                $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
 		            });
 		        },
 		        error: function (xhr, ajaxOptions, thrownError) {
