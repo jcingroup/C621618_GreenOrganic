@@ -7,6 +7,7 @@
     DataTable d_prod_cate = (DataTable)ViewData["d_prod_cate"];
     string prod_cate_name = "";
     string prod_cate_id = "";
+    string prod_cate_pic = "";
 }
 
 @section banner {
@@ -26,6 +27,7 @@
         {
             prod_cate_id = d_prod_cate.Rows[i]["cate_id"].ToString();
             prod_cate_name = d_prod_cate.Rows[i]["cate_name"].ToString();
+            prod_cate_pic = d_prod_cate.Rows[i]["pic"].ToString();
             @* if (i % 2 == 0)
             {
                 @:<div class="product-list row">
@@ -34,8 +36,8 @@
             <div class="col-12 col-xs-6">
                 <article class="article">
                     <h2 class="sr-only">@prod_cate_name</h2>
-                    <a href="~/Home/ProductSublist?cate_id=@prod_cate_id">
-                        <img src="~/Content/images/product/cat1.jpg" alt="">
+                    <a href="@Url.Content("~/Home/ProductSublist?cate_id=" + prod_cate_id)">
+                        <img src="@Url.Content("~/Content/images/product/" + prod_cate_pic)" alt="">
                         <span>@prod_cate_name</span>
                     </a>
                 </article>

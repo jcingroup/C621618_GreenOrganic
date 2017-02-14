@@ -1,4 +1,6 @@
 ﻿@using System.Data
+@using System.Text.RegularExpressions
+
 @{
     ViewBag.Title = "新聞資訊";
     ViewBag.BodyClass = "News";
@@ -28,7 +30,7 @@
                 n_id = d_news.Rows[i]["n_id"].ToString();
                 n_title = d_news.Rows[i]["n_title"].ToString();
                 n_date = d_news.Rows[i]["n_date"].ToString();
-                n_desc = d_news.Rows[i]["n_desc"].ToString();
+                n_desc = RemoveHTMLTag(d_news.Rows[i]["n_desc"].ToString());
                 if(n_desc.Length > 120)
                 {
                     n_desc = n_desc.Substring(0, 120) + "...";
@@ -52,3 +54,21 @@
     </div>
 	
 </div></div>
+
+@functions
+{
+    /// <summary>
+    /// 移除html tag
+    /// </summary>
+    /// <param name="htmlSource"></param>
+    /// <returns></returns>
+    public static string RemoveHTMLTag(string htmlSource)
+    {
+        //移除  javascript code.
+        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
+
+        //移除html tag.
+        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
+        return htmlSource;
+    }
+}

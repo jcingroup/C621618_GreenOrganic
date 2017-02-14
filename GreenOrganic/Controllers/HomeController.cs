@@ -154,9 +154,8 @@ namespace GreenOrganic.Controllers
         }
 
         // 海外實績
-        public ActionResult WitnessList()
+        public ActionResult WitnessList(string country = "", string area = "",string prod = "", string plant="",string txt_title_query = "")
         {
-            
             //設定變數
             DataTable d_proj;
             DataTable d_country;
@@ -164,16 +163,35 @@ namespace GreenOrganic.Controllers
             DataTable d_proj_prod;
             DataTable d_prod;
             string lang = get_lang();
-
+            string proj_id = "";
+            string plant_name = "";
             //抓取資料
-            d_proj = DB.Proj_List("", "", "Y", "", lang, "", "");
+            d_proj = DB.Proj_List("", "", "Y", txt_title_query, lang, country, area,"");
             d_country = DB.Country_List(lang, "", "Y", "");
             d_area = DB.Area_List(lang, "", "", "Y", "");
-            d_proj_prod = DB.Proj_Prod_List("", "", "Y", "", lang, "", "");
+
+            if(d_proj.Rows.Count > 0)
+            {
+                proj_id = "";
+                for(int i = 0; i < d_proj.Rows.Count; i++)
+                {
+                    plant_name = d_proj.Rows[i]["plant_name"].ToString();
+                    if(plant_name.IndexOf(plant) >= 0)
+                    {
+                        if(proj_id.Length > 0)
+                        {
+                            proj_id = proj_id + ",";
+                        }
+                        proj_id = proj_id + d_proj.Rows[i]["proj_id"].ToString();
+                    }
+                }
+            }
+
+            d_proj_prod = DB.Proj_Prod_List("", "", "Y", "", lang, prod, proj_id);
             d_prod = DB.Prod_List("", "", "Y", "", lang, "");
             ViewData["d_proj"] = d_proj;
             ViewData["d_country"] = d_country;
-            ViewData["d_area"] = d_area;
+            //ViewData["d_area"] = d_area;
             ViewData["d_proj_prod"] = d_proj_prod;
             ViewData["d_prod"] = d_prod;
 
@@ -262,6 +280,101 @@ namespace GreenOrganic.Controllers
             lang = get_lang();
             Prod = DB.Prod_List("", "", "", "", lang, "");
             str_return = JsonConvert.SerializeObject(Prod, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
+        #region 海外實績-產品取得 Proj_Prod_Get
+        public ActionResult Proj_Prod_Get(string country = "",string area = "",string is_index = "")
+        {
+            string str_return = "";
+
+            DataTable Proj_Prod;
+            DataTable Prod;
+            string lang = "";
+            string c_prod = "";
+            lang = get_lang();
+            Proj_Prod = DB.Proj_Prod_List("", "", "Y", "", lang, "", "");
+            if(Proj_Prod.Rows.Count > 0)
+            {
+                c_prod = "";
+                for(int i = 0; i < Proj_Prod.Rows.Count; i++)
+                {
+                    if (c_prod.Trim().Length > 0)
+                    {
+                        c_prod = c_prod + ",";
+                    }
+
+                    c_prod = c_prod + Proj_Prod.Rows[i]["prod_id"].ToString();
+                }
+            }
+
+            Prod = DB.Prod_List(c_prod, "", "Y", "", lang, "");
+
+            str_return = JsonConvert.SerializeObject(Prod, Newtonsoft.Json.Formatting.Indented);
+
+            return Content(str_return);
+        }
+        #endregion
+
+        #region 海外實績-植物取得 Proj_Plant_Get
+        public ActionResult Proj_Plant_Get(string country = "", string area = "")
+        {
+            string str_return = "";
+
+            DataTable Proj;
+            DataTable Plant = new DataTable();
+            string c_plant = "";
+            string c_chk = "";
+
+            //kk.Columns.Add("c_dates", System.Type.GetType("System.String")); //時間
+            //kk.Columns.Add("c_memo", System.Type.GetType("System.String")); //訊息
+            Plant.Columns.Add("plant_name",System.Type.GetType("System.String")); //植物名稱
+            string lang = "";
+            string c_prod = "";
+            lang = get_lang();
+            Proj = DB.Proj_List("","","Y","",lang,country,area,"");
+            if (Proj.Rows.Count > 0)
+            {
+                c_plant = "";
+                for (int i = 0; i < Proj.Rows.Count; i++)
+                {
+                    if (c_plant.Trim().Length > 0)
+                    {
+                        c_plant = c_plant + ",";
+                    }
+
+                    c_plant = c_plant + Proj.Rows[i]["plant_name"].ToString();
+                }
+            }
+
+            string[] Array_plant = c_plant.Split(',');
+            for(int i = 0; i < Array_plant.Length; i++)
+            {
+                c_chk = "N";
+                //檢查是否有加入資料
+                if (Plant.Rows.Count > 0)
+                {
+                    for(int j = 0; j < Plant.Rows.Count; j++)
+                    {
+                        if(Plant.Rows[j]["plant_name"].ToString() == Array_plant[i])
+                        {
+                            c_chk = "Y";
+                            break;
+                        }
+                    }
+                }
+
+                if(c_chk == "N")
+                {
+                    DataRow new_row = Plant.NewRow();
+                    new_row[0] = Array_plant[i];
+                    Plant.Rows.Add(new_row);
+                }
+            }
+
+            str_return = JsonConvert.SerializeObject(Plant, Newtonsoft.Json.Formatting.Indented);
 
             return Content(str_return);
         }

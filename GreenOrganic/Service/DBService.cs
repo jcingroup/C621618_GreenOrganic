@@ -1920,6 +1920,22 @@ namespace Lib.Service
                 cmd.Parameters.AddWithValue("@is_index", is_index);
             }
 
+            if (country_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_country_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_country_id" + i.ToString(), Array_country_id[i]);
+                }
+            }
+
+            if (area_id.Trim().Length > 0)
+            {
+                for (int i = 0; i < Array_area_id.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@str_area_id" + i.ToString(), Array_area_id[i]);
+                }
+            }
+
             if (proj_id.Trim().Length > 0)
             {
                 for (int i = 0; i < Array_proj_id.Length; i++)

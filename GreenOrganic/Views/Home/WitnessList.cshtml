@@ -4,9 +4,9 @@
     ViewBag.BodyClass = "Witness";
     ViewBag.nav = "n4";
 
-    DataTable d_plant;
+    //DataTable d_plant;
     DataTable d_country = (DataTable)ViewData["d_country"];
-    DataTable d_area = (DataTable)ViewData["d_area"];
+    //DataTable d_area = (DataTable)ViewData["d_area"];
     DataTable d_proj = (DataTable)ViewData["d_proj"];
     DataTable d_prod = (DataTable)ViewData["d_prod"];
     DataTable d_proj_prod = (DataTable)ViewData["d_proj_prod"];
@@ -85,19 +85,6 @@
 		}
 
 		function form_ok() {
-		    //取值
-		    var student = $("#prod").val();
-		    var c_prod = "";
-		    for (var key in student) {
-		        if (c_prod.length > 0) {
-		            c_prod = c_prod + ",";
-		        }
-		        c_prod = c_prod + student[key];
-		        //alert(student[key] + "," + $('#studentSelect option[value="' + student[key] + '"]').text());
-		    }
-
-		    $('#s_prod').val(c_prod);
-		    //form1.submit();
 		    $('#form1').submit();
 		}
 
@@ -121,7 +108,7 @@
 		    //$("#select").find(":selected").val();
 		    var c_lang = $("#" + c_pre + "lang").find(":selected").val();
 		    $.ajax({
-		        url: 'Proj_Get',
+		        url: '@Url.Content("~/Home/Proj_Get")',
 		        data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
 		        type: "POST",
 		        dataType: 'TEXT', //返回值类型 一般设置为json
@@ -156,55 +143,13 @@
 		    return false;
 		}
 
-        
-
-		function get_prod(c_pre) {
-		    //  取得被選擇項目的值
-		    //$("#select").find(":selected").val();
-		    var c_lang = $("#" + c_pre + "lang").find(":selected").val();
-		    $.ajax({
-		        url: 'Prod_Get',
-		        data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
-		        type: "POST",
-		        dataType: 'TEXT', //返回值类型 一般设置为json
-		        async: false,
-		        success: function (JData) {
-		            //alert(JData);
-		            data = handleAjaxVPNMsg(JData);
-		            i = 0;
-		            c_html = "";
-
-		            //  移除全部的項目
-		            $("#" + c_pre + "prod option").remove();
-		            //新增空白
-		            if (c_pre == "txt_") {
-		                $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部"));
-		            }
-
-		            $.each($.parseJSON(data), function (idx, obj) {
-		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
-		                $("#" + c_pre + "prod").append($("<option></option>").attr("value", obj.prod_id).text(obj.prod_name));
-		            });
-		        },
-		        error: function (xhr, ajaxOptions, thrownError) {
-		            alert(xhr.status);
-		            alert(thrownError);
-		        },
-		        complete: function () {
-		            //alert(tbl_new_list);
-		            //alert('ajax complete');
-		        }
-		    });
-		    return false;
-		}
-
 		function get_area(c_pre) {
 		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
 		    var c_country = $("#" + c_pre + "country").find(":selected").val();
 		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
 		    $.ajax({
-		        url: 'Area_Get',
+		        url: '@Url.Content("~/Home/Area_Get")',
 		        data: { country: c_country }, //此参数非常严谨，写错一个引号都不行
 		        type: "POST",
 		        dataType: 'TEXT', //返回值类型 一般设置为json
@@ -246,11 +191,12 @@
 		    //$("#select").find(":selected").val();
 		    var c_country = $("#" + c_pre + "country").find(":selected").val();
 		    var c_area = $("#" + c_pre + "country").find(":selected").val();
+		    var is_index = "N";
 
 		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
 		    $.ajax({
-		        url: 'Prod_Get',
-		        data: { lang: c_lang, country: c_country }, //此参数非常严谨，写错一个引号都不行
+		        url: '@Url.Content("~/Home/Proj_Prod_Get")',
+		        data: { country: c_country, area: c_area }, //此参数非常严谨，写错一个引号都不行
 		        type: "POST",
 		        dataType: 'TEXT', //返回值类型 一般设置为json
 		        async: false,
@@ -261,17 +207,63 @@
 		            c_html = "";
 
 		            //  移除全部的項目
-		            $("#" + c_pre + "area option").remove();
+		            $("#" + c_pre + "prod option").remove();
 
 		            //新增空白
 		            //<option value="" selected disabled>請選擇省</option>
 		            //<option value="">全部地區</option>
-		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇省"));
-		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
+		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部產品"));
 
 		            $.each($.parseJSON(data), function (idx, obj) {
 		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
-		                $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
+		                $("#" + c_pre + "prod").append($("<option></option>").attr("value", obj.prod_id).text(obj.prod_name));
+		            });
+		        },
+		        error: function (xhr, ajaxOptions, thrownError) {
+		            alert(xhr.status);
+		            alert(thrownError);
+		        },
+		        complete: function () {
+		            //alert(tbl_new_list);
+		            //alert('ajax complete');
+		        }
+		    });
+		    return false;
+		}
+
+		function get_plant(c_pre) {
+		    //  取得被選擇項目的值
+		    //$("#select").find(":selected").val();
+		    var c_country = $("#" + c_pre + "country").find(":selected").val();
+		    var c_area = $("#" + c_pre + "country").find(":selected").val();
+		    var is_index = "N";
+
+		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+		    $.ajax({
+		        url: '@Url.Content("~/Home/Proj_Plant_Get")',
+		        data: { country: c_country, area: c_area }, //此参数非常严谨，写错一个引号都不行
+		        type: "POST",
+		        dataType: 'TEXT', //返回值类型 一般设置为json
+		        async: false,
+		        success: function (JData) {
+		            //alert(JData);
+		            data = handleAjaxVPNMsg(JData);
+		            i = 0;
+		            c_html = "";
+
+		            //  移除全部的項目
+		            $("#" + c_pre + "plant option").remove();
+
+		            //新增空白
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+		            $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部植物"));
+
+		            $.each($.parseJSON(data), function (idx, obj) {
+		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+		                $("#" + c_pre + "plant").append($("<option></option>").attr("value", obj.plant_name).text(obj.plant_name));
 		            });
 		        },
 		        error: function (xhr, ajaxOptions, thrownError) {
@@ -299,10 +291,10 @@
 
 <div id="content"><div class="wrap">
 	
-	<form action="" class="search-form form-inline" id="form1" name="form1" >
+	<form action="" class="search-form form-inline" id="form1" name="form1" method="post">
 
 		<label class="sr-only">國別</label>
-        <select class="form-element custom-input" id="country" name="country" onchange="get_area('');">
+        <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
             <option value="" selected disabled>請選擇國別</option>
             <option value="">全部國家</option>
             @if (d_country.Rows.Count > 0)
@@ -323,10 +315,10 @@
         </select>
 
         <label class="sr-only">省</label>
-        <select class="form-element custom-input" id="area" name="area">
+        <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
         	<option value="" selected disabled>請選擇省</option>
             <option value="">全部地區</option>
-            @if (d_area.Rows.Count > 0)
+            @*@if (d_area.Rows.Count > 0)
             {
                 for (int i = 0; i < d_area.Rows.Count; i++)
                 {
@@ -340,14 +332,14 @@
                     }
                     <option value="@d_area.Rows[i]["area_id"].ToString()" @area_selected>@d_area.Rows[i]["area_name"].ToString()</option>
                 }
-            }
+            }*@
         </select>
 
         <label class="sr-only">產品</label>
         <select class="form-element custom-input" id="prod" name="prod">
             <option value="" selected disabled>請選擇產品</option>
             <option value="">產品不拘</option>
-            @if (d_prod.Rows.Count > 0)
+            @*if (d_prod.Rows.Count > 0)
             {
                 for (int i = 0; i < d_prod.Rows.Count; i++)
                 {
@@ -361,19 +353,15 @@
                     }
                     <option value="@d_prod.Rows[i]["prod_id"].ToString()" @prod_selected>@d_prod.Rows[i]["prod_name"].ToString()</option>
                 }
-            }
+            }*@
         </select>
 
         <label class="sr-only">種植物</label>
-        <select name="" id="" class="form-element custom-input">
+        <select class="form-element custom-input" id="plant" name="plant">
         	<option value="" selected disabled>請選擇種植物</option>
-        	<option value="">種植物不拘</option>
-        	<option value="">水稻</option>
-            <option value="">山核桃</option>
         </select>
         <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
-        <button class="btn btn-primary" id="btn_query" name="btn_query"><i class="icon-search"></i> 搜尋</button>
-
+        <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
 	</form>
 
 	<div class="table-rwd">
@@ -448,6 +436,7 @@
 	</div>
 	
 </div></div>
+
 <script>
     //禁止按下enter
     $('#form1').on('keyup keypress', function (e) {
