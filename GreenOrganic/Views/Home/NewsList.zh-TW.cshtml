@@ -2,7 +2,7 @@
 @using System.Text.RegularExpressions
 
 @{
-    ViewBag.Title = "新闻资讯";
+    ViewBag.Title = "新聞資訊";
     ViewBag.BodyClass = "News";
     ViewBag.nav = "n2";
 
@@ -15,14 +15,14 @@
 }
 
 @section banner {
-    <div id="banner"><div class="wrap">
-        <h1 class="h1"><span>@ViewBag.Title</span></h1>
-    </div></div>
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
 }
 
 <div id="content"><div class="wrap">
-    
-    <div class="news-list">
+	
+	<div class="news-list">
         @if (d_news.Rows.Count > 0)
         {
             for (int i = 0; i < d_news.Rows.Count; i++)
@@ -52,7 +52,7 @@
             }
         }
     </div>
-    
+	
 </div></div>
 
 @functions

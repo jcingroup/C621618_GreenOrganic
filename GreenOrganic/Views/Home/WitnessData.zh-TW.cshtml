@@ -1,10 +1,8 @@
 ﻿@using System.Data
-@using System.Text.RegularExpressions
-
 @{
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
     ViewBag.Title = "";
-    ViewBag.Title2 = "海外实绩";
+    ViewBag.Title2 = "海外實績";
 
     DataTable d_proj = (DataTable)ViewData["d_proj"];
     DataTable d_proj_img = (DataTable)ViewData["d_proj_img"];
@@ -67,7 +65,7 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上传的照片的第一张 *@
+                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
             </figure>
 
             <section class="product-info">
@@ -106,7 +104,7 @@
                         img_desc = d_proj_img.Rows[i]["img_desc"].ToString();
                         @:<li>
                         @:    <a class="img-thumbnail" href="@Url.Content("~/Images/" + img_file)">
-                        @* 超连结内容同图片网址 *@
+                        @* 超連結內容同圖片網址 *@
                         @:    <img src="@Url.Content("~/Images/" + img_file)" alt="">
                         @:</a>
                         @:</li>
@@ -138,12 +136,7 @@
                 prod_id = d_prod.Rows[i]["prod_id"].ToString();
                 prod_name = d_prod.Rows[i]["prod_name"].ToString();
                 prod_img = d_prod.Rows[i]["img_file"].ToString();
-                prod_desc = RemoveHTMLTag(d_prod.Rows[i]["prod_desc"].ToString());
-
-                if (prod_desc.Length > 40)
-                {
-                    prod_desc = prod_desc.Substring(0, 40) + "...";
-                }
+                prod_desc = d_prod.Rows[i]["prod_desc"].ToString().Substring(0, 30) + "...";
 
                 @* if (i % 2 == 0)
                 {
@@ -186,21 +179,3 @@
     @* product-application *@
 
 </div>
-
-@functions
-{
-    /// <summary>
-    /// 移除html tag
-    /// </summary>
-    /// <param name="htmlSource"></param>
-    /// <returns></returns>
-    public static string RemoveHTMLTag(string htmlSource)
-    {
-        //移除  javascript code.
-        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
-
-        //移除html tag.
-        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
-        return htmlSource;
-    }
-}

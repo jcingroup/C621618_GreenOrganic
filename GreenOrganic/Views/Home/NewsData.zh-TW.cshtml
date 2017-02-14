@@ -1,6 +1,6 @@
 ﻿@using System.Data
 @{
-    ViewBag.Title = "新闻资讯";
+    ViewBag.Title = "新聞資訊";
     ViewBag.BodyClass = "News";
     ViewBag.nav = "n2";
 
@@ -31,30 +31,30 @@
 }
 
 @section banner {
-    <div id="banner"><div class="wrap">
-        <h1 class="h1"><span>@ViewBag.Title</span></h1>
-    </div></div>
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
 }
 
 <div id="content"><div class="wrap">
-    
-    <article class="news-data">
-        <p class="date"><i class="icon-calendar"></i> @n_date</p>
-        <h2 class="h2 underline">@n_title</h2>
+	
+	<article class="news-data">
+		<p class="date"><i class="icon-calendar"></i> @n_date</p>
+		<h2 class="h2 underline">@n_title</h2>
 
-        @* <div class="row"> *@
-            @* <div class="editor col-12 col-sm-7 col-md-8"> *@
+		@* <div class="row"> *@
+			@* <div class="editor col-12 col-sm-7 col-md-8"> *@
             <div class="editor">
-                @Html.Raw(n_desc)
-            </div>
+				@Html.Raw(n_desc)
+			</div>
 
-            @* <figure class="col-12 col-sm-5 col-md-4">
-                <span class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></span>
-            </figure> *@
-        @* </div> *@
+			@* <figure class="col-12 col-sm-5 col-md-4">
+				<span class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></span>
+			</figure> *@
+		@* </div> *@
 
-    </article>
+	</article>
 
-    <p class="text-center clearfix"><a href="@Url.Content("~/Home/NewsList")" class="more">回列表</a></p>
-    
+	<p class="text-center clearfix"><a href="@Url.Content("~/Home/NewsList")" class="more">回列表</a></p>
+	
 </div></div>

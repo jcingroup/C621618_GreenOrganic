@@ -1,6 +1,6 @@
 ﻿@using System.Data
 @{
-    ViewBag.Title = "海外实绩";
+    ViewBag.Title = "海外實績";
     ViewBag.BodyClass = "Witness";
     ViewBag.nav = "n4";
 
@@ -104,7 +104,7 @@
 		}
 
 		function get_proj(c_pre) {
-		    //  取得被选择项目的值
+		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
 		    var c_lang = $("#" + c_pre + "lang").find(":selected").val();
 		    $.ajax({
@@ -119,7 +119,7 @@
 		            i = 0;
 		            c_html = "";
 
-		            //  移除全部的项目
+		            //  移除全部的項目
 		            $("#" + c_pre + "proj option").remove();
 		            //新增空白
 		            if (c_pre == "txt_") {
@@ -144,7 +144,7 @@
 		}
 
 		function get_area(c_pre) {
-		    //  取得被选择项目的值
+		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
 		    var c_country = $("#" + c_pre + "country").find(":selected").val();
 		    //alert("c_lang:" + c_lang + ";c_country:" + c_country);
@@ -160,14 +160,14 @@
 		            i = 0;
 		            c_html = "";
 
-		            //  移除全部的项目
+		            //  移除全部的項目
 		            $("#" + c_pre + "area option").remove();
 
 		            //新增空白
-		            //<option value="" selected disabled>请选择省</option>
-		            //<option value="">全部地区</option>
-		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected",true).attr("disabled",true).text("请选择省"));
-		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地区"));
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected",true).attr("disabled",true).text("請選擇省"));
+		            $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
 
 		            $.each($.parseJSON(data), function (idx, obj) {
 		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
@@ -187,7 +187,7 @@
 		}
 
 		function get_prod(c_pre) {
-		    //  取得被选择项目的值
+		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
 		    var c_country = $("#" + c_pre + "country").find(":selected").val();
 		    var c_area = $("#" + c_pre + "country").find(":selected").val();
@@ -206,14 +206,14 @@
 		            i = 0;
 		            c_html = "";
 
-		            //  移除全部的项目
+		            //  移除全部的項目
 		            $("#" + c_pre + "prod option").remove();
 
 		            //新增空白
-		            //<option value="" selected disabled>请选择省</option>
-		            //<option value="">全部地区</option>
-		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择产品"));
-		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部产品"));
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+		            $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部產品"));
 
 		            $.each($.parseJSON(data), function (idx, obj) {
 		                //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
@@ -233,7 +233,7 @@
 		}
 
 		function get_plant(c_pre) {
-		    //  取得被选择项目的值
+		    //  取得被選擇項目的值
 		    //$("#select").find(":selected").val();
 		    var c_country = $("#" + c_pre + "country").find(":selected").val();
 		    var c_area = $("#" + c_pre + "country").find(":selected").val();
@@ -252,13 +252,13 @@
 		            i = 0;
 		            c_html = "";
 
-		            //  移除全部的项目
+		            //  移除全部的項目
 		            $("#" + c_pre + "plant option").remove();
 
 		            //新增空白
-		            //<option value="" selected disabled>请选择省</option>
-		            //<option value="">全部地区</option>
-		            $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择产品"));
+		            //<option value="" selected disabled>請選擇省</option>
+		            //<option value="">全部地區</option>
+		            $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
 		            $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部植物"));
 
 		            $.each($.parseJSON(data), function (idx, obj) {
@@ -293,10 +293,10 @@
 	
 	<form action="" class="search-form form-inline" id="form1" name="form1" method="post">
 
-		<label class="sr-only">国别</label>
+		<label class="sr-only">國別</label>
         <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
-            <option value="" selected disabled>请选择国别</option>
-            <option value="">全部国家</option>
+            <option value="" selected disabled>請選擇國別</option>
+            <option value="">全部國家</option>
             @if (d_country.Rows.Count > 0)
             {
                 for (int i = 0; i < d_country.Rows.Count; i++)
@@ -316,8 +316,8 @@
 
         <label class="sr-only">省</label>
         <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
-        	<option value="" selected disabled>请选择省</option>
-            <option value="">全部地区</option>
+        	<option value="" selected disabled>請選擇省</option>
+            <option value="">全部地區</option>
             @*@if (d_area.Rows.Count > 0)
             {
                 for (int i = 0; i < d_area.Rows.Count; i++)
@@ -335,10 +335,10 @@
             }*@
         </select>
 
-        <label class="sr-only">产品</label>
+        <label class="sr-only">產品</label>
         <select class="form-element custom-input" id="prod" name="prod">
-            <option value="" selected disabled>请选择产品</option>
-            <option value="">产品不拘</option>
+            <option value="" selected disabled>請選擇產品</option>
+            <option value="">產品不拘</option>
             @*if (d_prod.Rows.Count > 0)
             {
                 for (int i = 0; i < d_prod.Rows.Count; i++)
@@ -356,12 +356,12 @@
             }*@
         </select>
 
-        <label class="sr-only">种植物</label>
+        <label class="sr-only">種植物</label>
         <select class="form-element custom-input" id="plant" name="plant">
-        	<option value="" selected disabled>请选择种植物</option>
+        	<option value="" selected disabled>請選擇種植物</option>
         </select>
-        <input type="text" class="form-element custom-input" placeholder="请输入关键字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
-        <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜寻</button>
+        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
+        <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
 	</form>
 
 	<div class="table-rwd">
@@ -369,11 +369,11 @@
 			<thead>
 				<tr>
 					<th class="view"></th>
-					<th class="country">国别</th>
+					<th class="country">國別</th>
 					<th class="area">省</th>
-					<th class="pro">产品</th>
-					<th class="plant">种植物</th>
-					<th class="name">专案名称</th>
+					<th class="pro">產品</th>
+					<th class="plant">種植物</th>
+					<th class="name">專案名稱</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -426,7 +426,7 @@
                 {
                     <tr>
                         <td colspan="6" class="text-center">
-                            无资料
+                            無資料
                         </td>
                     </tr>
                 }

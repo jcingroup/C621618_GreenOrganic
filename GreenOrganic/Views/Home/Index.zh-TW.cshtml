@@ -166,7 +166,7 @@
         }
 
         function get_proj(c_pre) {
-            //  取得被选择项目的值
+            //  取得被選擇項目的值
             //$("#select").find(":selected").val();
             var c_lang = $("#" + c_pre + "lang").find(":selected").val();
             $.ajax({
@@ -181,7 +181,7 @@
                     i = 0;
                     c_html = "";
 
-                    //  移除全部的项目
+                    //  移除全部的項目
                     $("#" + c_pre + "proj option").remove();
                     //新增空白
                     if (c_pre == "txt_") {
@@ -206,7 +206,7 @@
         }
 
         function get_area(c_pre) {
-            //  取得被选择项目的值
+            //  取得被選擇項目的值
             //$("#select").find(":selected").val();
             var c_country = $("#" + c_pre + "country").find(":selected").val();
             //alert("c_lang:" + c_lang + ";c_country:" + c_country);
@@ -222,14 +222,14 @@
                     i = 0;
                     c_html = "";
 
-                    //  移除全部的项目
+                    //  移除全部的項目
                     $("#" + c_pre + "area option").remove();
 
                     //新增空白
-                    //<option value="" selected disabled>请选择省</option>
-                    //<option value="">全部地区</option>
-                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择省"));
-                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地区"));
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇省"));
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
 
                     $.each($.parseJSON(data), function (idx, obj) {
                         //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
@@ -249,7 +249,7 @@
         }
 
         function get_prod(c_pre) {
-            //  取得被选择项目的值
+            //  取得被選擇項目的值
             //$("#select").find(":selected").val();
             var c_country = $("#" + c_pre + "country").find(":selected").val();
             var c_area = $("#" + c_pre + "country").find(":selected").val();
@@ -268,14 +268,14 @@
                     i = 0;
                     c_html = "";
 
-                    //  移除全部的项目
+                    //  移除全部的項目
                     $("#" + c_pre + "prod option").remove();
 
                     //新增空白
-                    //<option value="" selected disabled>请选择省</option>
-                    //<option value="">全部地区</option>
-                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择产品"));
-                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部产品"));
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部產品"));
 
                     $.each($.parseJSON(data), function (idx, obj) {
                         //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
@@ -295,7 +295,7 @@
         }
 
         function get_plant(c_pre) {
-            //  取得被选择项目的值
+            //  取得被選擇項目的值
             //$("#select").find(":selected").val();
             var c_country = $("#" + c_pre + "country").find(":selected").val();
             var c_area = $("#" + c_pre + "country").find(":selected").val();
@@ -314,13 +314,13 @@
                     i = 0;
                     c_html = "";
 
-                    //  移除全部的项目
+                    //  移除全部的項目
                     $("#" + c_pre + "plant option").remove();
 
                     //新增空白
-                    //<option value="" selected disabled>请选择省</option>
-                    //<option value="">全部地区</option>
-                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择产品"));
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
                     $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部植物"));
 
                     $.each($.parseJSON(data), function (idx, obj) {
@@ -350,8 +350,8 @@
 
         <h1 class="logo-intro">@ViewBag.Title</h1>
 
-        <h2 class="slogan1">养地不难</h2>
-        <h3 class="slogan2">天然的有机质营养元素</h3>
+        <h2 class="slogan1">養地不難</h2>
+        <h3 class="slogan2">天然的有機質營養元素</h3>
 
         <a href="#" class="scroll">
             <i class="icon-angle-down"></i>
@@ -400,20 +400,20 @@
             }
             else
             {
-                @:<h4 class="h4 text-center">暂无资料</h4>
+                @:<h4 class="h4 text-center">暫無資料</h4>
             }
 
         </div> @* col *@
 
         <div class="search col-12 col-md-6">
 
-            <h3 class="h3">查看更多海外实绩</h3>
+            <h3 class="h3">查看更多海外實績</h3>
             <form action="@Url.Content("~/Home/WitnessList")" id="form1" name="form1" method="post">
                 <div class="row">
                     <div class="col-12 col-xs-6">
                         <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
-                            <option value="" selected disabled>请选择国别</option>
-                            <option value="">全部国家</option>
+                            <option value="" selected disabled>請選擇國別</option>
+                            <option value="">全部國家</option>
                             @if (d_country.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_country.Rows.Count; i++)
@@ -433,8 +433,8 @@
                     </div>
                     <div class="col-12 col-xs-6">
                         <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
-                            <option value="" selected disabled>请选择省</option>
-                            <option value="">全部地区</option>
+        	                <option value="" selected disabled>請選擇省</option>
+                            <option value="">全部地區</option>
                             @*@if (d_area.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_area.Rows.Count; i++)
@@ -456,8 +456,8 @@
                 <div class="row">
                     <div class="col-12">
                         <select class="form-element custom-input" id="prod" name="prod">
-                            <option value="" selected disabled>请选择产品</option>
-                            <option value="">产品不拘</option>
+                            <option value="" selected disabled>請選擇產品</option>
+                            <option value="">產品不拘</option>
                             @*if (d_prod.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_prod.Rows.Count; i++)
@@ -479,17 +479,17 @@
                 <div class="row">
                     <div class="col-12">
                         <select class="form-element custom-input" id="plant" name="plant">
-                            <option value="" selected disabled>请选择种植物</option>
+                            <option value="" selected disabled>請選擇種植物</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <input type="text" class="form-element custom-input" placeholder="请输入关键字..." name="txt_title_query" id="txt_title_query" value="">
+                        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="">
                     </div>
                 </div>
                 <div class="row row-x-0">
-                    <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜寻</button>
+                    <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
                 </div>
             </form>
 
@@ -502,7 +502,7 @@
 
 <section id="categories"><div class="wrap">
 
-    <h1 class="sr-only">产品分类</h1>
+    <h1 class="sr-only">產品分類</h1>
 
     @if (d_prod_cate.Rows.Count > 0)
     {
@@ -583,24 +583,24 @@
 
         <section class="branches col-12 col-md-6">
 
-            <h1 class="sr-only">公司据点</h1>
+            <h1 class="sr-only">公司據點</h1>
 
             <article class="article row">
                 <div class="col-12 col-xs-6 col-md-12">
-                    <h2 class="h2">大地还原生物科技股份有限公司</h2>
+                    <h2 class="h2">大地還原生物科技股份有限公司</h2>
                     <img src="~/Content/images/index/contact.jpg" alt="">
                 </div>
                 <div class="col-12 col-xs-6 col-md-12">
-                    <h3 class="h3">台湾总公司</h3>
+                    <h3 class="h3">台灣總公司</h3>
                     <ul class="list-unstyled">
-                        <li><strong>桃园市龟山区振兴路56号</strong></li>
-                        <li><em>电话</em> 03-329-8999</li>
-                        <li><em>传真</em> 03-329-9686</li>
+                        <li><strong>桃園市龜山區振興路56號</strong></li>
+                        <li><em>電話</em> 03-329-8999</li>
+                        <li><em>傳真</em> 03-329-9686</li>
                     </ul>
                 </div>
             </article>
 
-            <a href="~/Home/ContactUs" class="btn btn-secondary">查看其他海外据点 <i class="icon-arrow-circle-right"></i></a>
+            <a href="~/Home/ContactUs" class="btn btn-secondary">查看其他海外據點 <i class="icon-arrow-circle-right"></i></a>
 
         </section>
 
