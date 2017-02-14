@@ -179,7 +179,7 @@
         //$("#select").find(":selected").val();
         var c_lang = $("#" + c_pre + "lang").find(":selected").val();
         $.ajax({
-            url: 'Proj_Get',
+            url: '@Url.Content("~/Manage/Proj_Get")',
             data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
             type: "POST",
             dataType: 'TEXT', //返回值类型 一般设置为json
@@ -196,6 +196,10 @@
                 if (c_pre == "txt_")
                 {
                     $("#" + c_pre + "proj").append($("<option></option>").attr("value", "").text("全部"));
+                }
+                else
+                {
+                    $("#" + c_pre + "proj").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇專案"));
                 }
 
                 $.each($.parseJSON(data), function (idx, obj) {
@@ -220,7 +224,7 @@
         //$("#select").find(":selected").val();
         var c_lang = $("#" + c_pre + "lang").find(":selected").val();
         $.ajax({
-            url: 'Prod_Get',
+            url: '@Url.Content("~/Manage/Prod_Get")',
             data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
             type: "POST",
             dataType: 'TEXT', //返回值类型 一般设置为json
@@ -384,6 +388,7 @@
                             </td>
                             <td>
                                 <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj(''); get_prod('');">
+                                    <option value="" selected disabled>請選擇語言</option>
                                     @if (d_lang.Rows.Count > 0)
                                     {
                                         for (int j = 0; j < d_lang.Rows.Count; j++)
@@ -403,6 +408,7 @@
                             </td>
                             <td>
                                 <select class="form-control form-control-sm" id="proj" name="proj">
+                                    <option value="" selected disabled>請選擇專案</option>
                                     @if (d_proj.Rows.Count > 0)
                                     {
                                         for (int j = 0; j < d_proj.Rows.Count; j++)
@@ -486,7 +492,8 @@
                         <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改" id="btn_add_save" name="btn_add_save" onclick="form_action('','add','@Url.Content("~/Manage/ResultsPair_Save")');"></button>
                     </td>
                     <td>
-                        <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_country('');">
+                        <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj(''); get_prod('');">
+                            <option value="" selected disabled>請選擇語言</option>
                             @if (d_lang.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_lang.Rows.Count; i++)
@@ -498,6 +505,7 @@
                     </td>
                     <td>
                         <select class="form-control form-control-sm" id="proj" name="proj">
+                            <option value="" selected disabled>請選擇專案</option>
                             @if (d_proj.Rows.Count > 0)
                             {
                                 for (int j = 0; j < d_proj.Rows.Count; j++)

@@ -1,4 +1,6 @@
 ﻿@using System.Data
+@using System.Text.RegularExpressions
+
 @{
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
     ViewBag.Title = "";
@@ -136,7 +138,12 @@
                 prod_id = d_prod.Rows[i]["prod_id"].ToString();
                 prod_name = d_prod.Rows[i]["prod_name"].ToString();
                 prod_img = d_prod.Rows[i]["img_file"].ToString();
-                prod_desc = d_prod.Rows[i]["prod_desc"].ToString().Substring(0, 30) + "...";
+                prod_desc = RemoveHTMLTag(d_prod.Rows[i]["prod_desc"].ToString());
+
+                if (prod_desc.Length > 40)
+                {
+                    prod_desc = prod_desc.Substring(0, 40) + "...";
+                }
 
                 @* if (i % 2 == 0)
                 {
@@ -179,3 +186,21 @@
     @* product-application *@
 
 </div>
+
+@functions
+{
+    /// <summary>
+    /// 移除html tag
+    /// </summary>
+    /// <param name="htmlSource"></param>
+    /// <returns></returns>
+    public static string RemoveHTMLTag(string htmlSource)
+    {
+        //移除  javascript code.
+        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
+
+        //移除html tag.
+        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
+        return htmlSource;
+    }
+}
