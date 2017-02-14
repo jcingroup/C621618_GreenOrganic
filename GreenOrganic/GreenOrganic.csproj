@@ -654,6 +654,16 @@
     <Content Include="Views\Home\WitnessData.cshtml" />
     <Content Include="Views\Home\WitnessList.cshtml" />
     <Content Include="Views\Shared\_LayoutPopup.cshtml" />
+    <Content Include="Views\Home\AboutUs.zh-TW.cshtml" />
+    <Content Include="Views\Home\ContactUs.zh-TW.cshtml" />
+    <Content Include="Views\Home\Index.zh-TW.cshtml" />
+    <Content Include="Views\Home\NewsData.zh-TW.cshtml" />
+    <Content Include="Views\Home\NewsList.zh-TW.cshtml" />
+    <Content Include="Views\Home\ProductData.zh-TW.cshtml" />
+    <Content Include="Views\Home\ProductList.zh-TW.cshtml" />
+    <Content Include="Views\Home\ProductSublist.zh-TW.cshtml" />
+    <Content Include="Views\Home\WitnessData.zh-TW.cshtml" />
+    <Content Include="Views\Home\WitnessList.zh-TW.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

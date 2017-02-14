@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
     ViewBag.Title = "";
-    ViewBag.Title2 = "海外实绩";
+    ViewBag.Title2 = "海外實績";
 
     DataTable d_proj = (DataTable)ViewData["d_proj"];
     DataTable d_proj_img = (DataTable)ViewData["d_proj_img"];
@@ -65,7 +65,7 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上传的照片的第一张 *@
+                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
             </figure>
 
             <section class="product-info">
@@ -104,7 +104,7 @@
                         img_desc = d_proj_img.Rows[i]["img_desc"].ToString();
                         @:<li>
                         @:    <a class="img-thumbnail" href="@Url.Content("~/Images/" + img_file)">
-                        @* 超连结内容同图片网址 *@
+                        @* 超連結內容同圖片網址 *@
                         @:    <img src="@Url.Content("~/Images/" + img_file)" alt="">
                         @:</a>
                         @:</li>

@@ -1,8 +1,8 @@
 ﻿@using System.Data
 @{
-    ViewBag.Title = "大地OA 1号";
+    ViewBag.Title = "大地OA 1號";
     ViewBag.Title2 = "大地系列";
-    ViewBag.Title3 = "系列产品";
+    ViewBag.Title3 = "系列產品";
     ViewBag.BodyClass = "Product data";
     ViewBag.nav = "n3";
 
@@ -139,13 +139,13 @@
                     @ViewBag.Title
                 </h2>
                 <dl>
-                    <dt>肥料登记字号</dt>
+                    <dt>肥料登記字號</dt>
                     <dd class="clearfix">@manure_no</dd>
-                    <dt>制肥原料</dt>
+                    <dt>製肥原料</dt>
                     <dd class="clearfix">@manure_info</dd>
-                    <dt>登记成份</dt>
+                    <dt>登記成份</dt>
                     <dd class="clearfix">@manure_ingredients</dd>
-                    <dt>性状</dt>
+                    <dt>性狀</dt>
                     <dd class="clearfix">@manure_trait</dd>
                 </dl>
             </section>
@@ -172,7 +172,7 @@
     <section class="product-application">
         <div class="wrap">
 
-            <h2 class="h2">本产品应用海外实绩</h2>
+            <h2 class="h2">本產品應用海外實績</h2>
             @if (d_proj_prod.Rows.Count > 0)
             {
             @:<div class="related-item row row-center">
@@ -243,7 +243,7 @@
             @:</div>
             }
             else {
-                @:<h4 class="h4 text-center">暂无资料</h4>
+                @:<h4 class="h4 text-center">暫無資料</h4>
             }
 
             <p class="text-center m-t-32"><a href="~/Home/ProductSublist?cate_id=@cate_id" class="btn btn-primary">BACK</a></p>
