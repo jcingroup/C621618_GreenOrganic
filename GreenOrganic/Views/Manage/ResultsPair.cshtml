@@ -174,12 +174,19 @@
                 form_ok();
     }
 
+    function get_proj_prod(c_pre)
+    {
+        get_prod(c_pre);
+        get_proj(c_pre);
+        return false;
+    }
+
     function get_proj(c_pre) {
         //  取得被選擇項目的值
         //$("#select").find(":selected").val();
         var c_lang = $("#" + c_pre + "lang").find(":selected").val();
         $.ajax({
-            url: '@Url.Content("~/Manage/Proj_Get")',
+            url: 'Proj_Get',
             data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
             type: "POST",
             dataType: 'TEXT', //返回值类型 一般设置为json
@@ -187,6 +194,7 @@
             success: function (JData) {
                 //alert(JData);
                 data = handleAjaxVPNMsg(JData);
+                //alert(data);
                 i = 0;
                 c_html = "";
 
@@ -223,8 +231,9 @@
         //  取得被選擇項目的值
         //$("#select").find(":selected").val();
         var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+        
         $.ajax({
-            url: '@Url.Content("~/Manage/Prod_Get")',
+            url: 'Prod_Get',
             data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
             type: "POST",
             dataType: 'TEXT', //返回值类型 一般设置为json
@@ -232,20 +241,30 @@
             success: function (JData) {
                 //alert(JData);
                 data = handleAjaxVPNMsg(JData);
+                //alert(data);
                 i = 0;
                 c_html = "";
 
                 //  移除全部的項目
                 $("#" + c_pre + "prod option").remove();
+                //$('#' + c_pre + 'prod').empty();
+                //$('#' + c_pre + 'prod').find('option').remove();
+
                 //新增空白
                 if (c_pre == "txt_") {
                     $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部"));
                 }
+                //else
+                //{
+                //    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+                //}
 
                 $.each($.parseJSON(data), function (idx, obj) {
                     //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
                     $("#" + c_pre + "prod").append($("<option></option>").attr("value", obj.prod_id).text(obj.prod_name));
                 });
+
+                $("#" + c_pre + "prod").trigger("chosen:updated");
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -387,8 +406,8 @@
                                 <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改" id="btn_edit_save" name="btn_edit_save" onclick="form_action('@idxno','edit','@Url.Content("~/Manage/ResultsPair_Save")');"></button>
                             </td>
                             <td>
-                                <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj(''); get_prod('');">
-                                    <option value="" selected disabled>請選擇語言</option>
+                                <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj_prod(''); return false;">
+                                    <option value="" disabled>請選擇語言</option>
                                     @if (d_lang.Rows.Count > 0)
                                     {
                                         for (int j = 0; j < d_lang.Rows.Count; j++)
@@ -427,7 +446,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select data-placeholder="選擇配對產品..." multiple required class="form-control form-control-sm chosen-select" id="prod" name="prod">
+                                <select data-placeholder="選擇配對產品..." multiple class="form-control form-control-sm chosen-select" id="prod" name="prod">
                                     @if (d_prod.Rows.Count > 0)
                                     {
                                         for (int j = 0; j < d_prod.Rows.Count; j++)
@@ -492,8 +511,8 @@
                         <button type="button" class="btn btn-link text-success oi" data-glyph="check" title="確定修改" id="btn_add_save" name="btn_add_save" onclick="form_action('','add','@Url.Content("~/Manage/ResultsPair_Save")');"></button>
                     </td>
                     <td>
-                        <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj(''); get_prod('');">
-                            <option value="" selected disabled>請選擇語言</option>
+                        <select class="form-control form-control-sm" id="lang" name="lang" onclick="get_proj_prod(''); return false;">
+                            <option value="">請選擇語言</option>
                             @if (d_lang.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_lang.Rows.Count; i++)
@@ -517,15 +536,17 @@
                     </td>
 
                     <td>
-                        <select data-placeholder="選擇配對產品..." multiple required class="form-control form-control-sm chosen-select" id="prod" name="prod">
+                        <select data-placeholder="選擇配對產品..." multiple class="form-control form-control-sm chosen-select" id="prod" name="prod">
                             @if (d_prod.Rows.Count > 0)
                             {
                                 for (int j = 0; j < d_prod.Rows.Count; j++)
                                 {
-                                    <option value="@d_prod.Rows[j]["prod_id"].ToString()" >@d_prod.Rows[j]["prod_name"].ToString()</option>
+                                    <option value="@d_prod.Rows[j]["prod_id"].ToString()">@d_prod.Rows[j]["prod_name"].ToString()</option>
                                 }
                             }
                         </select>
+
+
 
                     </td>
                 </tr>
