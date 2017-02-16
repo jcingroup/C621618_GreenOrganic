@@ -77,6 +77,22 @@
             e.preventDefault();
             $.scrollify.next();
         });
+        $(".goTop").click(function(e){
+            var hash = window.location.hash; // get hash tag
+            window.location.href = window.location.href.replace(hash,'#1');
+        });
+        
+        // 避免到 footer 時被捲上去
+        $(document).on('scroll', function(e){
+            var top = $('.panel:last').offset().top;
+            var screenTop = $(document).scrollTop();
+            if (top > screenTop && $.scrollify.isDisabled()) {
+                $.scrollify.enable();
+                $.scrollify.update();
+            } else if (top < screenTop && !$.scrollify.isDisabled()) {
+                $.scrollify.disable();
+            }
+        });
 
         var length = $("#header").offset().top;
         $(window).scroll(function () {
