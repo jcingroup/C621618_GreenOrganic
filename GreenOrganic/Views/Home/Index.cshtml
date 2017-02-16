@@ -44,6 +44,8 @@
     string country_name = "";
     string c_url_id = "";
 
+    int proj_count = 4;
+
     if (d_ad.Rows.Count > 0)
     {
         mv_url = Url.Content("~/Images/" + d_ad.Rows[0]["ad_mv"].ToString());
@@ -390,7 +392,12 @@
             @if(d_proj.Rows.Count > 0)
             {
                 @:<div class="related-item row">
-                for (int i = 0; i < d_proj.Rows.Count; i++)
+                if(d_proj.Rows.Count < 4)
+                {
+                    proj_count = d_proj.Rows.Count;
+                }
+
+                for (int i = 0; i < proj_count; i++)
                 {
                     proj_id = d_proj.Rows[i]["proj_id"].ToString();
                     proj_name = d_proj.Rows[i]["proj_name"].ToString();
