@@ -77,6 +77,11 @@
             e.preventDefault();
             $.scrollify.next();
         });
+        $(".goTop").click(function(e){
+            var hash = window.location.hash; // get hash tag
+            window.location.href = window.location.href.replace(hash,'#1');
+        });
+        
         // 避免到 footer 時被捲上去
         $(document).on('scroll', function(e){
             var top = $('.panel:last').offset().top;
