@@ -2417,7 +2417,7 @@ namespace Lib.Service
         #endregion
 
         #region 海外實績 專案-產品資料陳列 Proj_Prod_List
-        public DataTable Proj_Prod_List(string idxno = "", string sort = "", string status = "", string title_query = "", string lang = "", string prod_id = "", string proj_id = "")
+        public DataTable Proj_Prod_List(string idxno = "", string sort = "", string status = "", string title_query = "", string lang = "", string prod_id = "", string proj_id = "", string is_index = "")
         {
             SqlConnection conn = new SqlConnection(conn_str);
             if (conn.State == ConnectionState.Closed)
@@ -2445,7 +2445,7 @@ namespace Lib.Service
                  + "select "
                  + "  a1.*, a2.lang, a3.lang_name, a2.proj_name, a2.country_id, a4.country_name "
                  + " , a2.area_id, a5.area_name ,a6.img_id, a6.img_file, a6.img_desc "
-                 + " , a2.plant_name "
+                 + " , a2.plant_name, a2.is_index "
                  + "from "
                  + "   proj_prod a1 "
                  + "left join proj a2 on a1.proj_id = a2.proj_id "
@@ -2528,6 +2528,11 @@ namespace Lib.Service
                 csql = csql + "and a1.lang = @lang ";
             }
 
+            if(is_index.Trim().Length > 0)
+            {
+                csql = csql + "and a1.is_index= @is_index ";
+            }
+
             if (title_query.Trim().Length > 0)
             {
                 csql = csql + " and (";
@@ -2565,6 +2570,11 @@ namespace Lib.Service
             if (lang.Trim().Length > 0)
             {
                 cmd.Parameters.AddWithValue("@lang", lang);
+            }
+
+            if (is_index.Trim().Length > 0)
+            {
+                cmd.Parameters.AddWithValue("@is_index", is_index);
             }
 
             if (proj_id.Trim().Length > 0)

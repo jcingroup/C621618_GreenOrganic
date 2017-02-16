@@ -389,23 +389,23 @@
     <div class="row">
 
         <div class="article-list col-12 col-md-6">
-            @if(d_proj.Rows.Count > 0)
+            @if(d_proj_prod.Rows.Count > 0)
             {
                 @:<div class="related-item row">
-                if(d_proj.Rows.Count < 4)
+                if(d_proj_prod.Rows.Count < 4)
                 {
-                    proj_count = d_proj.Rows.Count;
+                    proj_count = d_proj_prod.Rows.Count;
                 }
 
                 for (int i = 0; i < proj_count; i++)
                 {
-                    proj_id = d_proj.Rows[i]["proj_id"].ToString();
-                    proj_name = d_proj.Rows[i]["proj_name"].ToString();
-                    img_id = d_proj.Rows[i]["img_id"].ToString();
-                    img_file = d_proj.Rows[i]["img_file"].ToString();
-                    img_desc = d_proj.Rows[i]["img_desc"].ToString();
-                    country_name = d_proj.Rows[i]["country_name"].ToString();
-                    area_name = d_proj.Rows[i]["area_name"].ToString();
+                    proj_id = d_proj_prod.Rows[i]["proj_id"].ToString();
+                    proj_name = d_proj_prod.Rows[i]["proj_name"].ToString();
+                    img_id = d_proj_prod.Rows[i]["img_id"].ToString();
+                    img_file = d_proj_prod.Rows[i]["img_file"].ToString();
+                    img_desc = d_proj_prod.Rows[i]["img_desc"].ToString();
+                    country_name = d_proj_prod.Rows[i]["country_name"].ToString();
+                    area_name = d_proj_prod.Rows[i]["area_name"].ToString();
                     c_url_id = "data-00" + i.ToString();
 
                     <div class="col-12 col-xs-6 col-sm-3 col-md-6">
