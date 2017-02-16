@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "操作影片";
+    ViewBag.nav = "n4";
+    ViewBag.subNav = "n4-2";
+}
+
+@section Breadcrumb {
+    <li>&#8227; 系統設定</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
+
+<h3 class="h3">@ViewBag.Crumb</h3>
+
+<ul class="w3-ul">
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/Product.mp4" target="new">產品資料維護</a></li>
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/Witness.mp4" target="new">海外實績維護</a></li>
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/.mp4" target="new">海外實績與產品配對</a></li>
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/News.mp4" target="new">網站資訊維護 - 最新消息管理</a></li>
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/Video.mp4" target="new">網站資訊維護 - 首頁影片編輯</a></li>
+    <li class="w3-padding-12"><a href="~/Content/images/sys/Tutorial/AboutUs.mp4" target="new">網站資訊維護 - 關於我們編輯</a></li>
+</ul>

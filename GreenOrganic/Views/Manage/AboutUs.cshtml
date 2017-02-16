@@ -49,7 +49,7 @@
 </script>
 
 <form action="" class="form form-sm" name="form1" id="form1" method="post">
-    <select id="lang" name="lang" required onchange="lang_select();">
+    <select id="lang" name="lang" required onchange="lang_select();" class="form-control w3-margin-bottom">
         @if (d_lang.Rows.Count > 0)
         {
             for (int i = 0; i < d_lang.Rows.Count; i++)

@@ -1238,6 +1238,13 @@ namespace GreenOrganic.Controllers
         {
             return View();
         }
+
+
+        // 操作影片
+        public ActionResult Tutorial()
+        {
+            return View();
+        }
     }
 
 }
