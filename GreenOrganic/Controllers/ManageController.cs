@@ -812,32 +812,59 @@ namespace GreenOrganic.Controllers
             {
                 case "add":
                     DB.Proj_Prod_Add(proj, s_prod);
+
+                    dt = DB.Proj_Prod_List("", "", "", "", lang, "", "", "");
+                    d_lang = DB.Lang_List("");
+                    d_proj = DB.Proj_List("", "", "", "", lang, "", "");
+                    d_prod = DB.Prod_List("", "", "", "", lang, "");
+                    //抓取專案-產品資料
+                    dt = DB.Proj_Prod_List("", "", "", "", lang, "", "", "");
+                    d_lang = DB.Lang_List("");
+                    d_proj = DB.Proj_List("", "", "", "", lang, "", "");
+                    d_prod = DB.Prod_List("", "", "", "", lang, "");
+
+                    //設定傳值
+                    ViewData["page"] = page;
+                    ViewData["dt"] = dt;
+                    ViewData["d_lang"] = d_lang;
+                    ViewData["d_proj"] = d_proj;
+                    ViewData["d_prod"] = d_prod;
+                    ViewData["txt_title_query"] = "";
+                    ViewData["txt_lang"] = lang;
+                    ViewData["txt_prod"] = "";
+                    ViewData["txt_sort"] = "";
+                    ViewData["txt_a_d"] = "";
+                    ViewData["action_sty"] = "";
+                    ViewData["idxno"] = "";
                     break;
                 case "edit":
                     DB.Proj_Prod_Update(idxno, proj, s_prod);
+
+                    dt = DB.Proj_Prod_List("", c_sort, "", txt_title_query, txt_lang, txt_prod, "", "");
+                    d_lang = DB.Lang_List("");
+                    d_proj = DB.Proj_List("", "", "", "", txt_lang, "", "");
+                    d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
+                    //抓取專案-產品資料
+                    dt = DB.Proj_Prod_List("", c_sort, "", txt_title_query, txt_lang, txt_prod, "", "");
+                    d_lang = DB.Lang_List("");
+                    d_proj = DB.Proj_List("", "", "", "", txt_lang, "", "");
+                    d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
+
+                    //設定傳值
+                    ViewData["page"] = page;
+                    ViewData["dt"] = dt;
+                    ViewData["d_lang"] = d_lang;
+                    ViewData["d_proj"] = d_proj;
+                    ViewData["d_prod"] = d_prod;
+                    ViewData["txt_title_query"] = txt_title_query;
+                    ViewData["txt_lang"] = txt_lang;
+                    ViewData["txt_prod"] = txt_prod;
+                    ViewData["txt_sort"] = txt_sort;
+                    ViewData["txt_a_d"] = txt_a_d;
+                    ViewData["action_sty"] = "";
+                    ViewData["idxno"] = idxno;
                     break;
             }
-
-
-            //抓取專案-產品資料
-            dt = DB.Proj_Prod_List("", c_sort, "", txt_title_query, txt_lang, txt_prod, "", "");
-            d_lang = DB.Lang_List("");
-            d_proj = DB.Proj_List("","","","",txt_lang,"","");
-            d_prod = DB.Prod_List("", "", "", "", txt_lang, "");
-
-            //設定傳值
-            ViewData["page"] = page;
-            ViewData["dt"] = dt;
-            ViewData["d_lang"] = d_lang;
-            ViewData["d_proj"] = d_proj;
-            ViewData["d_prod"] = d_prod;
-            ViewData["txt_title_query"] = txt_title_query;
-            ViewData["txt_lang"] = txt_lang;
-            ViewData["txt_prod"] = txt_prod;
-            ViewData["txt_sort"] = txt_sort;
-            ViewData["txt_a_d"] = txt_a_d;
-            ViewData["action_sty"] = "";
-            ViewData["idxno"] = idxno;
 
             return View("ResultsPair");
         }
