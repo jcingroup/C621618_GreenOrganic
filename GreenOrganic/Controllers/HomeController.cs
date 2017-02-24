@@ -79,7 +79,7 @@ namespace GreenOrganic.Controllers
         public ActionResult NewsList()
         {
             string lang = get_lang();
-            string cview = get_viewname("NewList", lang);
+            string cview = get_viewname("NewsList", lang);
             DataTable d_news;
             d_news = DB.News_List("", "", "Y", "", "", "", lang);
             ViewData["d_news"] = d_news;
