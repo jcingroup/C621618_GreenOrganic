@@ -1,3 +1,26 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string c_lang = "";
+    string c_layout = "~/Views/Shared/_Layout";
+    //设定语系
+    if (Convert.ToString(Session["lang"]) == "")
+    {
+        Session["lang"] = "cn";
+    }
+
+    c_lang = Convert.ToString(Session["lang"]);
+
+    switch (c_lang)
+    {
+        case "cn":
+            Layout = c_layout + "" + ".cshtml";
+            break;
+        case "zh-tw":
+            Layout = c_layout + ".zh-TW" + ".cshtml";
+            break;
+        case "en":
+            Layout = c_layout + "" + ".cshtml";
+            break;
+    }
+
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }

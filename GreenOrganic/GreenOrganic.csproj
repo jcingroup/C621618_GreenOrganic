@@ -665,6 +665,7 @@
     <Content Include="Views\Home\WitnessData.zh-TW.cshtml" />
     <Content Include="Views\Home\WitnessList.zh-TW.cshtml" />
     <Content Include="Views\Manage\Tutorial.cshtml" />
+    <Content Include="Views\Shared\_Layout.zh-TW.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

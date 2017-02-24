@@ -26,6 +26,7 @@ namespace GreenOrganic.Controllers
         public ActionResult Index()
         {
             string lang = get_lang();
+            string cview = get_viewname("Index",lang);
 
             //設定變數
             DataTable d_proj;
@@ -56,7 +57,7 @@ namespace GreenOrganic.Controllers
             ViewData["d_prod_cate"] = d_prod_cate;
             ViewData["d_news"] = d_news;
 
-            return View();
+            return View(cview);
         }
         // 導向後台首頁(登入頁)
         public RedirectResult Login()
@@ -68,33 +69,37 @@ namespace GreenOrganic.Controllers
         public ActionResult AboutUs()
         {
             string lang = get_lang();
+            string cview = get_viewname("AboutUS", lang);
             DataTable d_com_info = DB.Com_List("AboutUs", lang);
             ViewData["d_com_info"] = d_com_info;
-            return View();
+            return View(cview);
         }
 
         // 新聞資訊
         public ActionResult NewsList()
         {
             string lang = get_lang();
+            string cview = get_viewname("NewList", lang);
             DataTable d_news;
             d_news = DB.News_List("", "", "Y", "", "", "", lang);
             ViewData["d_news"] = d_news;
-            return View();
+            return View(cview);
         }
         public ActionResult NewsData(string n_id = "")
         {
             string lang = get_lang();
+            string cview = get_viewname("NewsData", lang);
+            string cview2 = get_viewname("NewsList", lang);
             DataTable d_news = DB.News_List(n_id,"","Y","","","",lang);
             
             if(d_news.Rows.Count > 0)
             {
                 ViewData["d_news"] = d_news;
-                return View();
+                return View(cview);
             }
             else
             {
-                return RedirectToAction("NewsList");
+                return RedirectToAction(cview2);
             }
 
         }
@@ -104,16 +109,19 @@ namespace GreenOrganic.Controllers
         {
             DataTable d_prod_cate;
             string lang = get_lang();
+            string cview = get_viewname("ProductList", lang);
 
             d_prod_cate = DB.Prod_Cate_List(lang);
             ViewData["d_prod_cate"] = d_prod_cate;
-            return View();
+            return View(cview);
         }
         public ActionResult ProductSublist(string cate_id = "")
         {
             DataTable d_prod;
             DataTable d_prod_img;
             string lang = get_lang();
+            string cview = get_viewname("ProductSublist", lang);
+            string cview2 = get_viewname("ProductList", lang);
 
             d_prod = DB.Prod_List("","","Y","",lang,cate_id);
             d_prod_img = DB.Prod_Img_List("ALL");
@@ -121,11 +129,11 @@ namespace GreenOrganic.Controllers
             {
                 ViewData["d_prod"] = d_prod;
                 ViewData["d_prod_img"] = d_prod_img;
-                return View();
+                return View(cview);
             }
             else
             {
-                return RedirectToAction("ProductList");
+                return RedirectToAction(cview2);
             }
 
         }
@@ -135,6 +143,8 @@ namespace GreenOrganic.Controllers
             DataTable d_prod_img;
             DataTable d_proj_prod;
             string lang = get_lang();
+            string cview = get_viewname("ProductData", lang);
+            string cview2 = get_viewname("ProductList", lang);
 
             d_prod = DB.Prod_List(prod_id, "", "Y", "", lang, "");
             d_prod_img = DB.Prod_Img_List(prod_id);
@@ -144,11 +154,11 @@ namespace GreenOrganic.Controllers
                 ViewData["d_prod"] = d_prod;
                 ViewData["d_prod_img"] = d_prod_img;
                 ViewData["d_proj_prod"] = d_proj_prod;
-                return View();
+                return View(cview);
             }
             else
             {
-                return RedirectToAction("ProductList");
+                return RedirectToAction(cview2);
             }
 
         }
@@ -163,6 +173,7 @@ namespace GreenOrganic.Controllers
             DataTable d_proj_prod;
             DataTable d_prod;
             string lang = get_lang();
+            string cview = get_viewname("WitnessList", lang);
             string proj_id = "";
             string plant_name = "";
             //抓取資料
@@ -195,7 +206,7 @@ namespace GreenOrganic.Controllers
             ViewData["d_proj_prod"] = d_proj_prod;
             ViewData["d_prod"] = d_prod;
 
-            return View();
+            return View(cview);
         }
 
         public ActionResult WitnessData(string proj_id = "",string country_id ="",string area_id = "")
@@ -206,6 +217,7 @@ namespace GreenOrganic.Controllers
             DataTable d_proj_img;
 
             string lang = get_lang();
+            string cview = get_viewname("WitnessData", lang);
             string prod_id = "";
 
             d_proj = DB.Proj_List(proj_id,"","Y","",lang,country_id,area_id);
@@ -223,14 +235,15 @@ namespace GreenOrganic.Controllers
             ViewData["d_proj_img"] = d_proj_img;
             ViewData["d_prod"] = d_prod;
 
-            return View();
+            return View(cview);
         }
 
         // 聯繫我們
         public ActionResult ContactUs()
         {
             string lang = get_lang();
-            return View();
+            string cview = get_viewname("ContactUs", lang);
+            return View(cview);
         }
 
         #region 國家資料取得 Country_Get
@@ -410,6 +423,26 @@ namespace GreenOrganic.Controllers
             clang = Convert.ToString(Session["lang"]);
 
             return clang;
+        }
+        #endregion
+
+        #region 頁面取得
+        public string get_viewname(string view_form = "",string lang = "")
+        {
+            string cview = "";
+            switch (lang)
+            {
+                case "cn":
+                    cview = view_form + "";
+                    break;
+                case "zh-tw":
+                    cview = view_form + ".zh-TW";
+                    break;
+                case "en":
+                    cview = view_form + "";
+                    break;
+            }
+            return cview;
         }
         #endregion
     }
