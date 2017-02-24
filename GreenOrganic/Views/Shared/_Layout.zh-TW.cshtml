@@ -1,0 +1,126 @@
+﻿@{ 
+    string c_url = Request.RawUrl;
+    string curl_cn = "";
+    string curl_cht = "";
+    string curl_en = "";
+    string c_lang = "";
+
+
+    string class_cn = "";
+    string class_cht = "";
+    string class_en = "";
+
+    //設定語系
+    if (Convert.ToString(Session["lang"]) == "")
+    {
+        Session["lang"] = "cn";
+    }
+
+    c_lang = Convert.ToString(Session["lang"]);
+
+    switch (c_lang)
+    {
+        case "cn":
+            class_cn = " class=\"current\" ";
+            break;
+        case "zh-tw":
+            class_cht = " class=\"current\" ";
+            break;
+        case "en":
+            class_en = " class=\"current\" ";
+            break;
+    }
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>@ViewBag.Title::大地還原生物科技股份有限公司</title>
+    <link rel="stylesheet" href="~/Content/css/grid.css">
+    @RenderSection("css", required: false)
+    @if (ViewBag.IsFirstPage)
+    {
+        <link rel="stylesheet" href="~/Content/css/index.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/Content/css/page.css">
+    }
+    <link rel="stylesheet" href="~/Content/css/vendor/icomoon.css">
+
+    <script>
+        function lang_change(c_lang) {
+            $.ajax({
+                url: '@Url.Content("~/Home/Lang_Change")',
+                data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //轉址
+                    location.href="@Url.Content(c_url)";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+    </script>
+</head>
+<body class="@ViewBag.BodyClass">
+    <div id="wrapper">
+        <header id="header"><div class="wrap">
+            <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="回首頁" tabindex="-1">
+                大地還原生物科技股份有限公司
+            </h1>
+            <button class="mobile-trigger" title="主選單">MENU</button>
+            <nav id="menu" class="navbar">
+                <button class="mobile-close" title="關閉主選單"><i class="icon-cross"></i></button>
+                <h2 class="sr-only">主選單</h2>
+                <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
+                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新聞資訊</a>
+                <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列產品</a>
+                <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外實績</a>
+                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯繫我們</a>
+            </nav>
+
+            <nav class="lang">
+                <h2 class="sr-only">語系切換</h2>
+
+                <a href="javascript:lang_change('cn');" @Html.Raw(class_cn) >简</a>
+                <a href="javascript:lang_change('zh-tw');" @Html.Raw(class_cht) >繁</a>
+                <a href="javascript:lang_change('en');" @Html.Raw(class_en) >EN</a>
+            </nav>
+        </div></header>
+
+        <main id="main">
+            @RenderSection("banner")
+            @RenderBody()
+        </main>
+
+    </div><!-- wrapper //-->
+
+    <footer id="footer"><div class="wrap">
+
+        <div class="copyright"><span class="logo">大地還原生物科技股份有限公司</span> &copy; 2016</div>
+        <a href="#wrapper" class="goTop"><i class="icon-angle-up"></i></a>
+
+    </div></footer><!-- footer -->
+
+    <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="~/Content/js/common.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
