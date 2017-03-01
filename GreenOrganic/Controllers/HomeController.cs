@@ -439,7 +439,7 @@ namespace GreenOrganic.Controllers
                     cview = view_form + ".zh-TW";
                     break;
                 case "en":
-                    cview = view_form + "";
+                    cview = view_form + ".en-US";
                     break;
             }
             return cview;
