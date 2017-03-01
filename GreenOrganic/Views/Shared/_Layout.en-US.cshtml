@@ -40,7 +40,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>@ViewBag.Title::大地還原生物科技股份有限公司</title>
+    <title>@ViewBag.Title - Green Organic Biotech Co., Ltd.</title>
     <link rel="stylesheet" href="~/Content/css/grid.css">
     @RenderSection("css", required: false)
     @if (ViewBag.IsFirstPage)
@@ -79,25 +79,25 @@
 
     </script>
 </head>
-<body class="@ViewBag.BodyClass">
+<body class="en-US @ViewBag.BodyClass">
     <div id="wrapper">
         <header id="header"><div class="wrap">
-            <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="回首頁" tabindex="-1">
-                大地還原生物科技股份有限公司
+            <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="HOME" tabindex="-1">
+                Green Organic Biotech Co., Ltd.
             </h1>
-            <button class="mobile-trigger" title="主選單">MENU</button>
+            <button class="mobile-trigger" title="MENU">MENU</button>
             <nav id="menu" class="navbar">
-                <button class="mobile-close" title="關閉主選單"><i class="icon-cross"></i></button>
-                <h2 class="sr-only">主選單</h2>
-                <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
-                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新聞資訊</a>
-                <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列產品</a>
-                <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外實績</a>
-                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯繫我們</a>
+                <button class="mobile-close" title="CLOSE"><i class="icon-cross"></i></button>
+                <h2 class="sr-only">MENU</h2>
+                <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">About Us</a>
+                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">News</a>
+                <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">Products</a>
+                <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">Achievement</a>
+                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">Contact Us</a>
             </nav>
 
             <nav class="lang">
-                <h2 class="sr-only">語系切換</h2>
+                <h2 class="sr-only">Language</h2>
 
                 <a href="javascript:lang_change('cn');" @Html.Raw(class_cn) >简</a>
                 <a href="javascript:lang_change('zh-tw');" @Html.Raw(class_cht) >繁</a>
@@ -114,7 +114,7 @@
 
     <footer id="footer"><div class="wrap">
 
-        <div class="copyright"><span class="logo">大地還原生物科技股份有限公司</span> &copy; 2016</div>
+        <div class="copyright"><span class="logo">Green Organic Biotech Co., Ltd.</span> &copy; 2017</div>
         <a href="#wrapper" class="goTop"><i class="icon-angle-up"></i></a>
 
     </div></footer><!-- footer -->

@@ -515,6 +515,13 @@
     <Content Include="Content\images\index\bg_about.jpg" />
     <Content Include="Content\images\index\bg_witness.jpg" />
     <Content Include="Content\images\index\bg_witness2.png" />
+    <Content Include="Content\images\index\slogan1.en-US.png" />
+    <Content Include="Content\images\index\slogan1.zh-TW.png" />
+    <Content Include="Content\images\index\slogan2.en-US.png" />
+    <Content Include="Content\images\index\slogan2.zh-TW.png" />
+    <Content Include="Content\images\logo.zh-TW.gif" />
+    <Content Include="Content\images\logo_bk.zh-TW.gif" />
+    <Content Include="Content\images\logo_tp.zh-TW.png" />
     <Content Include="Content\images\noPic.jpg" />
     <Content Include="Content\images\product\cat1.jpg" />
     <Content Include="Content\images\product\cat2.jpg" />

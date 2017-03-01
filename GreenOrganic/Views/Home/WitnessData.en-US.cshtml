@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
     ViewBag.Title = "";
-    ViewBag.Title2 = "海外實績";
+    ViewBag.Title2 = "Achievement";
 
     DataTable d_proj = (DataTable)ViewData["d_proj"];
     DataTable d_proj_img = (DataTable)ViewData["d_proj_img"];
@@ -126,7 +126,7 @@
 
     <section class="product-application"><div class="wrap">
 
-        <h2 class="h2">所使用之肥料</h2>
+        <h2 class="h2">Fertilizers</h2>
         @if(d_prod.Rows.Count > 0)
         {
         @:<div class="related-item row row-center">

@@ -1,6 +1,6 @@
 ﻿@using System.Data
 @{
-    ViewBag.Title = "海外實績";
+    ViewBag.Title = "Achievement";
     ViewBag.BodyClass = "Witness";
     ViewBag.nav = "n4";
 
@@ -293,10 +293,10 @@
 	
 	<form action="" class="search-form form-inline" id="form1" name="form1" method="post">
 
-		<label class="sr-only">國別</label>
+		<label class="sr-only">Country</label>
         <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
-            <option value="" selected disabled>請選擇國別</option>
-            <option value="">全部國家</option>
+            <option value="" selected disabled>Country</option>
+            <option value="">All Countries</option>
             @if (d_country.Rows.Count > 0)
             {
                 for (int i = 0; i < d_country.Rows.Count; i++)
@@ -314,10 +314,10 @@
             }
         </select>
 
-        <label class="sr-only">省</label>
+        <label class="sr-only">Area</label>
         <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
-        	<option value="" selected disabled>請選擇省</option>
-            <option value="">全部地區</option>
+        	<option value="" selected disabled>Area</option>
+            <option value="">All Areas</option>
             @*@if (d_area.Rows.Count > 0)
             {
                 for (int i = 0; i < d_area.Rows.Count; i++)
@@ -335,10 +335,10 @@
             }*@
         </select>
 
-        <label class="sr-only">產品</label>
+        <label class="sr-only">Product</label>
         <select class="form-element custom-input" id="prod" name="prod">
-            <option value="" selected disabled>請選擇產品</option>
-            <option value="">產品不拘</option>
+            <option value="" selected disabled>Product</option>
+            <option value="">All Products</option>
             @*if (d_prod.Rows.Count > 0)
             {
                 for (int i = 0; i < d_prod.Rows.Count; i++)
@@ -356,12 +356,12 @@
             }*@
         </select>
 
-        <label class="sr-only">種植物</label>
+        <label class="sr-only">Plant</label>
         <select class="form-element custom-input" id="plant" name="plant">
-        	<option value="" selected disabled>請選擇種植物</option>
+        	<option value="" selected disabled>Plant</option>
         </select>
-        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
-        <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
+        <input type="text" class="form-element custom-input" placeholder="keywords..." name="txt_title_query" id="txt_title_query" value="@txt_title_query">
+        <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> Search</button>
 	</form>
 
 	<div class="table-rwd">
@@ -369,11 +369,11 @@
 			<thead>
 				<tr>
 					<th class="view"></th>
-					<th class="country">國別</th>
-					<th class="area">省</th>
-					<th class="pro">產品</th>
-					<th class="plant">種植物</th>
-					<th class="name">專案名稱</th>
+					<th class="country">Country</th>
+					<th class="area">Area</th>
+					<th class="pro">Product</th>
+					<th class="plant">Plant</th>
+					<th class="name">Project</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -392,7 +392,7 @@
 
                         @:<tr>
                         @:    <td>
-                        @:        <a href="#@detail_curl" id="@detail_curl" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData?proj_id=" + detial_proj_id)">查看</a>
+                        @:        <a href="#@detail_curl" id="@detail_curl" class="btn btn-sm btn-primary popup-link" data-link="@Url.Content("~/Home/WitnessData?proj_id=" + detial_proj_id)">View</a>
                         @:    </td>
                         @:    <td>@detail_country_name</td>
                         @:    <td>@detail_area_name</td>
@@ -426,7 +426,7 @@
                 {
                     <tr>
                         <td colspan="6" class="text-center">
-                            無資料
+                            No Data
                         </td>
                     </tr>
                 }

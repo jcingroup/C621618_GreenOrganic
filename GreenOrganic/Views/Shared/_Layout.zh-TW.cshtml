@@ -79,7 +79,7 @@
 
     </script>
 </head>
-<body class="@ViewBag.BodyClass">
+<body class="zh-TW @ViewBag.BodyClass">
     <div id="wrapper">
         <header id="header"><div class="wrap">
             <h1 class="logo" onclick="location.href='@Url.Content("~/Home")'" title="回首頁" tabindex="-1">
@@ -90,10 +90,10 @@
                 <button class="mobile-close" title="關閉主選單"><i class="icon-cross"></i></button>
                 <h2 class="sr-only">主選單</h2>
                 <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
-                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新聞資訊</a>
+                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">最新消息</a>
                 <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列產品</a>
                 <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外實績</a>
-                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯繫我們</a>
+                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">聯絡我們</a>
             </nav>
 
             <nav class="lang">

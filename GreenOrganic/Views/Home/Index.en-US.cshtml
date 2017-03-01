@@ -351,8 +351,8 @@
 
         <h1 class="logo-intro">@ViewBag.Title</h1>
 
-        <h2 class="slogan1">養地不難</h2>
-        <h3 class="slogan2">天然的有機質營養元素</h3>
+        <h2 class="slogan1">Easy Landscaping</h2>
+        <h3 class="slogan2">Natural Organic Nutrient Elements</h3>
 
         <a href="#" class="scroll">
             <i class="icon-angle-down"></i>
@@ -406,20 +406,20 @@
             }
             else
             {
-                @:<h4 class="h4 text-center">暫無資料</h4>
+                @:<h4 class="h4 text-center">No Data</h4>
             }
 
         </div> @* col *@
 
         <div class="search col-12 col-md-6">
 
-            <h3 class="h3">查看更多海外實績</h3>
+            <h3 class="h3">More Factual Witnesses</h3>
             <form action="@Url.Content("~/Home/WitnessList")" id="form1" name="form1" method="post">
                 <div class="row">
                     <div class="col-12 col-xs-6">
                         <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
-                            <option value="" selected disabled>請選擇國別</option>
-                            <option value="">全部國家</option>
+                            <option value="" selected disabled>Country</option>
+                            <option value="">All Countries</option>
                             @if (d_country.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_country.Rows.Count; i++)
@@ -439,8 +439,8 @@
                     </div>
                     <div class="col-12 col-xs-6">
                         <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
-        	                <option value="" selected disabled>請選擇省</option>
-                            <option value="">全部地區</option>
+        	                <option value="" selected disabled>Area</option>
+                            <option value="">All Areas</option>
                             @*@if (d_area.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_area.Rows.Count; i++)
@@ -462,8 +462,8 @@
                 <div class="row">
                     <div class="col-12">
                         <select class="form-element custom-input" id="prod" name="prod">
-                            <option value="" selected disabled>請選擇產品</option>
-                            <option value="">產品不拘</option>
+                            <option value="" selected disabled>Products</option>
+                            <option value="">All Products</option>
                             @*if (d_prod.Rows.Count > 0)
                             {
                                 for (int i = 0; i < d_prod.Rows.Count; i++)
@@ -485,17 +485,17 @@
                 <div class="row">
                     <div class="col-12">
                         <select class="form-element custom-input" id="plant" name="plant">
-                            <option value="" selected disabled>請選擇種植物</option>
+                            <option value="" selected disabled>Plant</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="">
+                        <input type="text" class="form-element custom-input" placeholder="keywords..." name="txt_title_query" id="txt_title_query" value="">
                     </div>
                 </div>
                 <div class="row row-x-0">
-                    <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
+                    <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> Search</button>
                 </div>
             </form>
 
@@ -508,7 +508,7 @@
 
 <section id="categories"><div class="wrap">
 
-    <h1 class="sr-only">產品分類</h1>
+    <h1 class="sr-only">Categories</h1>
 
     @if (d_prod_cate.Rows.Count > 0)
     {
@@ -559,7 +559,7 @@
 
         <section class="news-list col-12 col-md-6">
 
-            <h1 class="sr-only">最新消息</h1>
+            <h1 class="sr-only">News</h1>
 
             <div class="row">
                 @if (d_news.Rows.Count > 0)
@@ -589,24 +589,24 @@
 
         <section class="branches col-12 col-md-6">
 
-            <h1 class="sr-only">公司據點</h1>
+            <h1 class="sr-only">Location</h1>
 
             <article class="article row">
                 <div class="col-12 col-xs-6 col-md-12">
-                    <h2 class="h2">大地還原生物科技股份有限公司</h2>
+                    <h2 class="h2">Green Organic Biotech Co., Ltd.</h2>
                     <img src="~/Content/images/index/contact.jpg" alt="">
                 </div>
                 <div class="col-12 col-xs-6 col-md-12">
-                    <h3 class="h3">台灣總公司</h3>
+                    <h3 class="h3">Headquarter</h3>
                     <ul class="list-unstyled">
-                        <li><strong>桃園市龜山區振興路56號</strong></li>
-                        <li><em>電話</em> 03-329-8999</li>
-                        <li><em>傳真</em> 03-329-9686</li>
+                        <li><strong>No.56, Zhenxing Rd., Guishan Dist., Taoyuan City 333, Taiwan</strong></li>
+                        <li><em>Tel</em> +886 3-329-8999</li>
+                        <li><em>Fax</em> +886 3-329-9686</li>
                     </ul>
                 </div>
             </article>
 
-            <a href="~/Home/ContactUs" class="btn btn-secondary">查看其他海外據點 <i class="icon-arrow-circle-right"></i></a>
+            <a href="~/Home/ContactUs" class="btn btn-secondary">Overseas <i class="icon-arrow-circle-right"></i></a>
 
         </section>
 
