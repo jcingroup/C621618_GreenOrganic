@@ -1,0 +1,636 @@
+﻿@using System.Data
+@using System.Text.RegularExpressions
+
+@{
+    ViewBag.Title = "WELCOME";
+    ViewBag.IsFirstPage = true;
+
+    DataTable d_news = (DataTable)ViewData["d_news"];
+    DataTable d_ad = (DataTable)ViewData["d_ad"];
+    DataTable d_proj = (DataTable)ViewData["d_proj"];
+    DataTable d_prod_cate = (DataTable)ViewData["d_prod_cate"];
+    DataTable d_country = (DataTable)ViewData["d_country"];
+    DataTable d_plant;
+    DataTable d_area = (DataTable)ViewData["d_area"];
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+    DataTable d_proj_prod = (DataTable)ViewData["d_proj_prod"];
+
+    string country_selected = "";
+    string area_selected = "";
+    string country = "";
+    string area = "";
+    string txt_prod = "";
+    string prod_selected = "";
+
+    string txt_title_query = "";
+
+    string mv_url = "";
+    string prod_cate_id = "";
+    string prod_cate_name = "";
+    string prod_cate_pic = "";
+
+    string n_id = "";
+    string n_title = "";
+    string n_date = "";
+    string n_desc = "";
+
+    string img_id = "";
+    string img_file = "";
+    string img_desc = "";
+    string proj_id = "";
+    string proj_name = "";
+    string proj_img = "";
+    string area_name = "";
+    string country_name = "";
+    string c_url_id = "";
+    int proj_count = 4;
+
+    if (d_ad.Rows.Count > 0)
+    {
+        mv_url = Url.Content("~/Images/" + d_ad.Rows[0]["ad_mv"].ToString());
+    }
+    else
+    {
+        mv_url = Url.Content("~/Content/images/index/banner.mp4");
+    }
+}
+@section css {
+    <link rel="stylesheet" href="~/Content/css/vendor/magnific-popup.css">
+}
+
+@section scripts {
+    <script src="~/Content/js/jquery.scrollify.min.js"></script>
+    <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
+    @* 引用 ajax_lib *@
+    <script src="~/Scripts/ajax_lib.js"></script>
+
+    <script>
+
+        $("#header").addClass("bottom");
+
+        $(document).ready(function () {
+            $.scrollify({
+                section: ".panel",
+                setHeights: false,
+            });
+        });
+        $("#banner .scroll").click(function(e){
+            e.preventDefault();
+            $.scrollify.next();
+        });
+
+        var length = $("#header").offset().top;
+        $(window).scroll(function () {
+             var scroll = $(this).scrollTop();
+             if (scroll >= length) {
+                  $("#header").removeClass("bottom");
+             }
+             else {
+                  $("#header").addClass("bottom");
+             }
+        });
+
+        // get the video
+        var video = document.querySelector('video');
+        // use the whole window and a *named function*
+        window.addEventListener('touchstart', function videoStart() {
+          video.play();
+          console.log('first touch');
+          // remove from the window and call the function we are removing
+          this.removeEventListener('touchstart', videoStart);
+        });
+
+        $('.popup-link').click(function(){
+            var hash = $(this).attr("href"); // get hash tag
+            var link = $(this).data("link"); // get actural link
+            $.ajax({
+                url: link,
+                success: function(data){
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            close: function() {
+                                window.location.href = window.location.href.replace(hash,'');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        if(window.location.hash) {
+            var hash = window.location.hash; // get hash tag
+            if ( $(hash).attr("data-link") ) {
+                var link = $(hash).data("link"); // get actural link from the btn with the hash tag
+                $.ajax({
+                    url: link,
+                    success: function(data){
+                        $.magnificPopup.open({
+                            type: 'inline',
+                            items: {
+                                src: data
+                            },
+                            callbacks: {
+                                close: function() {
+                                    window.location.href = window.location.href.replace(hash,'');
+                                    // remove hash tag in the url after closed
+                                }
+                            }
+                        })
+                    }
+                });
+            }
+        }
+
+
+        function form_ok() {
+            $('#form1').submit();
+        }
+
+        function form_action(c_val, c_action, action_url) {
+
+            $('#action_sty').val(c_action);
+            $('#idxno').val(c_val);
+
+            if (action_url.length > 0) {
+                $("#form1").attr("action", action_url);
+            }
+            else {
+                $("#form1").attr("action", '@Url.Content("~/Manage/ResultsPair")');
+            }
+
+            form_ok();
+        }
+
+        function get_proj(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            var c_lang = $("#" + c_pre + "lang").find(":selected").val();
+            $.ajax({
+                url: '@Url.Content("~/Home/Proj_Get")',
+                data: { lang: c_lang }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "proj option").remove();
+                    //新增空白
+                    if (c_pre == "txt_") {
+                        $("#" + c_pre + "proj").append($("<option></option>").attr("value", "").text("全部"));
+                    }
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "proj").append($("<option></option>").attr("value", obj.proj_id).text(obj.proj_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+        function get_area(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            var c_country = $("#" + c_pre + "country").find(":selected").val();
+            //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+            $.ajax({
+                url: '@Url.Content("~/Home/Area_Get")',
+                data: { country: c_country }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "area option").remove();
+
+                    //新增空白
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇省"));
+                    $("#" + c_pre + "area").append($("<option></option>").attr("value", "").text("全部地區"));
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "area").append($("<option></option>").attr("value", obj.area_id).text(obj.area_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+        function get_prod(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            var c_country = $("#" + c_pre + "country").find(":selected").val();
+            var c_area = $("#" + c_pre + "country").find(":selected").val();
+            var is_index = "N";
+
+            //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+            $.ajax({
+                url: '@Url.Content("~/Home/Proj_Prod_Get")',
+                data: { country: c_country, area: c_area }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "prod option").remove();
+
+                    //新增空白
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+                    $("#" + c_pre + "prod").append($("<option></option>").attr("value", "").text("全部產品"));
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "prod").append($("<option></option>").attr("value", obj.prod_id).text(obj.prod_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+
+        function get_plant(c_pre) {
+            //  取得被選擇項目的值
+            //$("#select").find(":selected").val();
+            var c_country = $("#" + c_pre + "country").find(":selected").val();
+            var c_area = $("#" + c_pre + "country").find(":selected").val();
+            var is_index = "N";
+
+            //alert("c_lang:" + c_lang + ";c_country:" + c_country);
+            $.ajax({
+                url: '@Url.Content("~/Home/Proj_Plant_Get")',
+                data: { country: c_country, area: c_area }, //此参数非常严谨，写错一个引号都不行
+                type: "POST",
+                dataType: 'TEXT', //返回值类型 一般设置为json
+                async: false,
+                success: function (JData) {
+                    //alert(JData);
+                    data = handleAjaxVPNMsg(JData);
+                    i = 0;
+                    c_html = "";
+
+                    //  移除全部的項目
+                    $("#" + c_pre + "plant option").remove();
+
+                    //新增空白
+                    //<option value="" selected disabled>請選擇省</option>
+                    //<option value="">全部地區</option>
+                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("請選擇產品"));
+                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部植物"));
+
+                    $.each($.parseJSON(data), function (idx, obj) {
+                        //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
+                        $("#" + c_pre + "plant").append($("<option></option>").attr("value", obj.plant_name).text(obj.plant_name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function () {
+                    //alert(tbl_new_list);
+                    //alert('ajax complete');
+                }
+            });
+            return false;
+        }
+    </script>
+}
+
+@section banner {
+    <div id="banner" class="panel">
+        <video preload="auto" autoplay loop muted poster="~/content/images/index/banner-static.jpg">
+            <source src="@mv_url" type="video/mp4">
+        </video>
+
+        <h1 class="logo-intro">@ViewBag.Title</h1>
+
+        <h2 class="slogan1">養地不難</h2>
+        <h3 class="slogan2">天然的有機質營養元素</h3>
+
+        <a href="#" class="scroll">
+            <i class="icon-angle-down"></i>
+            Scroll Down
+        </a>
+    </div>
+}
+
+
+<div class="panel">@* for scrollify *@
+
+
+<section id="witness"><div class="wrap">
+
+    <h2 class="h2"><span>Witness Around the World</span></h2>
+
+    <div class="row">
+
+        <div class="article-list col-12 col-md-6">
+            @if(d_proj.Rows.Count > 0)
+            {
+                @:<div class="related-item row">
+                if(d_proj.Rows.Count < 4)
+                {
+                    proj_count = d_proj.Rows.Count;
+                }
+
+                for (int i = 0; i < proj_count; i++)
+                {
+                    proj_id = d_proj.Rows[i]["proj_id"].ToString();
+                    proj_name = d_proj.Rows[i]["proj_name"].ToString();
+                    img_id = d_proj.Rows[i]["img_id"].ToString();
+                    img_file = d_proj.Rows[i]["img_file"].ToString();
+                    img_desc = d_proj.Rows[i]["img_desc"].ToString();
+                    country_name = d_proj.Rows[i]["country_name"].ToString();
+                    area_name = d_proj.Rows[i]["area_name"].ToString();
+                    c_url_id = "data-00" + i.ToString();
+
+                    <div class="col-12 col-xs-6 col-sm-3 col-md-6">
+                        <article class="img-thumbnail">
+                            <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                            <div class="article-content">
+                                <h3 class="h3">@proj_name</h3>
+                                <p>@country_name @area_name</p>
+                                <a href="#@c_url_id" id="@c_url_id" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData?proj_id=" + proj_id)">Read more</a>
+                            </div>
+                        </article>
+                    </div>
+                }
+                @:</div>
+            }
+            else
+            {
+                @:<h4 class="h4 text-center">暫無資料</h4>
+            }
+
+        </div> @* col *@
+
+        <div class="search col-12 col-md-6">
+
+            <h3 class="h3">查看更多海外實績</h3>
+            <form action="@Url.Content("~/Home/WitnessList")" id="form1" name="form1" method="post">
+                <div class="row">
+                    <div class="col-12 col-xs-6">
+                        <select class="form-element custom-input" id="country" name="country" onchange="get_area(''); get_prod(''); get_plant('');">
+                            <option value="" selected disabled>請選擇國別</option>
+                            <option value="">全部國家</option>
+                            @if (d_country.Rows.Count > 0)
+                            {
+                                for (int i = 0; i < d_country.Rows.Count; i++)
+                                {
+                                    if (d_country.Rows[i]["country_id"].ToString() == country)
+                                    {
+                                        country_selected = "selected";
+                                    }
+                                    else
+                                    {
+                                        country_selected = "";
+                                    }
+                                    <option value="@d_country.Rows[i]["country_id"].ToString()" @country_selected>@d_country.Rows[i]["country_name"].ToString()</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 col-xs-6">
+                        <select class="form-element custom-input" id="area" name="area" onchange="get_prod(''); get_plant('');">
+        	                <option value="" selected disabled>請選擇省</option>
+                            <option value="">全部地區</option>
+                            @*@if (d_area.Rows.Count > 0)
+                            {
+                                for (int i = 0; i < d_area.Rows.Count; i++)
+                                {
+                                    if (d_area.Rows[i]["area_id"].ToString() == area)
+                                    {
+                                        area_selected = "selected";
+                                    }
+                                    else
+                                    {
+                                        area_selected = "";
+                                    }
+                                    <option value="@d_area.Rows[i]["area_id"].ToString()" @area_selected>@d_area.Rows[i]["area_name"].ToString()</option>
+                                }
+                            }*@
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select class="form-element custom-input" id="prod" name="prod">
+                            <option value="" selected disabled>請選擇產品</option>
+                            <option value="">產品不拘</option>
+                            @*if (d_prod.Rows.Count > 0)
+                            {
+                                for (int i = 0; i < d_prod.Rows.Count; i++)
+                                {
+                                    if (d_prod.Rows[i]["prod_id"].ToString() == txt_prod)
+                                    {
+                                        prod_selected = "selected";
+                                    }
+                                    else
+                                    {
+                                        prod_selected = "";
+                                    }
+                                    <option value="@d_prod.Rows[i]["prod_id"].ToString()" @prod_selected>@d_prod.Rows[i]["prod_name"].ToString()</option>
+                                }
+                            }*@
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select class="form-element custom-input" id="plant" name="plant">
+                            <option value="" selected disabled>請選擇種植物</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" class="form-element custom-input" placeholder="請輸入關鍵字..." name="txt_title_query" id="txt_title_query" value="">
+                    </div>
+                </div>
+                <div class="row row-x-0">
+                    <button class="btn btn-primary" id="btn_query" name="btn_query" onclick="form_ok();"><i class="icon-search"></i> 搜尋</button>
+                </div>
+            </form>
+
+        </div> @* col *@
+
+    </div>@* row *@
+    
+</div></section>@* witness *@
+
+
+<section id="categories"><div class="wrap">
+
+    <h1 class="sr-only">產品分類</h1>
+
+    @if (d_prod_cate.Rows.Count > 0)
+    {
+        @:<div class="row">
+
+        for (int i = 0; i < d_prod_cate.Rows.Count; i++)
+        {
+            prod_cate_id = d_prod_cate.Rows[i]["cate_id"].ToString();
+            prod_cate_name = d_prod_cate.Rows[i]["cate_name"].ToString();
+            prod_cate_pic = d_prod_cate.Rows[i]["pic"].ToString();
+            @* if (i % 2 == 0)
+            {
+                @:<div class="product-list row">
+            } *@
+
+
+            <div class="col-12 col-xs-6">
+                <article class="article">
+                    <h2 class="sr-only">@prod_cate_name</h2>
+                    <a href="@Url.Content("~/Home/ProductSublist?cate_id=" + prod_cate_id)">
+                        <img src="@Url.Content("~/Content/images/product/" + prod_cate_pic)" alt="">
+                        <span>@prod_cate_name</span>
+                    </a>
+                </article>
+            </div>
+
+            @* if (i % 2 == 1)
+            {
+                @:</div>
+            } *@
+
+        }
+
+        @* if (d_prod_cate.Rows.Count % 2 == 0)
+        {
+            @:</div>
+        } *@
+
+        @:</div>
+    }
+
+</div></section>@* categories *@
+
+
+<div id="about"><div class="wrap">
+
+    <div class="row">
+
+        <section class="news-list col-12 col-md-6">
+
+            <h1 class="sr-only">最新消息</h1>
+
+            <div class="row">
+                @if (d_news.Rows.Count > 0)
+                {
+                    for (int i = 0; i < d_news.Rows.Count; i++)
+                    {
+                        n_id = d_news.Rows[i]["n_id"].ToString();
+                        n_title = d_news.Rows[i]["n_title"].ToString();
+                        n_date = d_news.Rows[i]["n_date"].ToString();
+                        n_desc = RemoveHTMLTag(d_news.Rows[i]["n_desc"].ToString());
+                        if (n_desc.Length > 120)
+                        {
+                            n_desc = n_desc.Substring(0, 120) + "...";
+                        }
+
+                        <article class="article col-12 col-xs-4 col-md-12">
+                            <h2 class="h2"><a href="~/Home/NewsData?n_id=@n_id">@n_title</a></h2>
+                            <p class="date"><i class="icon-calendar"></i> @n_date</p>
+                            <p>@Html.Raw(n_desc)</p>
+                            <p><a href="@Url.Content("~/Home/NewsData?n_id=" + n_id )" class="more">Read more</a></p>
+                        </article>
+                    }
+                }
+            </div>
+            
+        </section>
+
+        <section class="branches col-12 col-md-6">
+
+            <h1 class="sr-only">公司據點</h1>
+
+            <article class="article row">
+                <div class="col-12 col-xs-6 col-md-12">
+                    <h2 class="h2">大地還原生物科技股份有限公司</h2>
+                    <img src="~/Content/images/index/contact.jpg" alt="">
+                </div>
+                <div class="col-12 col-xs-6 col-md-12">
+                    <h3 class="h3">台灣總公司</h3>
+                    <ul class="list-unstyled">
+                        <li><strong>桃園市龜山區振興路56號</strong></li>
+                        <li><em>電話</em> 03-329-8999</li>
+                        <li><em>傳真</em> 03-329-9686</li>
+                    </ul>
+                </div>
+            </article>
+
+            <a href="~/Home/ContactUs" class="btn btn-secondary">查看其他海外據點 <i class="icon-arrow-circle-right"></i></a>
+
+        </section>
+
+    </div>
+    
+</div></div>@* about *@
+
+
+</div>@* panel *@
+
+@functions
+{
+    /// <summary>
+    /// 移除html tag
+    /// </summary>
+    /// <param name="htmlSource"></param>
+    /// <returns></returns>
+    public static string RemoveHTMLTag(string htmlSource)
+    {
+        //移除  javascript code.
+        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
+
+        //移除html tag.
+        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
+        return htmlSource;
+    }
+}

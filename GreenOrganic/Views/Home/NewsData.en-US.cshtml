@@ -1,0 +1,60 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "新聞資訊";
+    ViewBag.BodyClass = "News";
+    ViewBag.nav = "n2";
+
+    DataTable d_news = (DataTable)ViewData["d_news"];
+    string n_id = "";
+    string lang = "";
+    string n_title = "";
+    string n_desc = "";
+    string n_date = "";
+    string n_url = "";
+    string sort = "";
+    string is_index = "";
+    string c_status = "";
+
+    if(d_news.Rows.Count > 0)
+    {
+        n_id = d_news.Rows[0]["n_id"].ToString();
+        lang = d_news.Rows[0]["lang"].ToString();
+        n_title = d_news.Rows[0]["n_title"].ToString();
+        n_desc = d_news.Rows[0]["n_desc"].ToString();
+        n_date = d_news.Rows[0]["n_date"].ToString();
+        n_url = d_news.Rows[0]["n_url"].ToString();
+        is_index = d_news.Rows[0]["is_index"].ToString();
+        c_status = d_news.Rows[0]["status"].ToString();
+        sort = d_news.Rows[0]["sort"].ToString();
+    }
+
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+	
+	<article class="news-data">
+		<p class="date"><i class="icon-calendar"></i> @n_date</p>
+		<h2 class="h2 underline">@n_title</h2>
+
+		@* <div class="row"> *@
+			@* <div class="editor col-12 col-sm-7 col-md-8"> *@
+            <div class="editor">
+				@Html.Raw(n_desc)
+			</div>
+
+			@* <figure class="col-12 col-sm-5 col-md-4">
+				<span class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></span>
+			</figure> *@
+		@* </div> *@
+
+	</article>
+
+	<p class="text-center clearfix"><a href="@Url.Content("~/Home/NewsList")" class="more">回列表</a></p>
+	
+</div></div>

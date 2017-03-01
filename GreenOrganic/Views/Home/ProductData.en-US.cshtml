@@ -1,0 +1,255 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "大地OA 1號";
+    ViewBag.Title2 = "大地系列";
+    ViewBag.Title3 = "系列產品";
+    ViewBag.BodyClass = "Product data";
+    ViewBag.nav = "n3";
+
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+    DataTable d_prod_img = (DataTable)ViewData["d_prod_img"];
+    DataTable d_proj_prod = (DataTable)ViewData["d_proj_prod"];
+
+    string cate_id = "";
+    string prod_id = "";
+    string prod_name = "";
+    string manure_info = "";
+    string manure_no = "";
+    string manure_trait = "";
+    string manure_ingredients = "";
+    string prod_desc = "";
+    string img_id = "";
+    string img_file = "";
+    string img_desc = "";
+    string proj_id = "";
+    string proj_name = "";
+    string proj_img = "";
+    string area_name = "";
+    string country_name = "";
+    string c_url_id = "";
+
+
+    if (d_prod.Rows.Count > 0)
+    {
+        cate_id = d_prod.Rows[0]["cate_id"].ToString();
+        prod_id = d_prod.Rows[0]["prod_id"].ToString();
+        prod_name = d_prod.Rows[0]["prod_name"].ToString();
+        manure_info = d_prod.Rows[0]["manure_info"].ToString();
+        manure_no = d_prod.Rows[0]["manure_no"].ToString();
+        manure_trait = d_prod.Rows[0]["manure_trait"].ToString();
+        manure_ingredients = d_prod.Rows[0]["manure_ingredients"].ToString();
+        prod_desc = d_prod.Rows[0]["prod_desc"].ToString();
+        ViewBag.Title2 = d_prod.Rows[0]["cate_name"].ToString();
+        ViewBag.Title = d_prod.Rows[0]["prod_name"].ToString();
+    }
+
+    if (d_prod_img.Rows.Count > 0)
+    {
+        img_id = d_prod_img.Rows[0]["img_id"].ToString();
+        img_file = d_prod_img.Rows[0]["img_file"].ToString();
+        img_desc = d_prod_img.Rows[0]["img_desc"].ToString();
+    }
+
+
+}
+@section scripts {
+    <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
+    <script>
+        $('.popup-link').click(function () {
+            var hash = $(this).attr("href"); // get hash tag
+            var link = $(this).data("link"); // get actural link
+            $.ajax({
+                url: link,
+                success: function (data) {
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            // open: function() {
+                            //     window.location.href = window.location.href + hash;
+                            //     // add hash tag in the url after opened
+                            // },
+                            close: function () {
+                                window.location.href = window.location.href.replace(hash, '');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        if (window.location.hash) {
+            var hash = window.location.hash; // get hash tag
+            var link = $(hash).data("link"); // get actural link from the btn with the hash tag
+            $.ajax({
+                url: link,
+                success: function (data) {
+                    $.magnificPopup.open({
+                        type: 'inline',
+                        items: {
+                            src: data
+                        },
+                        callbacks: {
+                            close: function () {
+                                window.location.href = window.location.href.replace(hash, '');
+                                // remove hash tag in the url after closed
+                            }
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+}
+@section css {
+    <link rel="stylesheet" href="~/Content/css/vendor/magnific-popup.css">
+}
+
+@section banner {
+    <div id="banner">
+        <div class="wrap">
+            <h1 class="h1"><span><small>@ViewBag.Title3</small>@ViewBag.Title2</span></h1>
+        </div>
+    </div>
+}
+
+<div id="content">
+
+    <div class="wrap">
+
+        <div class="product-intro clearfix">
+
+            <figure class="img-thumbnail">
+                @if(img_file == "")
+                {
+                    <img src="~/Content/images/noPic.jpg" alt="">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Images/" + img_file.ToString())" alt="">
+                }
+            </figure>
+
+            <section class="product-info">
+                <h2 class="h2 underline">
+                    <small>@ViewBag.Title2</small>
+                    @ViewBag.Title
+                </h2>
+                <dl>
+                    <dt>肥料登記字號</dt>
+                    <dd class="clearfix">@manure_no</dd>
+                    <dt>製肥原料</dt>
+                    <dd class="clearfix">@manure_info</dd>
+                    <dt>登記成份</dt>
+                    <dd class="clearfix">@manure_ingredients</dd>
+                    <dt>性狀</dt>
+                    <dd class="clearfix">@manure_trait</dd>
+                </dl>
+            </section>
+
+        </div>
+        @* product-intro *@
+
+        <section class="product-detail">
+
+            <h2 class="h2"><span>Product Detail</span></h2>
+
+            <div class="editor">
+
+                <p>@Html.Raw(prod_desc)</p>
+
+            </div>@* editor *@
+
+        </section>
+        @* product-detail *@
+
+    </div>@* wrap *@
+
+
+    <section class="product-application">
+        <div class="wrap">
+
+            <h2 class="h2">本產品應用海外實績</h2>
+            @if (d_proj_prod.Rows.Count > 0)
+            {
+            @:<div class="related-item row row-center">
+
+                for (int i = 0; i < d_proj_prod.Rows.Count; i++)
+                {
+                    proj_id = d_proj_prod.Rows[i]["proj_id"].ToString();
+                    proj_name = d_proj_prod.Rows[i]["proj_name"].ToString();
+                    img_id = d_proj_prod.Rows[i]["img_id"].ToString();
+                    img_file = d_proj_prod.Rows[i]["img_file"].ToString();
+                    img_desc = d_proj_prod.Rows[i]["img_desc"].ToString();
+                    country_name = d_proj_prod.Rows[i]["country_name"].ToString();
+                    area_name = d_proj_prod.Rows[i]["area_name"].ToString();
+                    c_url_id = "data-00" + i.ToString();
+
+                    @* if (i % 4 == 0)
+                    {
+                        @:<div class="related-item row row-center">
+                    } *@
+
+
+                            <div class="col-12 col-xs-6 col-md-3">
+                                <article class="img-thumbnail">
+                                    <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                                    <div class="article-content">
+                                        <h3 class="h3">@proj_name</h3>
+                                        <p>@country_name @area_name</p>
+                                        <a href="#@c_url_id" id="@c_url_id" class="more popup-link" data-link="@Url.Content("~/Home/WitnessData?proj_id=" + proj_id)">Read more</a>
+                                    </div>
+                                </article>
+                            </div>
+
+                    @* if(i % 4 == 3)
+                    {
+                        @:</div>
+                    } *@
+
+                }
+
+                @* switch (d_proj_prod.Rows.Count % 4)
+                {
+                    case 0:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 1:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 2:
+                          @:<div class="col-12 col-xs-6 col-md-3">
+                          @:</div>
+                        @:</div>
+                        break;
+                    case 3:
+
+                        break;
+                } *@
+
+            @:</div>
+            }
+            else {
+                @:<h4 class="h4 text-center">暫無資料</h4>
+            }
+
+            <p class="text-center m-t-32"><a href="~/Home/ProductSublist?cate_id=@cate_id" class="btn btn-primary">BACK</a></p>
+
+        </div>
+    </section>
+    @* product-application *@
+
+</div>

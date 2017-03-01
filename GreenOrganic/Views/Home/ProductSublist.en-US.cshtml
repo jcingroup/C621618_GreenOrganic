@@ -1,0 +1,115 @@
+﻿@using System.Data
+@using System.Text.RegularExpressions
+
+@{
+    ViewBag.Title = "大地系列";
+    ViewBag.Title2 = "系列產品";
+    ViewBag.BodyClass = "Product";
+    ViewBag.nav = "n3";
+
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+    DataTable d_prod_img = (DataTable)ViewData["d_prod_img"];
+
+    string prod_id = "";
+    string prod_name = "";
+    string prod_desc = "";
+
+    string img_id = "";
+    string img_file = "";
+    string img_desc = "";
+
+    if (d_prod.Rows.Count > 0)
+    {
+        ViewBag.Title = d_prod.Rows[0]["cate_name"].ToString();
+    }
+}
+
+@section banner {
+    <div id="banner">
+        <div class="wrap">
+            <h1 class="h1"><span><small>@ViewBag.Title2</small>@ViewBag.Title</span></h1>
+        </div>
+    </div>
+}
+
+<div id="content">
+    <div class="wrap">
+        @if(d_prod.Rows.Count > 0)
+        {
+            @:<div class="product-sublist row row-center">
+
+            for(int i = 0; i < d_prod.Rows.Count; i++)
+            {
+                prod_id = d_prod.Rows[i]["prod_id"].ToString();
+                prod_name = d_prod.Rows[i]["prod_name"].ToString();
+                prod_desc = RemoveHTMLTag(d_prod.Rows[i]["prod_desc"].ToString());
+                if (prod_desc.Length > 40)
+                {
+                    prod_desc = prod_desc.Substring(0, 40) + "...";
+                }
+
+                img_id = "";
+                img_file = "";
+                img_desc = "";
+
+                for(int j = 0; j < d_prod_img.Rows.Count; j++)
+                {
+                    if(d_prod_img.Rows[j]["img_no"].ToString() == prod_id)
+                    {
+                        img_id = d_prod_img.Rows[j]["img_no"].ToString();
+                        img_file = d_prod_img.Rows[j]["img_file"].ToString();
+                        img_desc = d_prod_img.Rows[j]["img_desc"].ToString();
+                        break;
+                    }
+                }
+
+                if(img_file == "")
+                {
+                    img_file = Url.Content("~/Content/images/noPic.jpg");
+                }
+                else
+                {
+                    img_file = Url.Content("~/Images/" + img_file);
+                }
+
+                <div class="col-sm-6 col-md-4">
+                    <article class="article">
+                        <a href="@Url.Content("~/Home/ProductData?prod_id=" + prod_id)" class="img-thumbnail">
+                            <img src="@img_file" alt="">
+                        </a>
+                        <h2 class="h2 underline">@prod_name</h2>
+                        <p>@prod_desc</p>
+                        <a href="~/Home/ProductData?prod_id=@prod_id" class="more">Read more</a>
+                    </article>
+                </div>
+
+            }
+
+            @:</div>
+        }
+        else {
+            @:<h4 class="h4 text-center">暫無資料</h4>
+        }
+
+        <p class="text-center m-t-16"><a href="~/Home/ProductList" class="btn btn-primary">BACK</a></p>
+
+    </div>
+</div>
+
+@functions
+{
+    /// <summary>
+    /// 移除html tag
+    /// </summary>
+    /// <param name="htmlSource"></param>
+    /// <returns></returns>
+    public static string RemoveHTMLTag(string htmlSource)
+    {
+        //移除  javascript code.
+        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
+
+        //移除html tag.
+        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
+        return htmlSource;
+    }
+}

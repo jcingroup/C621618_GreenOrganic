@@ -665,6 +665,18 @@
     <Content Include="Views\Home\WitnessData.zh-TW.cshtml" />
     <Content Include="Views\Home\WitnessList.zh-TW.cshtml" />
     <Content Include="Views\Manage\Tutorial.cshtml" />
+    <Content Include="Views\Shared\_Layout.zh-TW.cshtml" />
+    <Content Include="Views\Home\AboutUs.en-US.cshtml" />
+    <Content Include="Views\Home\ContactUs.en-US.cshtml" />
+    <Content Include="Views\Home\Index.en-US.cshtml" />
+    <Content Include="Views\Home\NewsData.en-US.cshtml" />
+    <Content Include="Views\Home\NewsList.en-US.cshtml" />
+    <Content Include="Views\Home\ProductData.en-US.cshtml" />
+    <Content Include="Views\Home\ProductList.en-US.cshtml" />
+    <Content Include="Views\Home\ProductSublist.en-US.cshtml" />
+    <Content Include="Views\Home\WitnessData.en-US.cshtml" />
+    <Content Include="Views\Home\WitnessList.en-US.cshtml" />
+    <Content Include="Views\Shared\_Layout.en-US.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

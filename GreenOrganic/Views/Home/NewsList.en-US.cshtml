@@ -1,0 +1,74 @@
+﻿@using System.Data
+@using System.Text.RegularExpressions
+
+@{
+    ViewBag.Title = "新聞資訊";
+    ViewBag.BodyClass = "News";
+    ViewBag.nav = "n2";
+
+    DataTable d_news = (DataTable)ViewData["d_news"];
+    string n_id = "";
+    string n_title = "";
+    string n_date = "";
+    string n_desc = "";
+
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+	
+	<div class="news-list">
+        @if (d_news.Rows.Count > 0)
+        {
+            for (int i = 0; i < d_news.Rows.Count; i++)
+            {
+                n_id = d_news.Rows[i]["n_id"].ToString();
+                n_title = d_news.Rows[i]["n_title"].ToString();
+                n_date = d_news.Rows[i]["n_date"].ToString();
+                n_desc = RemoveHTMLTag(d_news.Rows[i]["n_desc"].ToString());
+                if(n_desc.Length > 120)
+                {
+                    n_desc = n_desc.Substring(0, 120) + "...";
+                }
+
+                <article class="article">
+                    @* <div class="row"> *@
+                        @* <figure class="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <a href="@Url.Content("~/Home/NewsData?n_id=" + n_id)" class="img-thumbnail"><img src="http://lorempixel.com/530/335/" alt=""></a>
+                        </figure> *@
+                        @* <div class="article-content col-12 col-sm-7 col-md-8 col-lg-9"> *@
+                            <h2 class="h2"><a href="~/Home/NewsData?n_id=@n_id">@n_title</a></h2>
+                            <p class="date"><i class="icon-calendar"></i> @n_date</p>
+                            <p>@Html.Raw(n_desc)</p>
+                            <p><a href="@Url.Content("~/Home/NewsData?n_id=" + n_id )" class="more">Read more</a></p>
+                        @* </div> *@
+                    @* </div> *@
+                </article>
+            }
+        }
+    </div>
+	
+</div></div>
+
+@functions
+{
+    /// <summary>
+    /// 移除html tag
+    /// </summary>
+    /// <param name="htmlSource"></param>
+    /// <returns></returns>
+    public static string RemoveHTMLTag(string htmlSource)
+    {
+        //移除  javascript code.
+        htmlSource = Regex.Replace(htmlSource, @"<script[\d\D]*?>[\d\D]*?</script>", String.Empty);
+
+        //移除html tag.
+        htmlSource = Regex.Replace(htmlSource, @"<[^>]*>", String.Empty);
+        return htmlSource;
+    }
+}

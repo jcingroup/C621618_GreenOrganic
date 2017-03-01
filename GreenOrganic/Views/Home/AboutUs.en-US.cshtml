@@ -1,0 +1,28 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "品牌故事";
+    ViewBag.BodyClass = "AboutUs";
+    ViewBag.nav = "n1";
+
+    DataTable d_com_info = (DataTable)ViewData["d_com_info"];
+    string com_desc = "";
+
+    if (d_com_info.Rows.Count > 0)
+    {
+        com_desc = d_com_info.Rows[0]["com_desc"].ToString();
+    }
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content"><div class="wrap">
+
+	<div class="editor">
+	    @Html.Raw(com_desc)
+	</div>@* editor *@
+	
+</div></div>

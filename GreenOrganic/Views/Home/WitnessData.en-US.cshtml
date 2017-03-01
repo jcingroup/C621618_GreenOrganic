@@ -1,0 +1,181 @@
+﻿@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+    ViewBag.Title = "";
+    ViewBag.Title2 = "海外實績";
+
+    DataTable d_proj = (DataTable)ViewData["d_proj"];
+    DataTable d_proj_img = (DataTable)ViewData["d_proj_img"];
+    DataTable d_prod = (DataTable)ViewData["d_prod"];
+
+    string proj_id = "";
+    string proj_name = "";
+    string proj_short_desc = "";
+    string proj_desc = "";
+    string proj_plant_name = "";
+    string prod_id = "";
+    string prod_name = "";
+    string prod_img = "";
+    string prod_desc = "";
+    string country_name = "";
+    string area_name = "";
+    string img_id = "";
+    string img_no = "";
+    string img_file = "";
+    string img_desc = "";
+    string proj_img_id = "";
+    string proj_img_no = "";
+    string proj_img_file = "";
+    string Proj_img_desc = "";
+    string c_url_id = "";
+
+    if (d_proj.Rows.Count > 0)
+    {
+        proj_id = d_proj.Rows[0]["proj_id"].ToString();
+        proj_name = d_proj.Rows[0]["proj_name"].ToString();
+        proj_short_desc = d_proj.Rows[0]["proj_short_desc"].ToString();
+        proj_desc = d_proj.Rows[0]["proj_desc"].ToString();
+        proj_plant_name = d_proj.Rows[0]["plant_name"].ToString();
+        country_name = d_proj.Rows[0]["country_name"].ToString();
+        area_name = d_proj.Rows[0]["area_name"].ToString();
+        ViewBag.Title = proj_name;
+    }
+
+    if(d_proj_img.Rows.Count > 0)
+    {
+        proj_img_id = d_proj_img.Rows[0]["img_id"].ToString();
+        proj_img_file = d_proj_img.Rows[0]["img_file"].ToString();
+    }
+}
+
+@section scripts {
+    <script>
+        $(".gallery .img-thumbnail").click(function(e){
+            e.preventDefault();
+            var src = $(this).attr("href");
+            $(".product-intro .img-thumbnail img").attr("src", src);
+        });
+    </script>
+}
+
+<div class="witness-content">
+
+    <div class="wrap">
+
+        <div class="product-intro clearfix">
+
+            <figure class="img-thumbnail">
+                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
+            </figure>
+
+            <section class="product-info">
+                <h2 class="h2 underline">
+                    @ViewBag.Title
+                    <small>@country_name @area_name</small>
+                </h2>
+                <p class="plant">
+                    @if(proj_plant_name.Length > 0)
+                    {
+                        string[] Array_plant = proj_plant_name.Split(',');
+                        for(int i = 0; i < Array_plant.Length; i++)
+                        {
+                            @:<span class="label">@Array_plant[i]</span>
+                        }
+                    }                    
+                </p>
+                <div class="editor">
+                    @Html.Raw(@proj_short_desc)
+                </div>
+            </section>
+
+        </div>
+        @* product-intro *@
+
+        <section class="product-detail">
+
+            
+                @if (d_proj_img.Rows.Count > 0)
+                {
+                    @:<ol class="gallery list-inline">
+                    for (int i = 0; i < d_proj_img.Rows.Count; i++)
+                    {
+                        img_id = d_proj_img.Rows[i]["img_id"].ToString();
+                        img_file = d_proj_img.Rows[i]["img_file"].ToString();
+                        img_desc = d_proj_img.Rows[i]["img_desc"].ToString();
+                        @:<li>
+                        @:    <a class="img-thumbnail" href="@Url.Content("~/Images/" + img_file)">
+                        @* 超連結內容同圖片網址 *@
+                        @:    <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                        @:</a>
+                        @:</li>
+
+                    }
+                    @:</ol>
+                }
+
+
+            <div class="editor">
+                @Html.Raw(proj_desc)                
+            </div>@* editor *@
+            
+        </section>
+        @* product-detail *@
+
+    </div>@* wrap *@
+
+
+    <section class="product-application"><div class="wrap">
+
+        <h2 class="h2">所使用之肥料</h2>
+        @if(d_prod.Rows.Count > 0)
+        {
+        @:<div class="related-item row row-center">
+
+            for (int i = 0; i < d_prod.Rows.Count; i++)
+            {
+                prod_id = d_prod.Rows[i]["prod_id"].ToString();
+                prod_name = d_prod.Rows[i]["prod_name"].ToString();
+                prod_img = d_prod.Rows[i]["img_file"].ToString();
+                prod_desc = d_prod.Rows[i]["prod_desc"].ToString().Substring(0, 30) + "...";
+
+                @* if (i % 2 == 0)
+                {
+                    @:<div class="related-item row row-center">
+                } *@
+
+                @:<div class="col-12 col-xs-6 col-md-4">
+                @:    <article class="img-thumbnail">
+                @:        <img src="@Url.Content("~/Images/" + prod_img)" alt="">
+                @:        <div class="article-content">
+                @:            <h3 class="h3">@prod_name</h3>
+                @:            <p>@Html.Raw(prod_desc)</p>
+                @:            <a href="@Url.Content("~/Home/ProductData?prod_id=" + prod_id)" class="more">View Detail</a>
+                @:        </div>
+                @:    </article>
+                @:</div>
+
+                @* if (i % 2 == 1)
+                {
+                    @:</div>
+                } *@
+            }
+
+            @* switch (d_prod.Rows.Count % 2)
+            {
+                case 0:
+                    @:  <div class="col-12 col-xs-6 col-md-4">
+                    @:  </div>
+                    @:</div>
+                    break;
+                case 1:
+
+                    break;
+            } *@
+
+        @:</div>
+        }
+
+    </div></section>
+    @* product-application *@
+
+</div>

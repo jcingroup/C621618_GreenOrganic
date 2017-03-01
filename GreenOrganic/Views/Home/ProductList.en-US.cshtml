@@ -1,0 +1,61 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "系列產品";
+    ViewBag.BodyClass = "Product";
+    ViewBag.nav = "n3";
+
+    DataTable d_prod_cate = (DataTable)ViewData["d_prod_cate"];
+    string prod_cate_name = "";
+    string prod_cate_id = "";
+    string prod_cate_pic = "";
+}
+
+@section banner {
+	<div id="banner"><div class="wrap">
+		<h1 class="h1"><span>@ViewBag.Title</span></h1>
+	</div></div>
+}
+
+<div id="content">
+    <div class="wrap">
+
+    @if (d_prod_cate.Rows.Count > 0)
+    {
+        @:<div class="product-list row">
+
+        for (int i = 0; i < d_prod_cate.Rows.Count; i++)
+        {
+            prod_cate_id = d_prod_cate.Rows[i]["cate_id"].ToString();
+            prod_cate_name = d_prod_cate.Rows[i]["cate_name"].ToString();
+            prod_cate_pic = d_prod_cate.Rows[i]["pic"].ToString();
+            @* if (i % 2 == 0)
+            {
+                @:<div class="product-list row">
+            } *@
+
+            <div class="col-12 col-xs-6">
+                <article class="article">
+                    <h2 class="sr-only">@prod_cate_name</h2>
+                    <a href="@Url.Content("~/Home/ProductSublist?cate_id=" + prod_cate_id)">
+                        <img src="@Url.Content("~/Content/images/product/" + prod_cate_pic)" alt="">
+                        <span>@prod_cate_name</span>
+                    </a>
+                </article>
+            </div>
+
+            @* if (i % 2 == 1)
+            {
+                @:</div>
+            } *@
+
+        }
+
+        @* if (d_prod_cate.Rows.Count % 2 == 0)
+        {
+            @:</div>
+        } *@
+
+        @:</div>
+    }
+	
+</div></div>
