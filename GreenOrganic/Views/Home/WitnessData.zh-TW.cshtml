@@ -65,7 +65,14 @@
         <div class="product-intro clearfix">
 
             <figure class="img-thumbnail">
-                <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
+                @if(proj_img_file == "")
+                {
+                    <img src="@Url.Content("~/Content/images/noPic.jpg")" alt="">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Images/" + proj_img_file)" alt="">@* 抓上傳的照片的第一張 *@
+                }
             </figure>
 
             <section class="product-info">
@@ -145,7 +152,14 @@
 
                 @:<div class="col-12 col-xs-6 col-md-4">
                 @:    <article class="img-thumbnail">
-                @:        <img src="@Url.Content("~/Images/" + prod_img)" alt="">
+                          if(prod_img == "")
+                          {
+                            @:<img src="@Url.Content("~/Content/images/noPic.jpg")" alt="">
+                          }
+                          else
+                          {
+                            @:<img src="@Url.Content("~/Images/" + prod_img)" alt="">
+                          }
                 @:        <div class="article-content">
                 @:            <h3 class="h3">@prod_name</h3>
                 @:            <p>@Html.Raw(prod_desc)</p>

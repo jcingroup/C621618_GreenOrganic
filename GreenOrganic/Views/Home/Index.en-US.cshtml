@@ -393,7 +393,14 @@
 
                     <div class="col-12 col-xs-6 col-sm-3 col-md-6">
                         <article class="img-thumbnail">
-                            <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                            @if(img_file == "")
+                            {
+                                <img src="@Url.Content("~/Content/images/noPic.jpg")" alt="">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content("~/Images/" + img_file)" alt="">
+                            }
                             <div class="article-content">
                                 <h3 class="h3">@proj_name</h3>
                                 <p>@country_name @area_name</p>
