@@ -89,7 +89,7 @@ namespace GreenOrganic.Controllers
         {
             string lang = get_lang();
             string cview = get_viewname("NewsData", lang);
-            string cview2 = get_viewname("NewsList", lang);
+            //string cview2 = get_viewname("NewsList", lang);
             DataTable d_news = DB.News_List(n_id,"","Y","","","",lang);
             
             if(d_news.Rows.Count > 0)
@@ -99,7 +99,7 @@ namespace GreenOrganic.Controllers
             }
             else
             {
-                return RedirectToAction(cview2);
+                return RedirectToAction("NewsList");
             }
 
         }
@@ -121,7 +121,7 @@ namespace GreenOrganic.Controllers
             DataTable d_prod_img;
             string lang = get_lang();
             string cview = get_viewname("ProductSublist", lang);
-            string cview2 = get_viewname("ProductList", lang);
+            //string cview2 = get_viewname("ProductList", lang);
 
             d_prod = DB.Prod_List("","","Y","",lang,cate_id);
             d_prod_img = DB.Prod_Img_List("ALL");
@@ -133,7 +133,7 @@ namespace GreenOrganic.Controllers
             }
             else
             {
-                return RedirectToAction(cview2);
+                return RedirectToAction("ProductList");
             }
 
         }
@@ -144,7 +144,7 @@ namespace GreenOrganic.Controllers
             DataTable d_proj_prod;
             string lang = get_lang();
             string cview = get_viewname("ProductData", lang);
-            string cview2 = get_viewname("ProductList", lang);
+            //string cview2 = get_viewname("ProductList", lang);
 
             d_prod = DB.Prod_List(prod_id, "", "Y", "", lang, "");
             d_prod_img = DB.Prod_Img_List(prod_id);
@@ -158,7 +158,7 @@ namespace GreenOrganic.Controllers
             }
             else
             {
-                return RedirectToAction(cview2);
+                return RedirectToAction("ProductList");
             }
 
         }
