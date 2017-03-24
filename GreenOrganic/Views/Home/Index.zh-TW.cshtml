@@ -79,6 +79,18 @@
             $.scrollify.next();
         });
 
+        // 避免到 footer 時被捲上去
+        $(document).on('scroll', function(e){
+            var top = $('.panel:last').offset().top;
+            var screenTop = $(document).scrollTop();
+            if (top > screenTop && $.scrollify.isDisabled()) {
+                $.scrollify.enable();
+                $.scrollify.update();
+            } else if (top < screenTop && !$.scrollify.isDisabled()) {
+                $.scrollify.disable();
+            }
+        });
+
         var length = $("#header").offset().top;
         $(window).scroll(function () {
              var scroll = $(this).scrollTop();
@@ -608,7 +620,7 @@
                     <ul class="list-unstyled">
                         <li><strong>桃園市龜山區振興路56號</strong></li>
                         <li><em>電話</em> 03-329-8999</li>
-                        <li><em>傳真</em> 03-329-9686</li>
+                        <li><em>傳真</em> 03-319-3729</li>
                     </ul>
                 </div>
             </article>
