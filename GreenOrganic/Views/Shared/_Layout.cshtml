@@ -76,7 +76,6 @@
             });
             return false;
         }
-
     </script>
 </head>
 <body class="@ViewBag.BodyClass">
@@ -89,11 +88,17 @@
             <nav id="menu" class="navbar">
                 <button class="mobile-close" title="关闭主选单"><i class="icon-cross"></i></button>
                 <h2 class="sr-only">主选单</h2>
-                <a class="@(ViewBag.nav == "n1" ? "current" : "")" href="~/Home/AboutUs">品牌故事</a>
-                <a class="@(ViewBag.nav == "n2" ? "current" : "")" href="~/Home/NewsList">新闻资讯</a>
-                <a class="@(ViewBag.nav == "n3" ? "current" : "")" href="~/Home/ProductList">系列产品</a>
-                <a class="@(ViewBag.nav == "n4" ? "current" : "")" href="~/Home/WitnessList">海外实绩</a>
-                <a class="@(ViewBag.nav == "n5" ? "current" : "")" href="~/Home/ContactUs">联系我们</a>
+                <a class="@(ViewBag.nav == "n1" ? "link current" : "link")" href="~/Home/AboutUs">品牌故事</a>
+                <a class="@(ViewBag.nav == "n2" ? "link current" : "link")" href="~/Home/NewsList">新闻资讯</a>
+                <div class="dropdown">
+                    <a class="@(ViewBag.nav == "n3" ? "link current" : "link")" href="~/Home/ProductList">系列产品</a>
+                    <ul class="submenu">
+                        <li><a href="~/Home/ProductSublist?cate_id=3">大地系列</a></li>
+                        <li><a href="~/Home/ProductSublist?cate_id=4">功能性系列</a></li>
+                    </ul>
+                </div>
+                <a class="@(ViewBag.nav == "n4" ? "link current" : "link")" href="~/Home/WitnessList">海外实绩</a>
+                <a class="@(ViewBag.nav == "n5" ? "link current" : "link")" href="~/Home/ContactUs">联系我们</a>
             </nav>
 
             <nav class="lang">
@@ -121,6 +126,13 @@
 
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     <script src="~/Content/js/common.js"></script>
+    <script>
+        // 系列產品子選單
+        $(".dropdown .link").click(function(e){
+            e.preventDefault();
+            $(this).siblings(".submenu").slideToggle();
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

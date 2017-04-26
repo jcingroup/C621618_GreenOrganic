@@ -60,7 +60,7 @@
 }
 
 @section scripts {
-    <script src="~/Content/js/jquery.scrollify.min.js"></script>
+    @* <script src="~/Content/js/jquery.scrollify.min.js"></script> *@
     <script src="~/Content/js/jquery.magnific-popup.min.js"></script>
     @* 引用 ajax_lib *@
     <script src="~/Scripts/ajax_lib.js"></script>
@@ -69,15 +69,21 @@
 
         $("#header").addClass("bottom");
 
-        $(document).ready(function () {
-            $.scrollify({
-                section: ".panel",
-                setHeights: false,
-            });
-        });
-        $("#banner .scroll").click(function(e){
-            e.preventDefault();
-            $.scrollify.next();
+        // $(document).ready(function () {
+        //     $.scrollify({
+        //         section: ".panel",
+        //         setHeights: false,
+        //     });
+        // });
+        // $("#banner .scroll").click(function(e){
+        //     e.preventDefault();
+        //     $.scrollify.next();
+        // });
+        $(".scroll").click(function (e) {
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 1000);
+           e.preventDefault();
         });
         // $(".goTop").click(function(e){
         //     var hash = window.location.hash; // get hash tag
@@ -85,16 +91,16 @@
         // });
         
         // 避免到 footer 時被捲上去
-        $(document).on('scroll', function(e){
-            var top = $('.panel:last').offset().top;
-            var screenTop = $(document).scrollTop();
-            if (top > screenTop && $.scrollify.isDisabled()) {
-                $.scrollify.enable();
-                $.scrollify.update();
-            } else if (top < screenTop && !$.scrollify.isDisabled()) {
-                $.scrollify.disable();
-            }
-        });
+        // $(document).on('scroll', function(e){
+        //     var top = $('.panel:last').offset().top;
+        //     var screenTop = $(document).scrollTop();
+        //     if (top > screenTop && $.scrollify.isDisabled()) {
+        //         $.scrollify.enable();
+        //         $.scrollify.update();
+        //     } else if (top < screenTop && !$.scrollify.isDisabled()) {
+        //         $.scrollify.disable();
+        //     }
+        // });
 
         var length = $("#header").offset().top;
         $(window).scroll(function () {
@@ -338,8 +344,8 @@
                     //新增空白
                     //<option value="" selected disabled>请选择省</option>
                     //<option value="">全部地区</option>
-                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择产品"));
-                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部植物"));
+                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").attr("selected", true).attr("disabled", true).text("请选择种植物"));
+                    $("#" + c_pre + "plant").append($("<option></option>").attr("value", "").text("全部种植物"));
 
                     $.each($.parseJSON(data), function (idx, obj) {
                         //$("#select").append($("<option></option>").attr("value", "值").text("文字"));
@@ -371,7 +377,7 @@
         <h2 class="slogan1">养地不难</h2>
         <h3 class="slogan2">天然的有机质营养元素</h3>
 
-        <a href="#" class="scroll">
+        <a href="#witness" class="scroll">
             <i class="icon-angle-down"></i>
             Scroll Down
         </a>
