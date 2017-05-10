@@ -90,7 +90,7 @@
     function upload(c_sty)
     {
         var img_count = $('#img_count').val();
-        if(img_count < 3)
+        if(img_count < 5)
         {
             if ($("#pic_" + c_sty).val().length > 0) {
                 //ajaxFileUpload('pic_small','small_img');
@@ -102,7 +102,7 @@
         }
         else
         {
-            alert("圖片已滿3張!!!");
+            alert("圖片已滿5張!!!");
         }
 
     }
