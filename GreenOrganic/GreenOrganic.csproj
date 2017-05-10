@@ -687,6 +687,14 @@
     <Content Include="Views\Home\WitnessData.en-US.cshtml" />
     <Content Include="Views\Home\WitnessList.en-US.cshtml" />
     <Content Include="Views\Shared\_Layout.en-US.cshtml" />
+    <Content Include="Views\Home\Certificate.cshtml" />
+    <Content Include="Views\Home\Certificate.en-US.cshtml" />
+    <Content Include="Views\Home\Certificate.zh-TW.cshtml" />
+    <Content Include="Views\Home\Video.cshtml" />
+    <Content Include="Views\Home\Video.en-US.cshtml" />
+    <Content Include="Views\Home\Video.zh-TW.cshtml" />
+    <Content Include="Views\Manage\Certificate.cshtml" />
+    <Content Include="Views\Manage\Video.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

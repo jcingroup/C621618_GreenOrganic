@@ -1292,6 +1292,20 @@ namespace GreenOrganic.Controllers
 
             return View("AboutUs");
         }
+
+        // 證照專區
+        public ActionResult Certificate()
+        {
+            return View();
+        }
+
+        // 影音專區
+        public ActionResult Video()
+        {
+            return View();
+        }
+
+
         // 分公司(可被海外實績選取並顯示在聯絡我們
         public ActionResult BranchsList()
         {

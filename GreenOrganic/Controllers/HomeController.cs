@@ -103,6 +103,20 @@ namespace GreenOrganic.Controllers
             }
 
         }
+        // 證照專區
+        public ActionResult Certificate()
+        {
+            string lang = get_lang();
+            string cview = get_viewname("Certificate", lang);
+            return View(cview);
+        }
+        // 影音專區
+        public ActionResult Video()
+        {
+            string lang = get_lang();
+            string cview = get_viewname("Video", lang);
+            return View(cview);
+        }
 
         // 系列產品
         public ActionResult ProductList()

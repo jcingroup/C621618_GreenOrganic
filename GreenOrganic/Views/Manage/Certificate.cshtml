@@ -1,0 +1,51 @@
+﻿@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutManage.cshtml";
+    ViewBag.Crumb = "證照專區";
+    ViewBag.nav = "n3";
+    ViewBag.subNav = "n3-2";
+
+}
+
+@section Breadcrumb {
+    <li>&#8227; 網站資訊維護</li>
+    <li>&#8250; @ViewBag.Crumb</li>
+}
+
+<h3 class="h3">@ViewBag.Crumb<small class="sub"><span class="w3-large">&#187;</span> 修改</small></h3>
+@*1.引用ckeditor.js*@
+<script src="~/ckeditor/ckeditor.js"></script>
+
+<div class="alert alert-warning w3-padding-small text-sm">
+    <strong>編輯器注意事項: </strong><br>
+    從 WORD 複製文字時，請使用下方的 <img src="~/Content/images/sys/icon-word.jpg" /> 圖示來貼上 WORD 文字，避免跑版<br>
+    編輯器上傳圖片或新增表格等時，請勿設定寬度及高度(將數字刪除) ，以免行動裝置顯示時會跑版。<br>
+    檔案尺寸寬度超過 1600 或 高度超過1200 的圖片會被壓縮(PNG透明背景會變成不透明)<br>
+    youtube 可勾選「用自適應縮放模式」
+</div>
+
+<form action="" class="form form-sm" name="form1" id="form1" method="post">
+    <select id="lang" name="lang" required class="form-control w3-margin-bottom">
+        <option value="">簡體中文</option>
+    </select>
+
+    @* 編輯器(含圖片上傳功能) *@
+    <textarea class="form-control" rows="15"></textarea>
+
+
+    <div class="form-action text-xs-center">
+        <button type="button" name="btn_ok" class="btn btn-primary btn-sm oi" data-glyph="circle-check">
+            存檔確認
+        </button>
+    </div>
+</form>
+<script>
+    //禁止按下enter
+    $('#form1').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
