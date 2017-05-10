@@ -7,12 +7,20 @@
 
     DataTable d_video = (DataTable)ViewData["d_video"];
     string mv = "";
-    string mv_url = "";
-    if(d_video.Rows.Count > 0)
-    {
-        mv = d_video.Rows[0]["ad_mv"].ToString();
-        mv_url = "../Images/" + mv;
-    }
+    string img_path = "../Images/";
+    string big_img = "";
+    string img_id = "";
+    string img_no = "";
+    string img_count = "";
+
+    img_no = DateTime.Now.ToString("yyyyMMddHHmmss");
+    img_count = d_video.Rows.Count.ToString();
+    //string mv_url = "";
+    //if(d_video.Rows.Count > 0)
+    //{
+    //    mv = d_video.Rows[0]["ad_mv"].ToString();
+    //    mv_url = "../Images/" + mv;
+    //}
 
 }
 
@@ -33,31 +41,93 @@
         form1.submit();
     }
 
-    function upload()
+    function del_img(img_id,c_sty)
     {
-        if ($("#mv_file").val().length > 0) {
-            //ajaxFileUpload('pic_small','small_img');
-            ajaxFileUpload();
-        }
-        else {
-            alert("請選擇影片");
-        }
+        var cimg_no = "";
+        var c_cate = "Ad"
+        @*if ($("#prod_id").val().length > 0) {
+            cimg_no = $("#prod_id").val();
+        }else {
+            cimg_no = @img_no;
+        }*@
+
+        cimg_no = @img_no;
+
+        $.ajax({                
+            url: 'Img_Del',
+            data: { img_id: img_id, img_sta:c_sty, img_no: cimg_no,img_cate: c_cate  }, //此参数非常严谨，写错一个引号都不行
+            type:"POST",
+            dataType: 'TEXT', //返回值类型 一般设置为json
+            async: false,
+            success: function(JData){
+                //alert(JData);
+                data = handleAjaxVPNMsg(JData);
+                i = 0;
+                c_html = "";
+
+                $.each($.parseJSON(data), function (idx, obj) {
+                    i = i + 1;
+                    c_html = c_html + "<li>";
+                    c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.ad_id + "','" + c_sty + "');\" >&times;</button>";
+                    c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.ad_img + "\" alt=\"\">";
+                    c_html = c_html + "</li>";
+                });
+
+                $('#c_img_' + c_sty).html(c_html);
+            },
+            error:function(xhr, ajaxOptions, thrownError){ 
+                alert(xhr.status); 
+                alert(thrownError); 
+            },
+            complete: function () {
+                //alert(tbl_new_list);
+                //alert('ajax complete');
+            }
+        });
+        return false;
     }
 
-    function ajaxFileUpload() {
-        var cimg_no = "a";
-        var c_img = "mv_file";
-        var c_cate = "a"
-        var c_sty = "a";
-        var chtml = "a";
+    function upload(c_sty)
+    {
+        var img_count = $('#img_count').val();
+        if(img_count < 3)
+        {
+            if ($("#pic_" + c_sty).val().length > 0) {
+                //ajaxFileUpload('pic_small','small_img');
+                ajaxFileUpload(c_sty);
+            }
+            else {
+                alert("請選擇圖片!!!");
+            }
+        }
+        else
+        {
+            alert("圖片已滿3張!!!");
+        }
+
+    }
+
+    function ajaxFileUpload(c_sty) {
+        var cimg_no = "";
+        var c_img = "pic_" + c_sty;
+        var c_cate = "Ad"
+        
+        @*if ($("#prod_id").val().length > 0) {
+            cimg_no = $("#prod_id").val();
+        }else {
+            cimg_no = @img_no;
+        }*@
+
+        cimg_no = @img_no;
+
+        var chtml = "";
         var i = 0;
-        //alert("12345");
         $.ajaxFileUpload
         (
             {
-                url: 'Mv_Upload', //用于文件上传的服务器端请求地址
+                url: 'Upload', //用于文件上传的服务器端请求地址
                 type: 'post',
-                data: { img_no:'', img_sta:'',img_cate: ''}, //此参数非常严谨，写错一个引号都不行
+                data: { img_no: cimg_no, img_sta:c_sty,img_cate: c_cate}, //此参数非常严谨，写错一个引号都不行
                 secureuri: false, //一般设置为false
                 //fileElementId: 'file1', //文件上传空间的id属性  <input type="file" id="file" name="file" />
                 fileElementId: c_img, //文件上传空间的id属性  <input type="file" id="file" name="file" />
@@ -73,12 +143,15 @@
                     c_html = "";
                     $.each($.parseJSON(data), function (idx, obj) {
                         i = i + 1;
-                        $("#mv_href").attr("href", "../Images/" + obj.filename);
-                        $("#mv_href").text(obj.filename);
-                        $("#mv").val(obj.filename);
+                        c_html = c_html + "<li>";
+                        c_html = c_html + "    <button class=\"close\" id=\"btn_close_" + c_sty + "_" + i + "\" name=\"btn_close_" + c_sty + "_" + i + "\" onclick=\"del_img('" + obj.ad_id + "','" + c_sty + "');\" >&times;</button>";
+                        c_html = c_html + "    <img id=\"img_" + c_sty + "_" + i + "\" name=\"img_" + c_sty + "_" + i + "\" src=\"../Images/" + obj.ad_img + "\" alt=\"\">";
+                        c_html = c_html + "</li>";
                     });
 
-                    //$('#c_img_' + c_sty).html(c_html);
+                    $('#c_img_' + c_sty).html(c_html);
+
+                    $('#img_count').val(i);
                 },
                 error: function (data, status, e)//服务器响应失败处理函数
                 {
@@ -89,6 +162,37 @@
         return false;
     }
 
+    function handleAjaxVPNMsg(data) {
+        var firstRemoveIndexStart = data.indexOf("<SCRIPT");
+        var firstRemoveIndexEnd = data.indexOf("<\/SCRIPT>");
+        var newData = data;
+        while (firstRemoveIndexStart != -1) {
+            firstRemoveIndexStart = newData.indexOf("<SCRIPT");
+            firstRemoveIndexEnd = newData.indexOf("<\/SCRIPT>");
+            //alert('firstRemoveIndexStart:'+firstRemoveIndexStart);
+            if (firstRemoveIndexStart != -1) {
+                if (firstRemoveIndexStart == 0) {
+                    newData = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                } else {
+                    newDataHead = newData.substr(0, firstRemoveIndexStart);
+                    newDataTail = newData.substr(firstRemoveIndexEnd + 9, newData.length);
+                    //alert('newDataHead'+newDataHead);
+                    //alert('newDataTail'+newDataTail);
+                    newData = newDataHead + newDataTail;
+                }
+            }
+            //alert(newData);
+        }
+        //alert("before:second:"+newData);
+        var secondeRemoveIndex = newData.indexOf("<\/noscript>");
+        //alert(secondeRemoveIndex);
+        if (secondeRemoveIndex != -1) {
+            newData = newData = newData.substr(0, secondeRemoveIndex);
+        }
+        //alert(newData);
+        return newData;
+    }
+
 </script>
 
 @* <div class="alert alert-warning w3-padding-small text-sm">
@@ -97,14 +201,15 @@
 </div> *@
 
 <form action="IndexVideo_Update" class="form" method="post" name="form1" id="form1" enctype="multipart/form-data">
-    <input type="hidden" id="mv" name="mv" value="" />
+    <input type="hidden" id="img_count" name="img_count" value="@img_count" />
+    <input type="hidden" name="img_no" id="img_no" value="@img_no" />
     <div class="form-group row">
         <div class="col-xs-6">
-            <input type="file" class="form-control form-control-sm" name="mv_file" id="mv_file" accept="audio/*,video/*">
+            <input type="file" class="form-control form-control-sm" name="pic_B" id="pic_B" accept="image/*">
             <small class="text-muted">可上傳 1-3 張圖片，須為 jpg, png 或 gif 格式<br/>建議尺寸為 1680*978px，檔案最大不可超過 600 KB</small>
         </div>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload" onclick="upload();">上傳</button>
+            <button type="button" class="btn btn-sm btn-success oi m-t-small" data-glyph="data-transfer-upload" name="btn_big_pic" onclick="upload('B');">上傳</button>
         </div>
     </div>
 
@@ -112,13 +217,19 @@
     <div class="form-group row">
         <div class="col-xs-6">
             @* <a href="@mv_url" target="new" class="btn btn-sm btn-info oi" data-glyph="document" id="mv_href" name="mv_href">@mv</a> *@
-            @* 照片縮圖(上傳圖片後顯示) *@
-            <ol class="upload-img list-inline">
-                <li>
-                    <button class="close">&times;</button>
-                    <img src="xxx.jpg" alt="">
-                </li>
+            @* 照片縮圖(上傳圖片後顯示)*@
+            <ol class="upload-img list-inline" id="c_img_B" name="c_img_big">
+                @for (int b = 0; b < d_video.Rows.Count; b++)
+                {
+                    big_img = img_path + d_video.Rows[b]["ad_img"].ToString();
+                    img_id = d_video.Rows[b]["ad_id"].ToString();
+                    <li>
+                        <button class="close" id="btn_close_B_@b" name="btn_close_B_@b" onclick="del_img('@img_id','B');">&times;</button>
+                        <img id="img_B_@b" name="img_B_@b" src="@big_img" alt="">
+                    </li>
+                }
             </ol>
+
         </div>
     </div>
 

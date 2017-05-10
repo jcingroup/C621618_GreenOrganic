@@ -303,6 +303,7 @@ namespace GreenOrganic.Controllers
             string chk_sty = "";
             string pre_filename = "";
             int files_count = 0;
+            string cmsg = "";
 
             if (hfc.Count > 0)
             {
@@ -322,6 +323,9 @@ namespace GreenOrganic.Controllers
                     break;
                 case "Proj":
                     chk_file = DB.Proj_Img_List(img_no);
+                    break;
+                case "Ad":
+                    chk_file = DB.Ad_Img_List(img_no);
                     break;
                 default:
                     chk_file = OverlookDB.Img_List(img_no, img_sta);
@@ -351,6 +355,12 @@ namespace GreenOrganic.Controllers
                         case "Proj":
                             DB.Proj_Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename);
                             break;
+                        case "Ad":
+                            if(chk_file.Rows.Count < 3)
+                            {
+                                DB.Ad_Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename);
+                            }
+                            break;
                         default:
                             //OverlookDB.Img_Insert(img_no, img_no + "_" + img_sta + "_" + filename, img_sta);
                             break;
@@ -365,6 +375,9 @@ namespace GreenOrganic.Controllers
                             break;
                         case "Proj":
                             DB.Proj_Img_Update(img_no, img_no + "_" + img_sta + "_" + filename);
+                            break;
+                        case "Ad":
+                            DB.Ad_Img_Update(img_no, img_no + "_" + img_sta + "_" + filename);
                             break;
                         default:
                             //OverlookDB.Img_Update(chk_file.Rows[0]["_SEQ_ID"].ToString(), img_no + "_" + img_sta + "_" + filename);
@@ -406,12 +419,14 @@ namespace GreenOrganic.Controllers
                 case "Proj":
                     img_file = DB.Proj_Img_List(img_no);
                     break;
+                case "Ad":
+                    img_file = DB.Ad_Img_List(img_no);
+                    break;
                 default:
                     img_file = OverlookDB.Img_List(img_no, img_sta);
                     break;
             }
             
-
             str_return = JsonConvert.SerializeObject(img_file, Newtonsoft.Json.Formatting.Indented);
 
             return Content(str_return);
@@ -436,6 +451,9 @@ namespace GreenOrganic.Controllers
                 case "Proj":
                     chk_file = DB.Proj_Img_List(img_no);
                     break;
+                case "Ad":
+                    chk_file = DB.Ad_Img_List(img_no);
+                    break;
                 default:
                     chk_file = OverlookDB.Img_List(img_no, img_sta);
                     break;
@@ -447,11 +465,23 @@ namespace GreenOrganic.Controllers
             {
                 for(int i = 0; i< chk_file.Rows.Count; i++)
                 {
-                    if(img_id == chk_file.Rows[i]["img_id"].ToString())
+                    if(img_cate == "Ad")
                     {
-                        filename = chk_file.Rows[i]["img_file"].ToString();
-                        break;
+                        if (img_id == chk_file.Rows[i]["ad_id"].ToString())
+                        {
+                            filename = chk_file.Rows[i]["ad_img"].ToString();
+                            break;
+                        }
                     }
+                    else
+                    {
+                        if (img_id == chk_file.Rows[i]["img_id"].ToString())
+                        {
+                            filename = chk_file.Rows[i]["img_file"].ToString();
+                            break;
+                        }
+                    }
+
                 }
             }
 
@@ -483,6 +513,9 @@ namespace GreenOrganic.Controllers
                 case "Proj":
                     DB.Proj_Img_Delete(img_id);
                     break;
+                case "Ad":
+                    DB.Ad_Img_Delete(img_id);
+                    break;
                 default:
                     OverlookDB.Img_Delete(img_id);
                     break;
@@ -496,6 +529,9 @@ namespace GreenOrganic.Controllers
                     break;
                 case "Proj":
                     img_file = DB.Proj_Img_List(img_no);
+                    break;
+                case "Ad":
+                    img_file = DB.Ad_Img_List(img_no);
                     break;
                 default:
                     img_file = OverlookDB.Img_List(img_no, img_sta);
@@ -1170,7 +1206,7 @@ namespace GreenOrganic.Controllers
         // 首頁影片
         public ActionResult IndexVideo()
         {
-            DataTable d_video = DB.Video_List();
+            DataTable d_video = DB.Ad_Img_List();
             ViewData["d_video"] = d_video;
             return View();
         }

@@ -439,7 +439,7 @@ namespace Lib.Service
                  + "from "
                  + "  Advertisement a1 "
                  + "where "
-                 + "  ad_id = 1";
+                 + "  ad_title = 'img' ";
 
             cmd.CommandText = csql;
 
@@ -2866,6 +2866,223 @@ namespace Lib.Service
                 cmd.Parameters.Add("@account", SqlDbType.NVarChar, 30).Value = account; //(參數,宣考型態,長度)
                 cmd.Parameters.Add("@pwd", SqlDbType.NVarChar, 30).Value = pwd; //(參數,宣考型態,長度)
 
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 首頁廣告圖片陳列 Ad_Img_List
+        public DataTable Ad_Img_List(string img_no = "")
+        {
+            DataSet dt = new DataSet();
+            DataTable d_t;
+            SqlConnection conn = new SqlConnection(conn_str);
+            int imgno_count = 0;
+            string[] cimg_no;
+            string str_img_no = "";
+            //if(img_no == "")
+            //{
+            //    imgno_count = -1;
+            //}
+            //else
+            //{
+            //    imgno_count = 0;
+            //}
+
+            cimg_no = img_no.Split(',');
+            for (int i = 0; i < cimg_no.Length; i++)
+            {
+                if (i > 0)
+                {
+                    str_img_no = str_img_no + ",";
+                }
+                str_img_no = str_img_no + "'" + cimg_no[i] + "'";
+            }
+
+
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            csql = "select * from Advertisement where status = 'Y' and ad_title = 'img' ";
+            //if(imgno_count == 0)
+            //{
+            //    csql = csql + "and ad_no in (";
+            //    for (int i = 0; i < cimg_no.Length; i++)
+            //    {
+            //        if (i > 0)
+            //        {
+            //            csql = csql + ",";
+            //        }
+            //        csql = csql + "@str_img_no" + i.ToString() + " ";
+            //    }
+            //    csql = csql + ") ";
+            //}
+
+            cmd.CommandText = csql;
+            //if(imgno_count == 0)
+            //{
+            //    cmd.Parameters.Clear();
+            //    for (int i = 0; i < cimg_no.Length; i++)
+            //    {
+            //        cmd.Parameters.AddWithValue("@str_img_no" + i.ToString(), cimg_no[i]);
+            //    }
+            //}
+
+            
+            if (dt.Tables["img"] != null)
+            {
+                dt.Tables["img"].Clear();
+            }
+
+            SqlDataAdapter scenic_ada = new SqlDataAdapter();
+            scenic_ada.SelectCommand = cmd;
+            scenic_ada.Fill(dt, "img");
+            scenic_ada = null;
+
+            d_t = dt.Tables["img"];
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            conn = null;
+            dt = null;
+
+            return d_t;
+        }
+        #endregion
+
+        #region 首頁廣告圖片新增 Prod_Img_Insert
+        public string Ad_Img_Insert(string img_no = "", string img_file = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"insert into Advertisement(ad_title,ad_no, ad_img) "
+                     + "values('img',@img_no ,@img_file)";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_no", img_no);
+                cmd.Parameters.AddWithValue("@img_file", img_file);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 首頁廣告圖片刪除 Ad_Img_Delete
+        public string Ad_Img_Delete(string img_id = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"delete from Advertisement where ad_id = @img_id ";
+
+                cmd.CommandText = csql;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_id", img_id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                c_msg = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                cmd = null;
+                conn = null;
+            }
+
+            return c_msg;
+        }
+        #endregion
+
+        #region 首頁 廣告圖片更新 Ad_Img_Update
+        public string Ad_Img_Update(string img_no = "", string img_file = "")
+        {
+            string c_msg = "";
+            SqlConnection conn = new SqlConnection(conn_str);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                csql = @"update "
+                     + "  Advertisement "
+                     + "set "
+                     + "  ad_img = @img_file "
+                     + "where "
+                     + "  ad_no = @img_no ";
+
+                cmd.CommandText = csql;
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@img_file", img_file);
+                cmd.Parameters.AddWithValue("@img_no", img_no);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
