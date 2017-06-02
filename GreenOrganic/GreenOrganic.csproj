@@ -508,6 +508,9 @@
     <Content Include="Content\images\bg_bottle2_gry.gif" />
     <Content Include="Content\images\ContactUs\branch1.jpg" />
     <Content Include="Content\images\ContactUs\branch2.jpg" />
+    <Content Include="Content\images\ContactUs\branch3.jpg" />
+    <Content Include="Content\images\ContactUs\branch4.jpg" />
+    <Content Include="Content\images\ContactUs\_NoUse_branch3.jpg" />
     <Content Include="Content\images\icon_lineDot.png" />
     <Content Include="Content\images\icon_select.gif" />
     <Content Include="Content\images\index\banner-static.jpg" />
