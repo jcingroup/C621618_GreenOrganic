@@ -108,6 +108,8 @@ namespace GreenOrganic.Controllers
         {
             string lang = get_lang();
             string cview = get_viewname("Certificate", lang);
+            DataTable d_com_info = DB.Com_List("Certificate", lang);
+            ViewData["d_com_info"] = d_com_info;
             return View(cview);
         }
         // 影音專區
@@ -115,6 +117,8 @@ namespace GreenOrganic.Controllers
         {
             string lang = get_lang();
             string cview = get_viewname("Video", lang);
+            DataTable d_com_info = DB.Com_List("Video", lang);
+            ViewData["d_com_info"] = d_com_info;
             return View(cview);
         }
 

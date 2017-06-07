@@ -5,6 +5,17 @@
     ViewBag.nav = "n3";
     ViewBag.subNav = "n3-2";
 
+    DataTable d_lang = (DataTable)ViewData["d_lang"];
+    DataTable d_com_info = (DataTable)ViewData["d_com_info"];
+    string c_selected = "";
+    string lang = (string)ViewData["lang"];
+    string com_desc = "";
+
+    if (d_com_info.Rows.Count > 0)
+    {
+        com_desc = d_com_info.Rows[0]["com_desc"].ToString();
+    }
+
 }
 
 @section Breadcrumb {
@@ -24,17 +35,49 @@
     youtube 可勾選「用自適應縮放模式」
 </div>
 
+<script>
+    function form_ok() {
+        form1.action = "Certificate_Update";
+        form1.submit();
+    }
+
+    function lang_select()
+    {
+        form1.action = "Certificate";
+        form1.submit();
+    }
+</script>
+
 <form action="" class="form form-sm" name="form1" id="form1" method="post">
-    <select id="lang" name="lang" required class="form-control w3-margin-bottom">
-        <option value="">簡體中文</option>
+    <select id="lang" name="lang" required onchange="lang_select();" class="form-control w3-margin-bottom">
+        @if (d_lang.Rows.Count > 0)
+        {
+            for (int i = 0; i < d_lang.Rows.Count; i++)
+            {
+                if (d_lang.Rows[i]["lang_id"].ToString() == lang)
+                {
+                    c_selected = "selected";
+                }
+                else
+                {
+                    c_selected = "";
+                }
+                <option value="@d_lang.Rows[i]["lang_id"].ToString()" @c_selected>@d_lang.Rows[i]["lang_name"].ToString()</option>
+            }
+        }
     </select>
 
     @* 編輯器(含圖片上傳功能) *@
-    <textarea class="form-control" rows="15"></textarea>
-
+    <textarea class="form-control" rows="15" placeholder="請輸入證照專區內容" id="com_desc" name="com_desc">@com_desc</textarea>
+    @*加入圖片上傳頁籤，放在頁面底下，放在頁面head區的話，會抓不到myText DOM*@
+    <script type="text/javascript">
+        CKEDITOR.replace('com_desc'
+    , { filebrowserImageUploadUrl: '@Url.Content("~/Manage/UploadPicture")' }
+    );
+    </script>
 
     <div class="form-action text-xs-center">
-        <button type="button" name="btn_ok" class="btn btn-primary btn-sm oi" data-glyph="circle-check">
+        <button type="button" name="btn_ok" onclick="form_ok();" class="btn btn-primary btn-sm oi" data-glyph="circle-check">
             存檔確認
         </button>
     </div>

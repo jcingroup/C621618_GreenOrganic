@@ -1294,17 +1294,58 @@ namespace GreenOrganic.Controllers
         }
 
         // 證照專區
-        public ActionResult Certificate()
+        public ActionResult Certificate(string lang = "cn")
         {
+            DataTable d_lang = DB.Lang_List();
+            DataTable d_com_info = DB.Com_List("Certificate", lang);
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_com_info"] = d_com_info;
+            ViewData["lang"] = lang;
+
             return View();
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Certificate_Update(string lang = "", string com_desc = "")
+        {
+            DB.Com_Update("Certificate", lang, com_desc);
+
+            DataTable d_lang = DB.Lang_List();
+            DataTable d_com_info = DB.Com_List("Certificate", lang);
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_com_info"] = d_com_info;
+            ViewData["lang"] = lang;
+
+            return View("Certificate");
         }
 
         // 影音專區
-        public ActionResult Video()
+        public ActionResult Video(string lang = "cn")
         {
+            DataTable d_lang = DB.Lang_List();
+            DataTable d_com_info = DB.Com_List("Video", lang);
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_com_info"] = d_com_info;
+            ViewData["lang"] = lang;
+
             return View();
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Video_Update(string lang = "", string com_desc = "")
+        {
+            DB.Com_Update("Video", lang, com_desc);
+
+            DataTable d_lang = DB.Lang_List();
+            DataTable d_com_info = DB.Com_List("Video", lang);
+            ViewData["d_lang"] = d_lang;
+            ViewData["d_com_info"] = d_com_info;
+            ViewData["lang"] = lang;
+
+            return View("Video");
+        }
 
         // 分公司(可被海外實績選取並顯示在聯絡我們
         public ActionResult BranchsList()

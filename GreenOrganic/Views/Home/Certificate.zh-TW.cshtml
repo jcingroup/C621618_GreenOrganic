@@ -3,6 +3,14 @@
     ViewBag.Title = "證照專區";
     ViewBag.BodyClass = "Certificate";
     ViewBag.nav = "n2";
+
+    DataTable d_com_info = (DataTable)ViewData["d_com_info"];
+    string com_desc = "";
+
+    if (d_com_info.Rows.Count > 0)
+    {
+        com_desc = d_com_info.Rows[0]["com_desc"].ToString();
+    }
 }
 
 @section banner {
@@ -14,7 +22,7 @@
 <div id="content"><div class="wrap">
 
     <div class="editor">
-        文字編輯器
+        @Html.Raw(com_desc)
     </div>@* editor *@
     
 </div></div>

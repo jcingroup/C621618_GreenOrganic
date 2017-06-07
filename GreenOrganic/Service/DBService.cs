@@ -578,13 +578,24 @@ namespace Lib.Service
 
             try
             {
-                csql = "update "
-                     + "  Company_Info "
-                     + "set "
-                     + "  com_desc = @com_desc "
-                     + "where "
-                     + "    lang = @lang "
-                     + "and category = @category";
+                //檢查是否有資料
+                DataTable d_com_info = Com_List(category, lang);
+                if(d_com_info.Rows.Count > 0)
+                {
+                    csql = "update "
+                         + "  Company_Info "
+                         + "set "
+                         + "  com_desc = @com_desc "
+                         + "where "
+                         + "    lang = @lang "
+                         + "and category = @category";
+                }
+                else
+                {
+                    csql = "insert into "
+                         + "Company_Info(com_desc, lang, category) "
+                         + "Values(@com_desc,@lang,@category) ";
+                }
 
                 cmd.CommandText = csql;
 
