@@ -89,14 +89,14 @@
                 <button class="mobile-close" title="关闭主选单"><i class="icon-cross"></i></button>
                 <h2 class="sr-only">主选单</h2>
                 <a class="@(ViewBag.nav == "n1" ? "link current" : "link")" href="~/Home/AboutUs">品牌故事</a>
-                <div class="dropdown">
+                @* <div class="dropdown"> *@
                     <a class="@(ViewBag.nav == "n2" ? "link current" : "link")" href="~/Home/NewsList">新闻资讯</a>
-                    <ul class="submenu">
+                    @* <ul class="submenu">
                         <li><a href="~/Home/NewsList">新闻资讯</a></li>
                         <li><a href="~/Home/Certificate">证照专区</a></li>
                         <li><a href="~/Home/Video">影音专区</a></li>
                     </ul>
-                </div>
+                </div> *@
                 <div class="dropdown">
                     <a class="@(ViewBag.nav == "n3" ? "link current" : "link")" href="~/Home/ProductList">系列产品</a>
                     <ul class="submenu">

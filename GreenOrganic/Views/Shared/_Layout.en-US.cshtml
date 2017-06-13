@@ -90,14 +90,14 @@
                 <button class="mobile-close" title="CLOSE"><i class="icon-cross"></i></button>
                 <h2 class="sr-only">MENU</h2>
                 <a class="@(ViewBag.nav == "n1" ? "link current" : "link")" href="~/Home/AboutUs">About Us</a>
-                <div class="dropdown">
+                @* <div class="dropdown"> *@
                     <a class="@(ViewBag.nav == "n2" ? "link current" : "link")" href="~/Home/NewsList">News</a>
-                    <ul class="submenu">
+                    @* <ul class="submenu">
                         <li><a href="~/Home/NewsList">News</a></li>
                         <li><a href="~/Home/Certificate">Certificate</a></li>
                         <li><a href="~/Home/Video">Video</a></li>
                     </ul>
-                </div>
+                </div> *@
                 <div class="dropdown">
                     <a class="@(ViewBag.nav == "n3" ? "link current" : "link")" href="~/Home/ProductList">Products</a>
                     <ul class="submenu">
