@@ -1,0 +1,245 @@
+@charset "UTF-8";
+
+
+/*      layout
+-----------------------------------------------------------------------*/
+// 置中(有最大寬度限制,非滿版才需要)
+%container {
+    max-width: $max-width;
+
+    @if $enable-RWD {
+        margin: 0 $gutter*3;
+        @include mq($max-width) { margin: 0 auto; }
+        @include mq-max(tablet) { margin: 0; }
+    }
+    @else {
+        margin: 0 auto;
+        @include mq-max(break($max-width,-1)) {
+            padding-left: $gutter*2;
+            padding-right: $gutter*2;
+        }
+    }
+}
+
+// RWD容器
+%container-fluid {
+    @extend %clearfix;
+
+    @if $enable-RWD {
+        @include mq-max(tablet) {
+            padding-left: $gutter;
+            padding-right: $gutter;
+        }
+    } @else {
+        min-width: $min-width;
+    }
+}
+
+body { padding-top: $header-height;}
+
+.wrap { @extend %container-fluid; }
+
+#wrapper {
+    @if $wrapper-bg      { background: $wrapper-bg; }
+    @if not $enable-RWD  { min-width: $min-width; }
+    @if $footBeBottom {
+        @if $lte7 { _height: 100%; }
+        min-height: 100%;
+        padding-bottom: $footer-height + $foot-spacing; // 內容與footer間距
+    }
+}
+
+
+// header
+// ----------------------------------------------------------------------
+#header {
+    @extend %container-fluid;
+    @if $header-bg     { background: $header-bg; }
+    @if $header-height { height: $header-height; }
+    z-index: z(header);
+
+    // 本次專案
+    @include fixed(top 0 left 0 right 0);
+}
+
+.logo {
+    cursor: pointer; cursor: hand; // for ie
+    @extend %float-l, .p-y-8;
+}
+
+
+// main
+// ----------------------------------------------------------------------
+#main {
+    @extend %container-fluid, .text-left;
+    z-index: z(main);
+    padding: $sidebar-title-height $main-sapcing $foot-spacing ($sidebar-width + $main-sapcing);
+}
+
+// sidebar
+#sidebar {
+    @extend .text-left;
+
+    @include fixed(left 0 top $header-height bottom 0);
+
+    z-index: z(sidebar);
+    width: $sidebar-width;
+    background: #F2F2F2;
+    border-right: 1px solid #ccc;
+
+    .h3 {
+        width: $sidebar-width;
+        height: $sidebar-title-height;
+        margin: 0;
+        padding: 0 10px;
+        line-height: $sidebar-title-height;
+        color: #555;
+        font-size: 1em;
+        background: #F2F2F2;
+        border-bottom: 1px solid #e5e5e5;
+        border-right: 1px solid #ccc;
+
+        i { color: lighten($brand-danger,20%); }
+    }
+
+    a { display: block; }
+
+    .collapse-toggle,
+    > a {
+        @extend .font-md;
+        display: block;
+        padding: $spacer*0.5;
+        font-weight: bold;
+        border-bottom: 1px solid #e5e5e5;
+        color: $gray;
+        background: hsla(0,0,100%,0.4);
+
+        // 符號
+        i {
+            display: inline-block;
+            text-align: center;
+            width: 24px;
+            font-size: em(12,15);
+        }
+
+        &:hover, &:active, &:focus { color: $link-color; }
+
+        &.current, &.active {
+            &:hover, &:active, &:focus {
+                color: darken($link-color, 10);
+            }
+        }
+        // 現在展開的選單
+        &.current { border-right: 2px solid $link-color; }
+        // 被點中的選單
+        &.active  { background: hsl(0,0,100%); }
+    }
+
+    .collapse-toggle {
+        cursor: pointer; cursor: hand;
+    }
+
+    // 伸縮
+    .collapse-content {
+        @extend .font-md, .hidden;
+
+        &.in {
+            display: block;
+            border-right: 2px solid $link-color;
+        }
+
+        a {
+            position: relative;
+            padding: $spacer*0.5 $spacer*1.2 $spacer*0.5 $spacer*2;
+            color: $gray;
+            background: hsl(0,0,100%);
+            border-bottom: 1px dotted #e4e4e4;
+
+            @include el(all) { position: absolute; }
+
+            // 選單左直虛線
+            &::before {
+                width:1px;
+                height: 100%;
+                left: $spacer;
+                top: 0;
+                border-left: 1px dotted lighten($link-color,15%);
+            }
+
+            // 選單左橫虛線
+            &::after {
+                width: $spacer*0.5;
+                height: 1px;
+                left: $spacer;
+                top: 50%;
+                border-top: 1px dotted lighten($link-color,15%);
+            }
+
+            // 左小箭頭(滑鼠移過才會顯示)
+            i {
+                display: block;
+
+                @include size(16px);
+                @include pos-center(y);
+                left: 10px;
+
+                text-align: center;
+                line-height: 16px;
+                color: $link-color;
+                font-style: normal;
+                font-size: $font-size-lg;
+                background: lighten($link-color,47%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            &:hover, &:active, &:focus, &.current {
+               color: $link-color;
+               background: $brand-primary-light;
+
+               i { opacity: 1; }
+               &::after { display: none; }
+            }
+
+            &.current {
+                &::after {
+                    display: block;
+                    width: 0; height: 0;
+                    left: auto; right: 0; top: 50%;
+                    transform: translateY(-50%);
+                    border: 15px solid transparent;
+                    border-left: 0;
+                    border-right-width: 10px;
+                    border-right-color: $link-color;
+                }
+                i { @extend .text-danger; }
+            }
+        }
+    }
+}
+
+
+
+// footer 頁腳
+// ----------------------------------------------------------------------
+#footer {
+    @if $footer-bg     { background: $footer-bg; }
+    @if $footer-height { min-height: $footer-height; }
+    @if $footBeBottom  { margin-top: -($footer-height); }
+    z-index: z(footer);
+    margin-left: $sidebar-width + 5px;
+    margin-right: 5px;
+}
+
+.copyright {
+    @extend .p-t-8;
+    border-top: 1px dotted #e5e5e5;
+    font-size: em(12px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    a {
+        color: lighten($link-color,15%);
+        &:hover, &:active { color: $link-color; }
+    }
+}

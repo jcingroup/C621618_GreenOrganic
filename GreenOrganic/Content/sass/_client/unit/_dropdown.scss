@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+$dropdown-color:               $white !default;
+$dropdown-hover-color:         rgba($white,.5) !default;
+$dropdown-font-size:           12px !default;
+
+$dropdown-arrow-size:          5px !default;
+$dropdown-arrow-color:         $dropdown-color !default;
+$dropdown-arrow-hover-color:   $dropdown-hover-color !default;
+
+$dropdown-toggle-styles: () !default;
+
+$dropdown-content-styles: (
+    width: 100%,
+    background-color: $white,
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2)
+) !default;
+
+$dropdown-content-link: (
+    padding: 15px 0,
+    font-size: em(19)
+) !default;
+
+
+// 下拉最外層容器
+.dropdown {
+    position: relative;
+    z-index: z(dropdown);
+
+    a { display: block; }
+}
+
+// 顯示隱藏按鈕
+.dropdown-toggle {
+    cursor: pointer;
+    transition: all .5s ease;
+
+    @each $attribute, $value in $dropdown-toggle-styles {
+        #{$attribute}: #{$value};
+    }
+
+    @include icon-arrow(down, $dropdown-arrow-size, $dropdown-arrow-color, left 86% top 50%) {
+        @include mq-max(break(#{$mobile-menu-bk},-1)) {
+            top: 20px;
+        }
+    }
+
+    &:hover, &:active {
+
+        &::before {
+            border-top-color: $dropdown-arrow-hover-color;
+            // @include animation(jump .6s infinite .6s);
+        }
+    }
+}
+
+// 隱藏內容
+.dropdown-content {
+    display: none;
+    @include absolute(top 100%);
+
+    @each $attribute, $value in $dropdown-content-styles {
+        #{$attribute}: #{$value};
+    }
+
+    a {
+        @each $attribute, $value in $dropdown-content-link {
+            #{$attribute}: #{$value};
+        }
+    }
+}

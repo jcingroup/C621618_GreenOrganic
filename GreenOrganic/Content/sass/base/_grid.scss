@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+$row-spacer: $gutter/2 !default;
+
+// output
+// ------------------------------------------------------------
+.row {
+    @extend %clearfix;
+    margin: 0;
+    & + & { margin-top: $row-spacer; }
+}
+
+// helper> mixins> grid
+@include make-grid-columns();
+
+.row-x-0 {
+    > [class*="col"] {
+        &:first-child { padding-left: 0; }
+        &:last-child { padding-right: 0; }
+    }
+}
+// .col-first { padding-left: 0; }
+// .col-last  { padding-right: 0; }
+
+.col-rest  { overflow: hidden; }
+.col {
+    display: inline-block;
+    vertical-align: top;
+}

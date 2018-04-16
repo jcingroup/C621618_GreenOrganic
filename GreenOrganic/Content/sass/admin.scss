@@ -1,0 +1,267 @@
+@charset "UTF-8";
+
+
+// import
+// ------------------------------------------------------------
+// 本次專案專用變數
+@import "_admin/color";
+@import "_admin/settings";
+
+// 共用
+@import "helper/function";
+@import "helper/variables";
+@import "helper/mixins";
+
+// 由此 output css
+@import "vendor/normalize"; // 重置復位
+@import "vendor/print";     // 列印樣式
+
+@import "base/basic";
+@import "base/table";
+@import "base/form";
+@import "base/util";
+
+// 本頁專用
+@import "_admin/classes"; // 常用樣式
+@import "_admin/layout";  // 整體版面
+
+@import "_admin/module/top-nav";
+@import "_admin/module/breadcrumb";
+@import "_admin/module/btn";
+@import "_admin/module/btn-group";
+@import "_admin/module/input-file";
+@import "_admin/module/input-group";
+@import "_admin/module/label";
+@import "_admin/module/list";
+@import "_admin/module/alerts";
+@import "_admin/module/loader";
+
+
+// main
+// ------------------------------------------------------------
+// == demo
+.manage {
+    .u-demo { display: none; }
+}
+.user {
+    .m-demo { display: none; }
+}
+
+// == 編輯頁
+.form-list {
+    @extend .p-b-32, .bg-white;
+    border: 1px solid #E4EBD6;
+
+    .row {
+        @extend .m-x-8;
+
+        &:first-of-type { @extend .m-t-32; }
+
+        &:not(:first-of-type) {
+            @extend .p-t-12;
+            background: url(#{$img-path}/dot.gif) 0 0 repeat-x;
+        }
+    }
+    .row + .row {
+        margin-top: 4px;
+    }
+    dt {
+        @extend .font-md, .text-right, .form-element-label;
+        font-weight: normal;
+    }
+
+    td {
+        @extend .p-y-2;
+    }
+
+    // 表頭介紹
+    header {
+        @extend .p-a-8, .font-md, .text-white;
+
+        background: #A1907E;
+        border-bottom: 2px solid #DBDDD7;
+
+        ul { @extend .m-b-0; }
+        li { @extend .m-l-24; }
+    }
+
+    // 按鈕bar
+    footer {
+        @extend .m-t-24, .m-x-8, .p-t-24;
+        border-top: 1px solid lighten($muted,35);
+        padding-left: 16.3%;
+    }
+    .btn {
+        font-size: em(18);
+        &[type="submit"] { @extend .hover-success; }
+        &[type="reset"] { @extend .bg-warning, .hover-warning; }
+    }
+}
+// 上傳檔案
+.uploaded {
+    @extend %float-l, .font-tiny;
+    position: relative;
+    margin-top: 6px;
+    border: 1px solid #eee;
+    padding: 5px;
+    color: #aaa;
+
+    // 圖片
+    img { height: 38px; }
+
+    // 計畫書
+    a { margin-right: 20px; }
+
+    button {
+        @include absolute(right -2px top -2px);
+        opacity: .7;
+    }
+}
+
+
+// == 列表
+// 下載彙總表
+.topBtn-bar {
+    @extend .m-b-8;
+
+    .btn { font-size: em(17); }
+}
+
+// 列表上的搜尋
+.table-head {
+    @extend .p-a-8, .font-sm;
+    background: #EDEBE8;
+    color: #6F6357;
+
+    #{text-inputs(all)} {
+        vertical-align: middle;
+        &:not(:last-child) { @extend .m-r-8; }
+    }
+}
+.table-list {
+    @extend %full, .m-b-0, .table-hover;
+
+    caption {
+        @extend .text-left, .p-a-8;
+        background: saturate(darken(#A1907E,15),4);
+        color: #EDEBE8;
+        font-size: em(18);
+    }
+    th {
+        @extend .text-white;
+        background: #A1907E;
+        line-height: 1.2;
+        font-weight: normal;
+        border-bottom: 2px solid #DBDDD7;
+        border-top: none;
+    }
+    td {
+        @extend .bg-white;
+        font-size: em(15);
+
+        &:first-child { border-left: 1px solid $table-border-color; }
+        &:last-child { border-right: 1px solid $table-border-color; }
+    }
+    .item-edit {
+        width: 60px;
+
+        .btn-link {
+            @extend .font-lg;
+        }
+    }
+}
+
+// 列表頁腳 pager
+.table-foot {
+    padding: 6px;
+    background: lighten(#EDEBE8,2);
+}
+.pager {
+    @extend %clearfix, .font-sm, .text-center;
+
+    input, a { line-height: 23px; }
+    a {
+        @extend .bg-white, .p-x-4;
+        display: inline-block;
+        border: 1px solid $input-border-color;
+        color: darken($input-border-color,20);
+
+        &:hover, &:active {
+            background: #eee;
+        }
+    }
+    span { @extend .m-x-8; }
+}
+
+// 超多欄的表格 會出現水平卷軸
+.table-wider {
+    width: 100%;
+    min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    table { @extend %full; }
+    th, td { white-space: nowrap; }
+}
+
+// == 專案執行進度
+.progress-list {
+    @extend %list-unstyled, %float-l, .m-t-12;
+
+    width: 55%;
+    border-left: 3px solid lighten($muted,30);
+    margin-left: 28px;
+
+    li {
+        @extend .p-l-24;
+
+        position: relative;
+        &:not(:first-child) { @extend .m-t-24; }
+    }
+    em {
+        display: inline-block;
+        font-style: normal;
+        font-size: em(17);
+        color: ligthen($brand-secondary,15);
+
+        @include circle(35px,center,lighten($muted,30));
+        @include pos-center(y);
+        left: -18.5px;
+    }
+    .check-pass {
+        em {
+            @extend .text-white, .bg-primary;
+            box-shadow:  0 0 6px $brand-primary;
+        }
+    }
+    .check-fail {
+        em {
+            @extend .text-white, .bg-danger;
+            box-shadow:  0 0 6px $danger;
+        }
+    }
+}
+.progress-tip {
+    @extend %float-r;
+    width: 42%;
+    background: $pale-yellow;
+    border: 1px solid darken($pale-yellow,20);
+    box-shadow: 0 0 7px rgba(#000,.2);
+
+    header {
+        @extend .font-xl, .text-white, .text-center;
+        background: darken($warning,8);
+    }
+    article {
+        @extend .p-a-12;
+        color: darken($warning,12);
+    }
+}
+
+// 白底預設樣式
+// .card {
+//     @extend .bg-white, .m-b-16;
+//     color: #555849;
+//     box-shadow: 0 2px 2px #EDEDED;
+// }

@@ -1,0 +1,83 @@
+﻿@charset "UTF-8";
+
+
+// == config
+// ----------------------------------------------------------------------
+// $lte7:                       false !default;           // 是否兼容IE6-7
+// $enable-flex:                false !default;           // 是否使用 flex 版
+// $enable-RWD:                 false !default;           // 是否有行動裝置版面
+// $states:                     true !default;            // 情境文字是否輸出
+$img-path:              '../images' !default;
+$font-path:             '../font' !default;
+
+
+// == font
+// ----------------------------------------------------------------------
+$body-color:            #373a3c;
+$link-color:            $brand-primary;
+$link-hover-color:      darken($link-color, 15%);
+
+$headings-font-weight:  500;
+
+
+// == layout
+// ----------------------------------------------------------------------
+$min-width:             1008px;     // 網頁最小尺寸
+$max-width:             1400px;     // 網頁最寬尺寸: .wrap
+
+// wrapper
+$wrapper-bg:            false !default;
+$footBeBottom:          true !default; // 頁腳是否置底 true / false
+$foot-spacing:          30px !default; // 與頁腳的間距
+
+// header
+$header-height:         48px !default;
+$header-bg:             $brand-primary !default;
+
+// footer
+$footer-height:         51px !default;
+$footer-bg:             false !default;
+
+// main
+$main-sapcing:          24px !default;
+
+// sidebar
+$sidebar-width:         220px;
+$sidebar-title-height:  46px;
+
+// z-index
+$z-index: (
+    header:             2,
+    main:               1,
+    footer:             5,
+    sidebar:            4,
+);
+
+
+// == module/form/table
+// ----------------------------------------------------------------------
+// btn
+$btn-font-size:                 15px !default;
+$btn-hover-bg:                  darken($brand-primary,12) !default;
+
+
+// table
+$table-border-color:           #E0E8C8 !default; //#DCDCDC
+$table-bordered:               true !default;
+$table-pd:                     5px 8px !default;
+$table-bg-hover:               $pale-yellow !default;
+// $table-bg-striped:             #F4F4F4 !default;
+
+
+// form
+// $input-color:                  #A8A8A8 !default;
+$input-bg:                     #fff;
+$input-border-color:           #BFC99F;
+$form-element-height:          32px;
+$form-element-pd:              2px 8px;
+$form-element-bg:              #F9FAF3;
+
+$enable-ckb-rdo:               true;
+$inputfile-bg:                 $form-element-bg;
+$input-group-addon-color:      #fff;
+$input-group-addon-bg:         $brand-primary-light;

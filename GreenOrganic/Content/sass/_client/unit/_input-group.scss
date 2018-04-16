@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+$input-group-pos:                 false !default;
+$input-group-height:              $form-element-height !default;
+$input-group-radius:              $form-element-radius !default; // ($input-group-height / 2)
+$input-group-color:               $input-color !default;
+$input-group-border:              1px solid $input-border-color !default;
+
+$input-group-addon-width:         2% !default; // $input-group-height
+$input-group-addon-color:         $input-color !default;
+$input-group-addon-line-height:   $input-group-height !default;
+$input-group-addon-bg:            lighten($input-border-color,5) !default; // $input-border-color
+
+
+// == input群組
+.input-group {
+    @extend %clearfix;
+
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    margin: 0 auto $spacer auto;
+
+    @if $input-group-height   { height: $input-group-height; }
+    @if $input-group-border   { border: $input-group-border; }
+    @if $input-group-radius   { border-radius: $input-group-radius; }
+
+    input {
+        width: 100%;
+        border: none;
+        @if $form-element-radius { border-radius: 0; }
+    }
+
+    // button { cursor: pointer; }
+}
+
+.input-group input,
+.input-group-addon {
+    display: table-cell;
+    vertical-align: top;
+
+    &:not(:first-child):not(:last-child) {
+        border-radius: 0;
+    }
+
+    @if $input-group-radius {
+        &:first-child {
+            border-radius: $input-group-radius 0 0 $input-group-radius;
+        }
+        &:last-child {
+            border-radius: 0 $input-group-radius $input-group-radius 0;
+        }
+    }
+}
+
+.input-group-addon {
+    white-space: nowrap;
+    padding: 0 $gutter/2;
+    height: 100%;
+
+    @if $input-group-addon-line-height { line-height: $input-group-addon-line-height; }
+    @if $input-group-addon-width       { width: $input-group-addon-width; }
+    @if $input-group-addon-color       { color: $input-group-addon-color; }
+    @if $input-group-addon-bg          { background: $input-group-addon-bg; }
+}
+
+label.input-group-addon {
+    @extend .m-b-0;
+}
+
+.radio-group, .checkbox-group {
+    &:not(:last-of-type) { margin-right: $gutter; }
+}

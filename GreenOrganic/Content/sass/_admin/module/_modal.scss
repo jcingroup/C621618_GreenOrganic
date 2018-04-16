@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+$modal-top:        80px !default; // 離頂端距離
+$modal-max-width:  630px !default;
+$modal-min-width:  320px !default;
+
+$modal-id:         false !default;
+
+// overlay
+.modal {
+    z-index: z(overlay);
+    display: none;
+    overflow: auto;
+    padding-top: $modal-top;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    @include fixed(left 0 top 0);
+    @include size(100%);
+
+    @if $enable-RWD {
+        @include mq-max(break(phone,-1)) {
+            padding-top: 5%;
+        }
+    }
+}
+
+// 內容
+.modal-content {
+    margin: auto;
+    background-color: #fff;
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+
+    @include diy-animation(slide-down, .4s) {
+        from { top: -300px; opacity: 0; }
+        to { top: 0; opacity: 1; }
+    }
+
+    @if $enable-RWD {
+        @include mq-max(break(desktop,-1)) {
+            width: 96%;
+        }
+    }
+
+    // 專案樣式
+    @if $modal-id {
+        #{$modal-id} & {
+            @extend .p-x-32, .p-y-48;
+        }
+    }
+}
+
+.btn-close {
+    @extend %circle;
+    @include fixed(top 2% right 3%);
+    @include transition(color .5s);
+    font-size: em(31);
+    color: white;
+    background: none;
+
+    &:hover, &:focus {
+        outline: none;
+        color: lighten($brand-primary,20);
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+
+//
+// Background
+//
+
+
+//
+// Animation
+//
+.push {left: 250px;}
+.pull {left: 0;}
+
+
+//
+// Grid & break
+//
+
+@each $bp in map-keys($grid-breakpoints) {
+
+  @include media-breakpoint-up($bp) {
+    .gutter-#{$bp}-up {margin-top: $spacer/2;}
+    .br-#{$bp}-up     {display: block;}
+  }
+  @include media-breakpoint-down($bp) {
+    .gutter-#{$bp}-down {margin-top: $spacer/2;}
+    .br-#{$bp}-down     {display: block;}
+  }
+  @include media-breakpoint-only($bp) {
+    .gutter-#{$bp}-only {margin-top: $spacer/2;}
+    .br-#{$bp}-only     {display: block;}
+  }
+
+}
+
+
+// Size
+@each $prop, $abbrev in (width: w, height: h) {
+  @each $size, $lengths in $spacers {
+    $length-x:   map-get($lengths, x);
+    $length-y:   map-get($lengths, y);
+
+    .#{$abbrev}-full { #{$prop}: 100% !important; }
+
+    .#{$abbrev}-x-#{$size} { #{$prop}: $length-x !important; }
+    .#{$abbrev}-y-#{$size} { #{$prop}: $length-y !important; }
+  }
+}
+
+
+//
+// Text
+//
+
+// Alignment
+.text-middle { vertical-align:middle !important; }
+
+// Color
+@include text-emphasis-variant('.text-secondary', $brand-secondary);
+
+
+// Size
+.text-sm {font-size: $font-size-sm !important;}
+.text-lg {font-size: $font-size-lg !important;}
+
+
+
+//
+// Screenreaders
+//
+
+.sr-only { @extend %sr-only; }

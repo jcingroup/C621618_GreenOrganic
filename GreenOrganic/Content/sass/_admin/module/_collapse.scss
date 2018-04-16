@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+$collapse-toggle-size:          false !default;
+$collapse-toggle-color:         false !default;
+
+$collapse-content-color:        false !default;
+$collapse-content-hover-color:  false !default;
+
+
+.collapse-toggle {
+    cursor: pointer; cursor: hand;
+
+    @if $collapse-toggle-size {
+        font-size: em($collapse-toggle-size);
+    }
+    @if $collapse-toggle-color {
+        color: $collapse-toggle-color;
+    }
+
+    @include el(before, inline-block, '\e409') {
+        color: $brand-primary;
+        margin-right: 8px;
+    }
+    &:hover, &:active, &.current {
+        &::before { color: $brand-secondary; }
+    }
+    &.current {
+        &::before { content: '\e5cf'}
+    }
+}
+.collapse-content {
+    display: none;
+
+    &.in { display: block; }
+
+    a {
+        @if $collapse-content-color {
+            color: $collapse-content-color;
+        }
+        &:hover, &:active, &.current {
+            @if $collapse-content-hover-color {
+                color: $collapse-content-hover-color;
+            }
+        }
+    }
+}

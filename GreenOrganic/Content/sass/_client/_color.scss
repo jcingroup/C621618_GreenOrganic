@@ -1,0 +1,64 @@
+﻿@charset "UTF-8";
+
+// == color
+// ----------------------------------------------------------------------
+// 語義色
+// http://www.w3schools.com/w3css/w3css_colors.asp
+// 黑白
+$black:                   #000    !default;
+$white:                   #fff    !default;
+$light-gray:              #F1F1F1 !default;
+$gray:                    #9E9E9E !default;
+$dark-gray:               #616161 !default;
+
+// 彩色
+$red:                     #F44336 !default;
+$pink:                    #E91E63 !default;
+$purple:                  #9C27B0 !default;
+$deep-purple:             #673AB7 !default;
+$indigo:                  #3F51B5 !default;
+$blue:                    #2196F3 !default;
+$light-blue:              #87CEEB !default;
+$cyan:                    #00BCD4 !default;
+$aqua:                    #8BE5E3 !default;
+$teal:                    #009688 !default;
+$green:                   #4CAF50 !default;
+$light-green:             #8BC34A !default;
+$lime:                    #CDDC39 !default;
+$sand:                    #FDF5E6 !default;
+$khaki:                   #F0E68C !default;
+$yellow:                  #FFEB3B !default;
+$light-yellow:            #EDE363 !default;
+$amber:                   #FFC107 !default;
+$orange:                  #FF9800 !default;
+$deep-orange:             #FF5722 !default;
+$blue-grey:               #607D8B !default;
+$brown:                   #795548 !default;
+$pale-red:                #FFE7E7 !default;
+$pale-yellow:             #fffFD7 !default;
+$pale-green:              #E7FFE7 !default;
+$pale-blue:               #E7FFFF !default;
+
+
+// 抽象色
+$brand-primary:           #438EB9 !default;    // 主色
+$brand-primary-light:     lighten($brand-primary,47%);
+$brand-primary-dark:      darken($brand-primary,10%);
+$brand-secondary:         #ABBAC3 !default;    // 輔色
+$muted:                   #818a91 !default;    // 灰色 lighten($black, 46.7%)
+$brand-success:           #5cb85c !default;
+$brand-info:              #5bc0de !default;
+$brand-warning:           #f0ad4e !default;
+$brand-danger:            #C1272D !default;
+
+
+// 情境狀態 + 配色
+$state-type: (
+    primary:              $brand-primary,
+    secondary:            $brand-secondary,
+    muted:                $muted,
+    success:              $success,
+    info:                 $info,
+    warning:              $warning,
+    danger:               $danger
+);

@@ -1,0 +1,183 @@
+@charset "UTF-8";
+
+
+/*      basic elements - reboot
+-----------------------------------------------------------------------*/
+html, body {
+    text-align: center;
+    height: 100%;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+@at-root {
+    @-moz-viewport      { width: device-width; }
+    @-ms-viewport       { width: device-width; }
+    @-o-viewport        { width: device-width; }
+    @-webkit-viewport   { width: device-width; }
+    @viewport           { width: device-width; }
+}
+
+body {
+    font-family: $font-family-base;
+    line-height: $line-height;
+    color: $body-color;
+    background: $body-bg;
+
+    // 字體平滑 for chrome
+    -webkit-font-smoothing: antialiased;
+}
+
+// Credit: https://github.com/suitcss/base
+[tabindex="-1"]:focus {
+    outline: none !important;
+}
+
+a {
+    color: $link-color;
+
+    @if $link-decoration {
+        text-decoration: $link-decoration;
+    }
+
+    blur: expression(this.onFocus=this.blur()); // 清除虛線框
+
+    @include transition($link-transition);
+
+    &:hover, &:active, &.active {
+        color: $link-hover-color;
+
+        @if $link-hover-decoration {
+            text-decoration: $link-hover-decoration;
+        }
+    }
+    &:focus {
+        @if $link-tab-fous {
+            @if length($link-tab-fous) > 1 {
+                @include tab-focus($tab-fous-style);
+            }
+            @else {
+                @include tab-focus;
+            }
+        }
+    }
+}
+
+img {
+    vertical-align: middle;
+
+    @if $enable-RWD {
+        max-width: 100%;
+    }
+}
+
+
+// Headings
+// -----------------------------------------------
+h1 { margin-top: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+    @if $headings-margin-bottom   { margin-bottom: $headings-margin-bottom; }
+    @if $headings-font-family     { font-family: $headings-font-family; }
+    @if $headings-font-weight     { font-weight: $headings-font-weight; }
+    @if $headings-line-height     { line-height: $headings-line-height; }
+    @if $headings-color           { color: $headings-color; }
+    @if $headings-letter-spacing  { letter-spacing: $headings-letter-spacing; }
+}
+
+@for $i from 1 through 6 {
+    $headings: $font-size-h1 $font-size-h2 $font-size-h3 $font-size-h4 $font-size-h5 $font-size-h6;
+
+    h#{$i} { font-size: em(nth($headings, $i)); }
+}
+
+
+// Body text
+// -----------------------------------------------
+strong {
+    font-size: em(17px);
+    color: $brand-primary;
+}
+
+small {
+    font-size: 80%;
+    font-weight: normal;
+}
+
+// 螢光筆註記
+mark {
+    background-color: lighten($warning, 30%);
+    padding: .2em;
+}
+
+hr {
+    margin: $spacer*2 0;
+    border: 0;
+    border-top: $hr-border;
+}
+
+p {
+    margin: 0;
+    & + & { margin-top: $p-spacer; }
+}
+
+abbr[title],
+// Add data-* attribute to help out our tooltip plugin, per https://github.com/twbs/bootstrap/issues/5257
+abbr[data-original-title] {
+    cursor: help;
+    border-bottom: 1px dotted $abbr-border-color;
+}
+
+ol, ul, dl {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+ol, ul {
+    ol, ul { margin-bottom: 0; }
+}
+
+dt {
+    font-weight: $dt-font-weight;
+}
+
+dd {
+    margin-bottom: $spacer/2;
+    margin-left: 0; // Undo browser default
+}
+
+blockquote {
+    margin: 0 0 $spacer;
+}
+
+pre {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+a,
+area,
+button,
+[role="button"],
+input,
+label,
+select,
+summary,
+textarea {
+    touch-action: manipulation;
+}

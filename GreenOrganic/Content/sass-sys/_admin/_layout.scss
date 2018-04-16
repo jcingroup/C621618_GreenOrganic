@@ -1,0 +1,287 @@
+@charset "UTF-8";
+
+
+/*      config
+-----------------------------------------------------------------------*/
+
+// var
+//
+$header-height:         48px !default;
+$sidebar-width:         220px !default;
+$footer-height:         51px !default;
+$breadcrumb-height:     46px !default;
+$content-spacing:       30px !default;
+
+// base
+//
+html, body {height: 100%;}
+body { padding-top: $header-height; }
+
+a {
+    @include transition(color 0.3s, background 0.3s);
+    &:focus { outline: none; }
+}
+
+
+
+/*      layout
+-----------------------------------------------------------------------*/
+
+#wrapper {
+    min-width: $wrapper-min-width;
+    min-height: 100%;
+    padding-bottom: $footer-height + $content-spacing;
+    @include clearfix;
+}
+
+.wrap {
+    @include make-container();
+    @include make-container-max-widths();
+    position: relative;
+}
+
+#footer, #main {
+    position: relative;
+}
+
+
+
+/*      elements
+-----------------------------------------------------------------------*/
+
+
+
+// header
+// ----------------------------------------------------------------------
+#header {
+    min-width: $wrapper-min-width;
+}
+
+.topNav {}
+.logo {
+    margin: 0;
+
+    .navbar-brand {
+        padding-top:    $spacer*0.8;
+        padding-bottom: $spacer*0.8;
+    }
+}
+.navbar-nav {
+    border-right: 1px solid #fff;
+
+    .nav-item + .nav-item,
+    .nav-link + .nav-link {margin-left: 0;}
+
+    .nav-link {
+        padding: $spacer*0.8;
+        font-size: em(15px);
+        color: #fff;
+        border-left: 1px solid #fff;
+    }
+
+    .nav-item {
+        &:first-of-type .nav-link {background: hsla(0,0,100%,0.2);}
+    }
+}
+
+
+// main
+// ----------------------------------------------------------------------
+#main {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    padding-left: $sidebar-width;
+    padding-top: $breadcrumb-height;
+}
+
+#sidebar {
+    width: $sidebar-width;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 48px;
+    background: #F2F2F2;
+    border-right: 1px solid #ccc;
+    z-index: 700;
+
+    .h3 {
+        width: $sidebar-width;
+        height: 46px;
+        margin: 0;
+        padding: 0 10px;
+        line-height: 43px;
+        color: #555;
+        font-size: 1em;
+        background: #F2F2F2;
+        border-bottom: 1px solid #e5e5e5;
+        border-right: 1px solid #ccc;
+
+        i {
+            color: lighten($brand-danger,20%);
+            margin-right: 5px;
+        }
+    }
+
+    a { display: block; }
+
+    .collapse-toggle, .collapse-content, > a {
+        font-size: em(15);
+    }
+
+    .collapse-toggle,
+    > a {
+        display: block;
+        padding: $spacer*0.5;
+        font-weight: bold;
+        border-bottom: 1px solid #e5e5e5;
+        color: $gray;
+        background: hsla(0,0,100%,0.4);
+
+        // 符號
+        &::before {
+            display: inline-block;
+            text-align: center;
+            width: 24px;
+            font-size: em(12,15);
+        }
+
+        &:hover, &:active, &:focus { color: $link-color; }
+
+        &.current, &.active {
+            &:hover, &:active, &:focus {
+                color: darken($link-color, 10);
+            }
+        }
+        // 現在展開的選單
+        &.current { border-right: 2px solid $link-color; }
+        // 被點中的選單
+        &.active  { background: hsl(0,0,100%); }
+    }
+
+    .collapse-toggle {
+        cursor: pointer; cursor: hand;
+    }
+
+    // 伸縮
+    .collapse-content {
+        display: none;
+
+        &.in {
+            display: block;
+            border-right: 2px solid $link-color;
+        }
+
+        a {
+            position: relative;
+            padding: $spacer*0.5 $spacer*1.2 $spacer*0.5 $spacer*2;
+            color: $gray;
+            background: hsl(0,0,100%);
+            border-bottom: 1px dotted #e4e4e4;
+
+            &::before, &::after {
+                content:" ";
+                display: block;
+                position: absolute;
+            }
+
+            // 選單左直虛線
+            &::before {
+                width:1px;
+                height: 100%;
+                left: $spacer;
+                top: 0;
+                border-left: 1px dotted lighten($link-color,15%);
+            }
+
+            // 選單左橫虛線
+            &::after {
+                width: $spacer*0.5;
+                height: 1px;
+                left: $spacer;
+                top: 50%;
+                border-top: 1px dotted lighten($link-color,15%);
+            }
+
+            // 左小箭頭(滑鼠移過才會顯示)
+            i {
+                display: block;
+                width: 16px;
+                height: 16px;
+
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+
+                text-align: center;
+                line-height: 16px;
+                color: $link-color;
+                font-style: normal;
+                font-size: $font-size-lg;
+                background: lighten($link-color,47%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            &:hover, &:active, &:focus, &.current {
+               color: $link-color;
+               background: $brand-primary-light;
+
+               i { opacity: 1; }
+               &::after { display: none; }
+            }
+
+            &.current {
+                &::after {
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    left: auto;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    border: 15px solid transparent;
+                    border-left: 0;
+                    border-right-width: 10px;
+                    border-right-color: $link-color;
+                }
+                i {color: $brand-danger;}
+            }
+        }
+    }
+}
+
+#content {
+    padding: $spacer $spacer*0.5 0 $spacer*0.5;
+}
+
+
+// footer
+// ----------------------------------------------------------------------
+#footer {
+    min-width: $wrapper-min-width;
+    margin-top: -$footer-height;
+    padding-left: $sidebar-width;
+
+    .copyright {
+        margin-bottom: 0;
+        padding: 0 $spacer;
+        text-align: center;
+        font-size: em(12px);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+
+        a {
+            color: lighten($link-color,15%);
+            @include hover-focus {color: $link-color;}
+        }
+
+        span {
+            display: block;
+            padding: $spacer 0;
+            border-top: 1px dotted #e5e5e5;
+        }
+    }
+}

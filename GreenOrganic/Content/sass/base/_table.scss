@@ -1,0 +1,205 @@
+@charset "UTF-8";
+
+// var 有值 or true 才會顯示，false or null 則不顯示
+// -----------------------------------------------------------------
+
+// table, 共用樣式
+$table-collapse:         collapse !default;
+$table-margin-bottom:    $spacer !default;
+$table-border-color:     lighten($brand-primary,30) !default;
+$table-border:           1px solid $table-border-color !default;
+$table-bordered:         false !default;
+$table-pd:               15px !default;
+$table-align:            center !default;
+$table-valign:           middle !default;
+
+// 追加自定樣式
+// 使用方法:
+// $table-styled: (
+//     background: #fff, <用逗號
+// );
+//
+$table-styled:           () !default;
+$caption-styled:         () !default;
+$th-td-styled:           () !default;
+$th-styled:              () !default;
+$td-styled:              () !default;
+$tfoot-styled:           () !default;
+$td-item-styled:         () !default;
+
+
+// 滑鼠移過變色
+$table-bg-hover:         false !default;
+
+// 斑馬紋條列式表格
+$table-bg-striped:       false !default;
+$table-bg-active:        false !default;
+
+// RWD時，表格出現卷軸
+$table-rwd:              $enable-RWD !default;
+
+
+/*      table
+-----------------------------------------------------------------------*/
+table {
+    @if $table-collapse      { border-collapse: $table-collapse; }
+    @if $table-margin-bottom { margin-bottom: $table-margin-bottom; }
+
+    // 上下框線
+    @if $table-border {
+        border-bottom: $table-border;
+    }
+
+    @each $attribute, $value in $table-styled {
+        #{$attribute}: #{$value};
+    }
+
+    // 固定欄寬度
+    &.fixed {
+        table-layout: fixed;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+}
+@if $table-border {
+    tbody + tbody {
+        border-top: 2px solid $table-border-color;
+    }
+}
+
+caption {
+    @each $attribute, $value in $caption-styled {
+        #{$attribute}: #{$value};
+    }
+}
+
+th, td {
+    @if $table-align  { text-align: $table-align; }
+    @if $table-valign { vertical-align: $table-valign; }
+    @if $table-pd     { padding: $table-pd; }
+
+    @each $attribute, $value in $th-td-styled {
+        #{$attribute}: #{$value};
+    }
+
+    // 上下框線
+    @if $table-border {
+        border-top: $table-border;
+
+        // caption + thead &,
+        // colgroup + thead &,
+        // thead:first-child & { border-top: 0; }
+    }
+
+    tfoot & {
+        @each $attribute, $value in $tfoot-styled {
+            #{$attribute}: #{$value};
+        }
+    }
+}
+
+th {
+    @each $attribute, $value in $th-styled {
+        #{$attribute}: #{$value};
+    }
+}
+td {
+    @each $attribute, $value in $td-styled {
+        #{$attribute}: #{$value};
+    }
+
+    &.item {
+        @each $attribute, $value in $td-item-styled {
+            #{$attribute}: #{$value};
+        }
+
+        @if $table-bg-striped {
+            .table-striped tr:nth-child(even) & {
+                background-color: $table-bg-striped;
+            }
+        }
+    }
+}
+
+// 四邊框線
+@if $table-bordered {
+    .table-bordered {
+        border: $table-border;
+
+        th, td { border: $table-border; }
+
+        thead {
+            th, td { border-bottom-width: 2px; }
+        }
+    }
+}
+
+// 斑馬紋條列式表格
+@if $table-bg-striped {
+    .table-striped {
+        tr:nth-child(even) {
+            background-color: $table-bg-striped;
+        }
+    }
+
+    .table-striped-rowspan {
+        tbody:nth-child(even) {
+            background-color: $table-bg-striped;
+        }
+    }
+}
+
+
+// 滑鼠移過變色
+@if $table-bg-hover {
+    .table-hover {
+        tbody:hover > tr > td[rowspan],
+        tr:hover > td {
+            background-color: $table-bg-hover;
+        }
+    }
+}
+
+@if $table-rwd {
+    // 響應式表格 < 768 時會出現水平卷軸
+    .table-rwd {
+        overflow-x: auto;
+        min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+        max-width: $max-width;
+
+        table { @extend %full; }
+
+        @include mq-max(break(desktop,-1)) {
+            width: 100%;
+            margin-bottom: ($spacer * 0.75);
+            overflow-y: hidden;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+
+            table {
+                margin-bottom: 0;
+
+                th, td { white-space: nowrap; }
+            }
+        }
+    }
+
+    // 表格變形
+    // .rwd-table {
+    //     @extend .full;
+
+    //     @include mq-max(break(desktop,-1)) {
+
+    //         tr, td { display: block; border: none; }
+    //         tr { position: relative; }
+    //         th { display: none; }
+    //         td {
+    //             text-align: left;
+
+    //             &::before {
+    //                 content: attr(data-th)": "; // who knew you could do this? The internet, that's who.
+    //                 font-weight: bold;
+    //             }
+    //         }
+    //     }
+    // }
+}

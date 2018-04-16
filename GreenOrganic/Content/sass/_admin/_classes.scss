@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+// common - extend的內容 寫在 base/util
+// ------------------------------------------------------------
+// 樣式很多或很常用的才用 佔位符% (ref: base/util)
+.float-l       { @extend %float-l; }
+.float-r       { @extend %float-r; }
+.clearfix      { @extend %clearfix; }
+.full          { @extend %full; }
+.text-hide     { @extend %text-hide; }
+.sr-only       { @extend %sr-only; }
+
+// 樣式1~2筆
+.block         { display: block; }
+.inline-block  { display: inline-block; }
+.inline        { display: inline; }
+.clear         { clear: both; }
+.hidden        { display: none; }
+.circle        { border-radius: 50%; } // 圓形
+.img-center    { display: block; margin: auto; }
+
+.m-x-auto {
+    margin-right: auto;
+    margin-left:  auto;
+}
+
+// spacing (ref: _variables.scss)
+// ex. m-a-sm, p-y-12
+@each $prop, $abbrev in (margin: m, padding: p) {
+    @each $size, $lengths in $gutters {
+        $length-x:   map-get($lengths, x);
+        $length-y:   map-get($lengths, y);
+
+        .#{$abbrev}-a-#{$size} { #{$prop}:        if($length-y == $length-x, $length-y, $length-y $length-x); } // a = All sides
+        .#{$abbrev}-t-#{$size} { #{$prop}-top:    $length-y; }
+        .#{$abbrev}-r-#{$size} { #{$prop}-right:  $length-x; }
+        .#{$abbrev}-b-#{$size} { #{$prop}-bottom: $length-y; }
+        .#{$abbrev}-l-#{$size} { #{$prop}-left:   $length-x; }
+
+        // Axes
+        .#{$abbrev}-x-#{$size} {
+            #{$prop}-right:  $length-x;
+            #{$prop}-left:   $length-x;
+        }
+        .#{$abbrev}-y-#{$size} {
+            #{$prop}-top:    $length-y;
+            #{$prop}-bottom: $length-y;
+        }
+    }
+}
+
+
+// text
+// ------------------------------------------------------------
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+.text-center { text-align: center; }
+
+@if $font-family-sp {
+    .font-sp     { font-family: $font-family-sp; }
+}
+
+.font-tiny   { font-size: $font-size-xs; }  // 13px
+.font-sm     { font-size: $font-size-sm; }  // 14px
+.font-md     { font-size: rem(15); }
+.font-lg     { font-size: $font-size-lg; }  // 20px
+.font-xl     { font-size: rem(25); }
+.font-xxl    { font-size: rem(36); }
+.font-xxxl   { font-size: rem(48); }
+.font-jumbo  { font-size: rem(65); }
+
+.lead {
+    font-size: $lead-font-size;
+    font-weight: $lead-font-weight;
+}
+
+
+// 情境: var.scss> $states: true
+// ------------------------------------------------------------
+@if $states {
+
+    .text-white { color: $white; }
+    .bg-white   { background: $white; }
+
+    @each $type, $color in $state-type {
+        .text-#{$type} { color: darken($color,5); }
+        .bg-#{$type}   { background: $color; }
+        .hover-#{$type}:hover,
+        .hover-#{$type}:active { background: darken($color,10); }
+        .hover-text-#{$type}:hover,
+        .hover-text-#{$type}:active { color: $color; }
+    }
+}
+
+
+// RWD
+// ------------------------------------------------------------
+@if $enable-RWD {
+    .mobile-hide {
+        @include mq-max(break(desktop,-1)) {
+            display: none;
+            visibility: hidden;
+        }
+    }
+}
+
+
+// custom
+// ------------------------------------------------------------
+.title {
+    @extend .p-l-12, .m-y-24, .font-xl, .text-primary;
+    border-left: 4px solid $brand-primary;
+    line-height: 1.01;
+
+    small {
+        @extend .m-l-8;
+        color: #94A181;
+        font-size: em(21,25);
+    }
+}
+
+// .arrow {
+//     @include icon-arrow(right, 5px, $brand-primary, left 18px top 50%) {
+//         margin-top: -6px;
+//         z-index: z(sidebar) + 3;
+//     }
+// }
+
+// .line-dot {
+//     margin: $spacer 0;
+//     height: 1px;
+//     background: url(#{$img-path}/dot.gif) 0 bottom repeat-x;
+// }
+// hr.line-dot { border-top: none; }

@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+// Sizing 只輸入一個值時是正方形
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+// 做圓形
+@mixin circle($size, $align:false, $bg-color:false) {
+    border-radius: 50%;
+    @include size($size);
+
+    @if $align == "center" {
+        text-align: center;
+        line-height: $size;
+    }
+    @if $bg-color {
+        background-color: $bg-color;
+    }
+}
+
+// 做三角形
+@mixin caret($direction, $width, $height:$width/2, $color: inherit, $display:inline-block) {
+    @include size(0);
+
+    display: $display;
+    border: $width solid transparent;
+
+    @if ($direction == "top" or $direction =="up") {
+        border-bottom-color:$color;
+        border-bottom-width:$height;
+        border-top-width:$width - $height;
+    }
+    @else if ($direction == "bottom" or $direction == "down") {
+        border-top-color:$color;
+        border-top-width:$height;
+        border-bottom-width:$width - $height;
+    }
+    @else if $direction == "left" {
+        border-right-color:$color;
+        border-right-width:$height;
+        border-left-width:$width - $height;
+    }
+    @else if $direction == "right" {
+        border-left-color:$color;
+        border-left-width:$height;
+        border-right-width:$width - $height;
+    }
+}
+
+// 做三角形2
+@mixin arrow($dir:right, $width: 5px, $height: $width, $color: inherit) {
+    @include size(0);
+    border: $width solid transparent;
+
+    @if ($dir == "top" or $dir =="up") {
+        border-bottom: $height solid $color;
+
+        @if $height != $width {
+            border-top-width: $width - $height;
+        }
+    }
+    @else if ($dir == "bottom" or $dir == "down") {
+        border-top: $height solid $color;
+
+        @if $height != $width {
+            border-bottom-width: $width - $height;
+        }
+    }
+    @else if ($dir == "right") {
+        border-left: $height solid $color;
+
+        @if $height != $width {
+            border-right-width: $width - $height;
+        }
+    }
+    @else if ($dir == "left") {
+        border-right: $width solid $color;
+
+        @if $height != $width {
+            border-left-width: $width - $height;
+        }
+    }
+}

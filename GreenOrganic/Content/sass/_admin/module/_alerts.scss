@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+$alerts: (
+    success:    $success $pale-green,
+    info:       $info $pale-blue,
+    warning:    $warning $pale-yellow,
+    danger:     $danger lighten($pale-red,1.5)
+) !default;
+
+
+$alert-round: false;
+$alert-padding: 4px;
+
+@each $type, $color in $alerts {
+    .alert-#{$type}   {
+        color: darken(nth($color,1),5);
+        background: nth($color,2);
+        border: 1px solid darken(nth($color,2),3.5);
+        @if $alert-round   { border-radius: $alert-round; }
+        @if $alert-padding { padding: $alert-padding; }
+    }
+}

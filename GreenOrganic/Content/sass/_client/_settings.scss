@@ -1,0 +1,74 @@
+﻿@charset "UTF-8";
+
+
+// == config
+// ----------------------------------------------------------------------
+$img-path:              '../images' !default;
+$font-path:             '../font' !default;
+
+
+// == helper/variables, base/all
+// ----------------------------------------------------------------------
+$body-bg:               #5F3E05 !default;
+$body-color:            #333;
+$font-family-sp:        'Rubik', sans-serif;
+
+$font-size-h1:          57px;
+// $headings-color:        $brand-secondary !default;
+
+
+// == layout
+// ----------------------------------------------------------------------
+$min-width:             998px;     // 網頁最小尺寸
+$max-width:             1220px;     // 網頁最寬尺寸: .wrap
+$menu-item:             false;
+
+$wrapper-bg:            url(#{$img-path}/bg.gif) 98.6% 0 no-repeat, url(#{$img-index}/mainBg.gif) 97.6% 24px no-repeat, #F1F6E5 !default;
+$footBeBottom:          false !default; // 頁腳是否置底 true / false
+$content-spacing:       0 !default;
+
+// header
+$header-height:         false !default;
+$header-bg:             false !default;
+
+// logo
+$logo-img:              false !default; // 'logo.gif' or false
+$logo-size:             false !default;
+
+// footer
+$footer-height:         113px !default;
+$footer-bg:             url(#{$img-path}/footerBg.gif) 0 0 repeat-x !default;
+$footer-color:          #8CA618 !default; //#63889D;
+
+// z-index
+$z-index: (
+    header:             1,
+    main:               5,
+    footer:             2,
+    sidebar:            4,
+    banner:             3,
+    logo:               10,
+    menu:               20,
+    figure:             1,
+    dropdown:           21,
+    tooltip:            22,
+    modal:              23,
+    toggle:             25,
+    goTop:              99,
+    overlay:            999
+);
+
+
+// == unit/form/table
+// ----------------------------------------------------------------------
+// form
+$form-element-height:      38px;
+$form-element-pd:          0 10px;
+$form-element-radius:      false;
+
+// input-group
+$input-group-addon-color:  #B0B0B0;
+$input-group-addon-bg:     #ECECEC;
+
+// btn
+$btn-pd:                   10px 0;

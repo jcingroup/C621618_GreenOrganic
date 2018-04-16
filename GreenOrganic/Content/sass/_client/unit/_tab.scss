@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+// var - 自定屬性
+// -----------------------------------------------------------------
+$tabs-styles: ()!default;
+
+$tabs-link: ()!default;
+
+$tabs-hover-link: ()!default;
+
+$tabs-active: ()!default;
+
+
+
+// main
+// -----------------------------------------------------------------
+.tabs {
+    // @extend %list-unstyled;
+
+    @each $attribute, $value in $tabs-styles {
+        #{$attribute}: #{$value};
+    }
+
+    a {
+        @each $attribute, $value in $tabs-link {
+            #{$attribute}: #{$value};
+        }
+        &:hover, &:active {
+            @each $attribute, $value in $tabs-hover-link {
+                #{$attribute}: #{$value};
+            }
+        }
+    }
+
+    .active {
+        @each $attribute, $value in $tabs-active {
+            #{$attribute}: #{$value};
+        }
+    }
+}

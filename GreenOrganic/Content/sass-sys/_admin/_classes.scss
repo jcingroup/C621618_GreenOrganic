@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+//
+// Background
+//
+@include bg-variant('.bg-primary-light', $brand-primary-light);
+
+@include bg-variant('.bg-secondary', $brand-secondary);
+
+
+// Color
+@include text-emphasis-variant('.text-indigo', $indigo);
+
+// margin
+.margin-4 { margin-bottom: 4px; }
+
+// clear
+.clear { clear: both; }

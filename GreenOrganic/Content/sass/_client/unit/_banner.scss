@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+$banner-img: append($menu-item, 'Account');
+
+#banner {
+    position: relative;
+
+    @if $index {
+        img {
+            width: 100%;
+            @include mq(wider) {
+                max-width: 1200px;
+            }
+        }
+    }
+
+    // @include el(after) {
+    //     @include absolute(top 0 left 0 right 0);
+    //     height: 25px;
+    //     background: rgba($brand-secondary,.7);
+    // }
+
+    @if $page {
+        height: 350px;
+        overflow: hidden;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-image: url(#{$img-path}/banner_Products.jpg);
+
+        h1 {
+            @extend .font-sp;
+            @include pos-center;
+            background: url(#{$img-path}/titleBg.png) center center no-repeat;
+            background-color: rgba(#fff,.35);
+            line-height: 102px;
+            width: 450px;
+            letter-spacing: 2px;
+        }
+        // @each $item in $banner-img {
+        //     .#{$item} & {
+        //         background-image: url(#{$img-path}/banner_#{$item}.jpg);
+        //     }
+        // }
+        // .Cart &,
+        // .User & {
+        //     background-image: url(#{$img-path}/banner_Products.jpg);
+        // }
+    }
+}

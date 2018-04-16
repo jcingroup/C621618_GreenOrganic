@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+$top-nav-height: $header-height !default;
+
+.top-nav {
+    @extend %list-inline, %float-r, .m-b-0;
+
+    border-right: 1px solid #fff;
+
+    li {
+        margin: 0 -4px;
+        &:first-of-type a { background: hsla(0,0,100%,0.2); }
+    }
+
+    a {
+        @extend .text-white, .font-md;
+        display: block;
+        height: $top-nav-height;
+        padding: $spacer*0.8;
+        border-left: 1px solid #fff;
+    }
+}

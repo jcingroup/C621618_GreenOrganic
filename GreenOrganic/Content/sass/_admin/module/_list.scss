@@ -1,0 +1,44 @@
+﻿@charset "UTF-8";
+
+$list-dot-color: $brand-primary;
+
+// list
+// ------------------------------------------------------------
+.list-unstyled { @extend %list-unstyled; }
+.list-inline   { @extend %list-inline; }
+
+// 小圓點
+.list-dot {
+    @extend %list-unstyled;
+    margin: $spacer 0;
+
+    li {
+        position: relative;
+        line-height: 1.35;
+        margin-bottom: 0.8rem;
+        font-size: em(15);
+
+        @include icon-dot(left, 5px, $list-dot-color, left 0 top 8px);
+    }
+}
+
+// 圖片列表
+// .list-pic {
+//     @extend %list-inline;
+
+//     li { margin: 10px 3px; }
+//     img {
+//         border: $table-border;
+//         padding: 5px;
+//     }
+//     span {
+//         display: block;
+//         text-align: center;
+//         font-size: em(13);
+//     }
+// }
+
+// //表格裡面的列表
+// .list-table {
+//     padding-left: $gutter*1.5;
+// }

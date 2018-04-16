@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+$swiper-pagination:    false !default;
+$swiper-button:        false !default;
+
+// 常用的套件
+$swiper-slider:        false !default;
+
+
+//
+// slider- 滑動相關
+// --------------------------------------------------
+
+// 套用 swiper特效(共用)
+
+// 最外層
+.swiper-wrapper {
+    @extend %list-unstyled;
+}
+
+.swiper-slide {
+    text-align: center;
+    overflow: hidden;
+}
+// 滿版+置中
+// .swiper-slide img {
+//     height: 100%;
+//     @include pos-center;
+// }
+// 滑動為淡入淡出模式時加
+// .swiper-slide-fade { opacity: 0 !important; }
+
+// 分頁圓點
+@if $swiper-pagination {
+    .swiper-pagination-bullet {
+        @include size(10px);
+        border: 1px solid $white;
+        // background: $white;
+        // opacity: .4;
+
+        &-active {
+            background: $white;
+            // border: 1px solid $white;
+        }
+    }
+}
+
+// 前進後退按鈕
+@if $swiper-button {
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 15px;
+        height: 30px;
+        margin-top: -18px;
+        @include prefix(background-size, 15px 30px);
+
+        .swiper.swiper-button-disabled,
+        .swiper.swiper-button-disabled { opacity: 0; }
+    }
+    .swiper-button-prev {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23eaeaea'%2F%3E%3C%2Fsvg%3E");
+        left: 0;
+    }
+    .swiper-button-next {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23eaeaea'%2F%3E%3C%2Fsvg%3E");
+        right: 0;
+    }
+}
+
+// 分欄滑動設定
+@if $swiper-slider {
+    #slider {
+        .swiper-wrapper {
+            // flex 置中
+            @include prefix(align-items, center);
+            @include prefix(justify-content, center);
+        }
+    }
+}

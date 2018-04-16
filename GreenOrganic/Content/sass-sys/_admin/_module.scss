@@ -1,0 +1,215 @@
+@charset "UTF-8";
+
+
+// cards
+// ----------------------------------------------------------------------
+.card-block {
+  padding: $card-spacer-y $card-spacer-x;
+}
+
+
+// label
+// ----------------------------------------------------------------------
+.label {
+  max-width: 280px;
+  @include text-truncate;
+  margin-bottom: 4px;
+
+  &.label-lg {
+    font-size: 100%;
+  }
+
+  .close {
+    margin-left: $spacer*0.3;
+    font-size: 1rem;
+    text-shadow: none;
+    opacity: 0.4;
+  }
+}
+
+
+// navs
+// ----------------------------------------------------------------------
+
+
+// breadcrumb
+// ----------------------------------------------------------------------
+.breadcrumb {
+  width: 100%;
+  font-size: $font-size-sm;
+  position: fixed;
+  left: 0;
+  top: 48px;
+  z-index: 600;
+  padding-left: 230px;
+  border-bottom: 1px solid #e5e5e5;
+
+  li {
+    margin-right: $spacer*0.5;
+    color: $gray-light;
+
+    &::before {display: none;}
+    [class*="fa-"] {color: $gray-light;}
+
+    &:last-of-type {
+      &, [class*="fa-"] {color: $brand-primary;}
+    }
+  }
+}
+
+
+// custom forms
+// ----------------------------------------------------------------------
+
+.c-input {
+    & + & {margin-left: 0;}
+    &:not(:last-child) {margin-right: $spacer;}
+
+    .input-block-group & {display: block;}
+}
+
+.c-indicator {
+    background-size: 75%;
+    background-color: #fafafa;
+    border: 1px solid #c8c8c8;
+    box-sizing: content-box;
+
+    .c-checkbox & {border-radius: 0;}
+
+    .c-input > input:checked ~ &,
+    .c-input > input:indeterminate ~ & { border-color: $brand-warning; background-color: $brand-warning; }
+    .c-input > input:focus ~ &, &:hover {
+      border-color: $brand-warning;
+      box-shadow: none;
+    }
+}
+
+input[type="file"] {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.file {
+  height: auto;
+
+  input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .form .row & {width: 100%;}
+}
+.file-custom,
+.file-custom::before {
+  height: $input-height;
+  padding: $input-padding-y $input-padding-x;
+  font-size: $font-size-sm;
+
+  @if $enable-rounded {
+    border-radius: $border-radius;
+  }
+  @else {
+    border-radius: 0;
+  }
+}
+
+.file-custom::before {
+  content:attr(rel);
+  top: -0.06rem;
+  right: -0.06rem;
+  bottom: -0.06rem;
+}
+.file-custom::after {content:attr(title)}
+
+
+// pager
+// ----------------------------------------------------------------------
+.pager {
+  margin: 0;
+
+  li {
+    > a,
+    > span {
+      padding: $pagination-padding-y $pagination-padding-x;
+    }
+  }
+}
+.pager-sm {
+  font-size: $font-size-sm;
+
+  li {
+    > a,
+    > span {padding: $pagination-padding-y-sm $pagination-padding-x-sm;}
+  }
+}
+.pager-lg {
+  li {
+    > a,
+    > span {padding: $pagination-padding-y-lg $pagination-padding-x-lg;}
+  }
+}
+
+// Pager + inline form
+.pager {
+  .form-inline {margin: 0 $spacer*0.5;}
+}
+
+
+
+// tabs
+// ----------------------------------------------------------------------
+.nav-tabs {
+  @include list-unstyled;
+  margin-bottom: 0;
+  li, .js-tab {
+    margin: 0;
+    float: left;
+    margin-bottom: -1px;
+  }
+  a {
+    display: block;
+    padding: 5px 10px;
+    color: #999;
+    background: #f7f7f7;
+    // border-color: $nav-tabs-border-color $nav-tabs-border-color transparent $nav-tabs-border-color;
+    border: 1px solid #D7E7F1;
+    border-bottom: none;
+    @include hover-focus {
+      color: lighten($brand-primary,5%);
+      background: #fff;
+    }
+
+    &.active {
+      color: $gray;
+      background: #fff;
+      border-top: 2px solid $brand-primary;
+      box-shadow: 0 (-2px) 2px #ddd;
+    }
+  }
+}
+
+.tab-content {
+  padding: .7em;
+  border: 1px solid $nav-tabs-border-color;
+  border-top: 0;
+  textarea { border: none; }
+}
+
+
+// modal
+// ----------------------------------------------------------------------
+.modal-content {
+  @if $enable-rounded {
+    border-radius: $border-radius-lg;
+  }
+  @else {
+    border-radius: 0;
+  }
+}
+
+.modal-dialog {
+    @include media-breakpoint-down(sm) {
+        width: auto;
+        margin: 10px;
+    }
+}

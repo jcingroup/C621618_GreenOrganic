@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+@mixin mobile-nav($select,$Break) {
+    ##{$select} {
+        @include mq-max($Break) {
+            @include fixed(top 0);
+            overflow-y: auto;
+            z-index: z(overlay);
+
+            background: $mobile-menu-bg;
+            width: $mobile-menu-width;
+            height: 100%;
+
+            @content;
+
+            // 推拉樣式
+            @if $mobile-menu-style == 'push' {
+                left: -$mobile-menu-width;
+                text-align: left;
+
+                @include transition(left .35s);
+
+                .#{$mobile-menu-style} & { left: 0; }
+
+                #{$nav-root} {
+                    color: #fff;
+                    font-size: em(18px);
+                    padding: $gutter/2 $gutter;
+                }
+            }
+
+            // 全版樣式
+            @else if $mobile-menu-style == 'overlay' {
+                overflow-x: hidden;
+                visibility: hidden;
+                top: -50%;
+                left: 0;
+                opacity: 0;
+                padding: 3% 0;
+
+                @include transition(top .5s, opacity 1s);
+
+                .#{$mobile-menu-style} & {
+                    top: 0;
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    @if $mobile-menu-style == 'push' {
+        body {
+            @include transition(left .35s);
+            overflow-x: hidden;
+            position: relative;
+            left: 0;
+        }
+        .push {
+            left: $mobile-menu-width;
+            overflow-y: hidden;
+        }
+    }
+    @else if $mobile-menu-style == 'overlay' {
+        .overlay {
+            overflow: hidden;
+        }
+    }
+}
+
+// 行動版主選單
+@mixin navBar-trigger($select,$Break) {
+    .#{$select} {
+        display: none;
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
+        @include mq-max($Break) { display: block; }
+        @content;
+    }
+}

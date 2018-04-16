@@ -1,0 +1,145 @@
+@charset "UTF-8";
+
+
+/*      layout
+-----------------------------------------------------------------------*/
+// 置中(有最大寬度限制,非滿版才需要)
+%container {
+    max-width: $max-width;
+
+    @if $enable-RWD {
+        margin: 0 $gutter*3;
+        @include mq($max-width) { margin: 0 auto; }
+        @include mq-max(tablet) { margin: 0; }
+    }
+    @else {
+        margin: 0 auto;
+        @include mq-max(break($max-width,-1)) {
+            padding-left: $gutter*2;
+            padding-right: $gutter*2;
+        }
+    }
+}
+// 容器
+%container-fluid {
+    @extend %clearfix;
+
+    @if $enable-RWD {
+        @include mq-max(tablet) {
+            padding-left: $gutter;
+            padding-right: $gutter;
+        }
+    } @else {
+        min-width: $min-width;
+    }
+}
+
+.wrap {
+    @extend %container, %container-fluid;
+}
+
+#header, #footer, #main {
+    @extend %container-fluid;
+    position: relative;
+}
+
+#wrapper {
+    @if $wrapper-bg      { background: $wrapper-bg; }
+    @if not $enable-RWD  { min-width: $min-width; }
+    @if $footBeBottom {
+        @if $lte7 { _height: 100%; }
+        min-height: 100%;
+        padding-bottom: $footer-height + $content-spacing; // 內容與footer間距
+    }
+
+    // 本次專案
+    padding-bottom: 164px;
+}
+
+// header
+// ----------------------------------------------------------------------
+#header {
+    @if $header-bg     { background: $header-bg; }
+    @if $header-height { height: $header-height; }
+    z-index: z(header);
+
+    // 本次專案
+    @extend %container;
+}
+
+.logo, .logo-boe {
+    @include absolute(left $gutter*2);
+    @include mq($max-width) { left: 0; }
+}
+.logo {
+    cursor: pointer; cursor: hand; // for ie
+    z-index: z(logo);
+
+    @if $logo-img {
+        @include text-pic($logo-img, nth($logo-size,1), nth($logo-size,2), $position:center);
+    }
+
+    // 本次專案
+    width: 520px;
+    top: 103px;
+    letter-spacing: 2px;
+    color: #6C8F35;
+
+    strong, small { display: block; }
+    strong {
+        @extend .m-t-12, .m-b-8, .bg-primary, .text-white;
+        font-weight: normal;
+        font-size: em(45,57);
+        line-height: 54px;
+        letter-spacing: 5px;
+        border-radius: 3px;
+    }
+    small {
+        font-size: em(15,57);
+        text-align: right;
+        color: #86B041;
+        letter-spacing: 10px;
+    }
+    .icon {
+        @extend .m-x-8;
+        display: inline-block;
+        background: url(#{$img-index}/logo-icon.gif) 0 0 no-repeat;
+        width: 23px; height: 42px;
+    }
+}
+
+// 經濟部能源局
+.logo-boe {
+    top: 48px;
+    color: darken($brand-primary,25);
+    letter-spacing: 1px;
+    background: url(#{$img-path}/logo-boe.gif) 0 center no-repeat;
+    padding: 8px 0 8px 45px;
+}
+
+
+// footer 頁腳
+// ----------------------------------------------------------------------
+#footer {
+    @if $footer-bg     { background: $footer-bg; }
+    @if $footer-color  { color: $footer-color; }
+    @if $footer-height { min-height: $footer-height; }
+    @if $footBeBottom  { margin-top: -($footer-height); }
+    z-index: z(footer);
+
+    // 本次專案
+    padding-top: 72px;
+    @include el(before) {
+        background: url(#{$img-index}/footBg.gif) 0 0 no-repeat;
+        width: 1068px;
+        height: 254px;
+
+        @include pos-center(x);
+        top: -231px;
+        margin-left: 15px;
+    }
+}
+
+.copyright {
+    @extend .font-tiny;
+}

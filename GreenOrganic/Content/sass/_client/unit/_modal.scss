@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+$modal-top:       100px;
+$modal-max-width: 630px;
+$modal-min-width: 320px;
+
+.modal {
+    z-index: z(overlay);
+    display: none;
+    overflow: auto;
+    padding-top: $modal-top;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, .45);
+    position: relative;
+
+    @include fixed(left 0 top 0);
+    @include size(100%);
+
+    @if $enable-RWD {
+        @include mq-max(break(phone,-1)) {
+            padding-top: 5%;
+        }
+    }
+}
+
+.modal-content {
+    margin: auto;
+    background-color: #fff;
+    width: 80%;
+
+    @if $enable-RWD {
+        @include mq-max(break(desktop,-1)) {
+            width: 96%;
+        }
+    }
+
+    // 本次專案
+    @extend .p-a-32;
+    position: relative;
+    // 忘記密碼
+    #forgot & { max-width: 700px; }
+}
+// 特效
+// .animate-top {
+//     position: relative;
+
+//     @include diy-animation(slide-down, .4s) {
+//         from { top: -300px; opacity: 0; }
+//         to   { top: 0; opacity: 1; }
+//     }
+// }
+.animate-zoom {
+    @include diy-animation(animatezoom, .6s) {
+        from { @include transform(scale(0)); }
+        to   { @include transform(scale(1)); }
+    }
+}
+
+.btn-close {
+    @include absolute(top 1% right 1%);
+    font-size: em(32);
+    color: $brand-primary;
+    background: none;
+
+    &:hover, &:focus {
+        outline: 0;
+        color: $light-yellow;
+        cursor: pointer;
+    }
+}
+
+// == 本次專案
+// 登入畫面
+#forgot {
+    header {
+        @extend .font-xxl, .m-b-24, .text-secondary;
+        letter-spacing: 2px;
+    }
+    .btn {
+        @extend .p-x-32, .p-y-12, .m-r-12;
+        border-radius: 2px;
+
+        &:hover, &:active { background: darken($amber,10); }
+    }
+}

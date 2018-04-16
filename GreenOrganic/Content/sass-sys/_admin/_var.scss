@@ -1,0 +1,95 @@
+@charset "UTF-8";
+
+// Settiings
+$enable-lte8:                   false;
+$enable-rounded:                false;
+$img-path:                      '../images';
+$font-path:                     '../font/';
+
+
+// Grid columns
+$wrapper-min-width:             map-get($container-max-widths, xl);
+$grid-gutter-width:             0.7rem;
+
+
+// Colors
+$brand-primary:                 #438EB9;
+$brand-primary-light:           lighten($brand-primary,47%);
+$brand-primary-dark:            darken($brand-primary,10%);
+$brand-secondary:               #ABBAC3 !default;
+$red:                             #F44336 !default;
+$pink:                            #E91E63 !default;
+$purple:                          #9C27B0 !default;
+$deep-purple:                     #673AB7 !default;
+$indigo:                          #3F51B5 !default;
+$blue:                            #2196F3 !default;
+$light-blue:                      #87CEEB !default;
+$cyan:                            #00BCD4 !default;
+$aqua:                            #67EAEA !default;
+$teal:                            #009688 !default;
+$green:                           #4CAF50 !default;
+$light-green:                     #8BC34A !default;
+$lime:                            #CDDC39 !default;
+$sand:                            #FDF5E6 !default;
+$khaki:                           #F0E68C !default;
+$yellow:                          #FFEB3B !default;
+$amber:                           #FFC107 !default;
+$orange:                          #FF9800 !default;
+$deep-orange:                     #FF5722 !default;
+$blue-grey:                       #607D8B !default;
+$brown:                           #795548 !default;
+$light-grey:                      #F1F1F1 !default;
+$grey:                            #9E9E9E !default;
+$dark-grey:                       #616161 !default;
+$black:                           #000    !default;
+$white:                           #fff    !default;
+$pale-red:                        #FFE7E7 !default;
+$pale-yellow:                     #FFFFD7 !default;
+$pale-green:                      #E7FFE7 !default;
+$pale-blue:                       #E7FFFF !default;
+
+
+// Typography
+$body-color:                    $gray-dark;
+$font-family-sans-serif:        "Helvetica Neue", Helvetica, Arial, 'Microsoft Jhenghei', \5FAE\8EDF\6B63\9ED1\9AD4, sans-serif;
+$font-family-en:                $font-family-sans-serif !default;
+$link-color:                    $brand-primary;
+$link-hover-color:              darken($link-color, 15%);
+
+$headings-font-weight:          500;
+
+
+// Tables
+$table-cell-padding:            .5rem ;
+$table-sm-cell-padding:         .2rem;
+
+
+// Forms
+$form-group-margin-bottom:       $spacer*0.8;
+
+
+// Buttons
+$btn-primary-bg:                 $brand-primary;
+$btn-primary-border:             $btn-primary-bg;
+$btn-secondary-color:            #fff;
+$btn-secondary-bg:               $brand-secondary;
+$btn-secondary-border:           $btn-secondary-bg;
+
+
+// Modal
+$modal-inner-padding:            $grid-gutter-width;
+$modal-title-padding:            $grid-gutter-width;
+
+
+// Navbar
+$navbar-padding-vertical:        0;
+$navbar-dark-color:              #fff;
+$navbar-dark-hover-color:        $navbar-dark-color;
+$navbar-dark-active-color:       $navbar-dark-color;
+$navbar-dark-disabled-color:     $navbar-dark-color;
+
+
+// Pager
+$pager-hover-bg:                 $brand-primary-light;
+$pager-active-bg:                $brand-primary;
+$pager-active-color:             #fff;

@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+$label-color:           darken($brand-primary,20) !default;
+$label-bg:              lighten($brand-primary,36) !default;
+$label-font-size:       14px !default;
+$label-border-radius:   3px !default;
+$label-pd:              2px 5px!default;
+$label-mg:              0 5px!default;
+
+//
+// label
+// --------------------------------------------------
+
+[class^="label"] {
+    display: inline-block;
+    padding: $label-pd;
+    margin: $label-mg;
+    border-radius: $label-border-radius;
+
+    background: $label-bg;
+    color: $label-color;
+    font-size: em($label-font-size);
+
+    // 專案樣式
+    @extend .text-center;
+}
+
+em[class*="label"] {
+    font-style: normal;
+}
+
+@if $states {
+    [class*="label-"] { @extend .text-white; }
+
+    @each $type, $color in $state-type {
+        .label-#{$type} { background: $color; }
+        a.label-#{$type} {
+            &:hover, &:focus, &:active {
+                background: darken($color,10);
+            }
+        }
+    }
+}

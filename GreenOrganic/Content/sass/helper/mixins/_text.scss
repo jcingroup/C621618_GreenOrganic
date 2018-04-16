@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+// == 字換圖
+@mixin text-pic($img, $width, $height, $pic: false, $position: 0 0) {
+    @extend %text-hide;
+    @if $pic == fixed {
+        background-attachment: fixed;
+    }
+    background: url(#{$img-path}/#{$img}) $position no-repeat;
+    width: $width; height: $height;
+}
+
+// == 文字溢位出現省略號,要設寬度
+@mixin text-overflow($width:100%) {
+    @include mixin-dryer('text-overflow') {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    @if $width { width: $width; }
+}
+
+// == 文字邊框 ex. @include stroke(2,$white);
+@function stroke($stroke, $color) {
+    $shadow: ();
+    $from: $stroke*-1;
+    @for $i from $from through $stroke {
+        @for $j from $from through $stroke {
+            $shadow: append($shadow, $i*1px $j*1px 0 $color, comma);
+        }
+    }
+    @return $shadow;
+}
+@mixin stroke($stroke, $color) {
+    text-shadow: stroke($stroke, $color);
+}
+
+// == em / Rem
+// 去單位
+@function strip-unit($number) {
+    @return $number / ($number * 0 + 1);
+}
+// px to rem
+@function rem($px) {
+    @return (strip-unit($px) / strip-unit(16px)) + rem;
+}
+// 相容舊瀏覽器的rem
+@mixin rem-font($size, $base: 16px) {
+    font-size: $size; // fallback for old browsers
+    font-size: rem($size)
+}

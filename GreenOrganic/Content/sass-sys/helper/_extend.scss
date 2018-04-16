@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+//
+// Floats
+//
+
+ul, ol {
+	&.row {
+		@extend .list-unstyled;
+		@extend .m-b-0;
+	}
+}
+
+
+
+//
+// text
+//
+
+.list-inline {
+    > li { @extend .list-inline-item; }
+}
+
+
+
+//
+// navbar
+//
+
+.navbar-nav {
+    > li {
+    	@extend .nav-item;
+
+    	> a { @extend .nav-link; }
+    }
+}

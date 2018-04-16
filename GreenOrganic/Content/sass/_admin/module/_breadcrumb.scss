@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+//
+// breadcrumb
+// --------------------------------------------------
+
+.breadcrumb {
+    @extend %list-inline;
+    z-index: z(dropdown) - 1;
+
+    background: #F5F5F5;
+    border-bottom: 1px solid #E5E5E5;
+    height: $sidebar-title-height;
+    line-height: $sidebar-title-height;
+    margin-bottom: $spacer / 2;
+    padding-left: $sidebar-width + $gutter;
+
+    @include fixed(left 0 right 0 top $header-height);
+}

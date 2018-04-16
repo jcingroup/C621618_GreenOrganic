@@ -1,0 +1,62 @@
+﻿@charset "UTF-8";
+
+// == color
+// ----------------------------------------------------------------------
+// 語義色
+// http://www.w3schools.com/w3css/w3css_colors.asp
+// 黑白
+$black:                   #000    !default;
+$white:                   #fff    !default;
+$light-gray:              #F1F1F1 !default;
+$gray:                    #9E9E9E !default;
+$dark-gray:               #616161 !default;
+
+// 彩色
+$red:                     #F44336 !default;
+$pink:                    #E91E63 !default;
+$purple:                  #9C27B0 !default;
+$deep-purple:             #673AB7 !default;
+$indigo:                  #3F51B5 !default;
+$blue:                    #2196F3 !default;
+$light-blue:              #87CEEB !default;
+$cyan:                    #00BCD4 !default;
+$aqua:                    #67EAEA !default;
+$teal:                    #009688 !default;
+$green:                   #4CAF50 !default;
+$light-green:             #8BC34A !default;
+$lime:                    #CDDC39 !default;
+$sand:                    #FDF5E6 !default;
+$khaki:                   #F0E68C !default;
+$yellow:                  #FFEB3B !default;
+$amber:                   #FFC107 !default;
+$orange:                  #FF9800 !default;
+$deep-orange:             #FF5722 !default;
+$blue-grey:               #607D8B !default;
+$brown:                   #795548 !default;
+$pale-red:                #FFE7E7 !default;
+$pale-yellow:             #FFFFD7 !default;
+$pale-green:              #E7FFE7 !default;
+$pale-blue:               #E7FFFF !default;
+
+
+// 抽象色
+$brand-primary:           #86B041 !default;       // 主色
+$brand-primary-light:     #A6C851 !default;       // 主色-深
+$brand-secondary:         #5F3E05 !default;       // 輔色
+$muted:                   #94A181 !default;         // 灰色 lighten($black, 46.7%)
+$success:                 #94C247 !default;        // 綠
+$info:                    #55B09C !default;         // 藍
+$warning:                 #D5AF29 !default;       // 黃
+$danger:                  #D8664D !default;          // 紅
+
+
+// 情境狀態 + 配色
+$state-type: (
+    primary:              $brand-primary,
+    secondary:            $brand-secondary,
+    muted:                $muted,
+    success:              $success,
+    info:                 $info,
+    warning:              $warning,
+    danger:               $danger,
+);

@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+%float-l { float: left; }
+%float-r { float: right; }
+%clearfix {
+    @include el(after, table) { clear: both; }
+    @if $lte7 { zoom: 1 }
+}
+
+%full { width: 100%; max-width: 100%; }
+
+%text-hide {
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+}
+
+%sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+%list-unstyled {
+    list-style: none;
+    padding-left: 0;
+}
+%list-inline {
+    @extend %list-unstyled;
+
+    > li {
+        display: inline-block;
+        &:not(:last-child) { margin-right: 5px; }
+    }
+}

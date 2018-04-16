@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+// px換算至em
+@function em($px, $context: 16px) {
+    @if (unitless($px)) {
+        $px: $px * 1px;
+    }
+
+    @if (unitless($context)) {
+        $context: $context * 1px;
+    }
+
+    @return $px / $context * 1em;
+}
+
+// 算寬度百分比
+@function cp($target, $container: $max-width) {
+    @return ceil(($target / $container) * 100%);
+}
+
+// 編碼fix
+@function unicode($str){
+    // @return unquote("\"") + $str + unquote("\"");
+    @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"");
+}
+
+
+// var Maps
+// -----------------------------------------------------------------
+
+// z-index
+@function z($key) {
+    @return map-get($z-index, $key);
+}
+
+// color
+@function color($key) {
+    @return map-get($color, $key);
+}
+
+// 取多層值
+// 範例 background: m-get($color-theme, 'default', 'background');
+//      $medium: map-deep-get($grid-configuration, 'layouts', 'medium');
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
+// 取代map值
+// new
+// 範例 $medium: map-deep-set($grid-configuration, 'layouts', 'medium', 1300px);
+@function map-deep-set($map, $keys.../*, $value */) {
+    $map-list: ($map,);
+    $result: null;
+
+    @if length($keys) == 2 {
+        @return map-merge($map, (nth($keys, 1): nth($keys, -1)));
+    }
+
+    @for $i from 1 through length($keys) - 2 {
+        $map-list: append($map-list, map-get(nth($map-list, -1), nth($keys, $i)));
+    }
+
+    @for $i from length($map-list) through 1 {
+        $result: map-merge(nth($map-list, $i), (nth($keys, $i): if($i == length($map-list), nth($keys, -1), $result)));
+    }
+
+    @return $result;
+}
+// old
+// @function map-deep-set($map, $keys, $value) {
+//     $maps: ($map,);
+//     $result: null;
+
+//     // If the last key is a map already
+//     // Warn the user we will be overriding it with $value
+//     @if type-of(nth($keys, -1)) == "map" {
+//         @warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+//     }
+
+//     // If $keys is a single key
+//     // Just merge and return
+//     @if length($keys) == 1 {
+//         @return map-merge($map, ($keys: $value));
+//     }
+
+//     // Loop from the first to the second to last key from $keys
+//     // Store the associated map to this key in the $maps list
+//     // If the key doesn't exist, throw an error
+//     @for $i from 1 through length($keys) - 1 {
+//         $current-key: nth($keys, $i);
+//         $current-map: nth($maps, -1);
+//         $current-get: map-get($current-map, $current-key);
+//         @if $current-get == null {
+//             @error "Key `#{$key}` doesn't exist at current level in map.";
+//         }
+//         $maps: append($maps, $current-get);
+//     }
+
+//     // Loop from the last map to the first one
+//     // Merge it with the previous one
+//     @for $i from length($maps) through 1 {
+//         $current-map: nth($maps, $i);
+//         $current-key: nth($keys, $i);
+//         $current-val: if($i == length($maps), $value, $result);
+//         $result: map-merge($current-map, ($current-key: $current-val));
+//     }
+
+//     // Return result
+//     @return $result;
+// }
+
+// 進階合併 map function
+// About map-merge(): sass內建的合併map功能，但只能2組
+// @param {Map} $map - first map
+// @param {ArgList} $maps - other maps
+// @param {Bool} $deep - recursive mode
+// @return {Map}
+@function map-extend($map, $maps.../*, $deep */) {
+    $last: nth($maps, -1);
+    $deep: $last == true;
+    $max: if($deep, length($maps) - 1, length($maps));
+
+    // Loop through all maps in $maps...
+    @for $i from 1 through $max {
+        // Store current map
+        $current: nth($maps, $i);
+
+        // If not in deep mode, simply merge current map with map
+        @if not $deep {
+            $map: map-merge($map, $current);
+        } @else {
+            // If in deep mode, loop through all tuples in current map
+            @each $key, $value in $current {
+
+                // If value is a nested map and same key from map is a nested map as well
+                @if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
+                    // Recursive extend
+                    $value: map-extend(map-get($map, $key), $value, true);
+                }
+
+                // Merge current tuple with map
+                $map: map-merge($map, ($key: $value));
+            }
+        }
+    }
+
+    @return $map;
+}

@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+$goTop-pos:        bottom 2% right 2% !default;
+$goTop-effect:     'color 1s, opacity .5s' !default;
+$goTop-color:      #7D7D7D !default;
+
+//
+// goTop
+// --------------------------------------------------
+
+.goTop {
+    z-index: z(goTop);
+
+    @include transition(color 1s, bottom .3s);
+    @include absolute(right em(20) bottom 25%);
+
+    font-size: em(18);
+    color: #7d7d7d;
+
+    &:hover, &:active {
+        bottom: 26%;
+        color: $brand-primary;
+        i {
+            background: $brand-primary;
+            color: #FEE7A6;
+        }
+    }
+    i {
+        @extend .m-r-8;
+        @include circle(31px);
+        display: inline-block;
+        vertical-align: middle;
+        border: 1px solid $brand-primary;
+        color: $brand-primary;
+        font-size: em(21,18);
+    }
+}

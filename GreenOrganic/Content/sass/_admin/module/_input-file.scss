@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+$inputfile-font-size:          15px !default;
+$inputfile-color:              $input-color !default;
+$inputfile-bg:                 $input-bg !default;
+$inputfile-border:             1px solid $input-border-color !default;
+$inputfile-size:               $input-size-md $inputfile-font-size !default; // width heidht
+$inputfile-pd:                 $btn-pd !default;
+$inputfile-hover:              lighten($btn-bg,15) !default;
+
+$inputfile-select-font-size:   $inputfile-font-size !default;
+$inputfile-select-color:       #fff !default;
+$inputfile-select-bg:          $btn-bg !default;
+$inputfile-select-hover:       $btn-hover-bg !default;
+
+$inputfile-icon-size:          18px !default;
+
+
+// == inputfile
+.inputfile {
+    @include size(0.1px);
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+    &:focus + label, &.has-focus + label {
+        border-color: nth($inputfile-border,3);
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px nth($inputfile-border,3);
+    }
+    // 實際外框
+    + label {
+        @extend .m-a-0, %full;
+        @include text-overflow(false);
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+
+        font-size: em($inputfile-font-size);
+        color: $inputfile-color;
+        border: $inputfile-border;
+        background: $inputfile-bg;
+
+        // 本次專案
+        box-shadow: $form-element-shadow;
+        border-radius: $form-element-radius;
+        min-height: $form-element-height;
+        line-height: $form-element-height;
+
+        &:hover {
+            border-color: $inputfile-hover;
+        }
+        span, strong {
+            // padding: $inputfile-pd; // 10px 20px
+            display: inline-block;
+
+            // 本次專案
+            padding: 0 nth($form-element-pd,2);
+        }
+        // 上傳檔案後的檔案資料
+        span {
+            @include text-overflow(100%);
+            min-height: nth($inputfile-size,2);
+            vertical-align: top;
+        }
+        // 說明文字
+        strong {
+            @extend %float-r;
+            height: 100%;
+            color: $inputfile-select-color;
+            font-weight: normal;
+            background-color: $inputfile-select-bg;
+
+            // icon
+            // &::before {
+            //     font-size: em($inputfile-icon-size,$inputfile-font-size);
+            // }
+        }
+        @if $enable-RWD {
+            @include mq-max(tablet) {
+                min-width: 100%;
+                strong { display: block; }
+            }
+        }
+    }
+    &:focus + label strong, &.has-focus + label strong, + label:hover strong {
+        background-color: $inputfile-select-hover;
+    }
+}
+
+// @media screen and (max-width: 50em) {
+//     .inputfile + label strong {
+//         display: block;
+//     }
+// }

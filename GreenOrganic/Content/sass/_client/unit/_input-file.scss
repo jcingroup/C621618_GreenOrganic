@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+$inputfile-font-size:          17px !default;
+$inputfile-color:              #8CA4AF !default;
+$inputfile-bg:                 #fff;
+$inputfile-border:             1px solid $table-border-color !default;
+$inputfile-size:               230px 35px !default;
+$inputfile-pd:                 10px 20px !default;
+$inputfile-hover:              $light-yellow !default;
+
+$inputfile-select-font-size:   16px !default;
+$inputfile-select-color:       #fff !default;
+$inputfile-select-bg:          #8CA4AF !default;
+$inputfile-select-hover:       $brand-secondary !default;
+
+$inputfile-icon-size:          18px;
+
+
+// == inputfile
+.upload {
+    // background-color: #dfc8ca;
+    // padding: 1.25rem;
+
+    + & {
+        margin-top: 2.5rem;
+    }
+}
+
+// .no-js .inputfile + label {
+//     display: none;
+// }
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+    &:focus + label, &.has-focus + label {
+        border-color: nth($inputfile-border,3);
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+    + label {
+        @include text-overflow(false);
+        display: inline-block;
+        max-width: 100%;
+        cursor: pointer;
+
+        font-size: em($inputfile-font-size); // 20px
+        color: $inputfile-color;
+        border: $inputfile-border;
+        background: $inputfile-bg;
+
+        &:hover {
+            border-color: $inputfile-hover;
+        }
+        span, strong {
+            padding: $inputfile-pd; // 10px 20px
+        }
+        span {
+            @include text-overflow(nth($inputfile-size,1));
+            min-height: nth($inputfile-size,2);
+            display: inline-block;
+            vertical-align: top;
+        }
+        strong {
+            height: 100%;
+            color: $inputfile-select-color;
+            font-size: 1em;
+            font-weight: normal;
+            background-color: $inputfile-select-bg;
+            display: inline-block;
+
+            &::before {
+                font-size: em($inputfile-icon-size);
+                vertical-align: middle;
+                margin-right: em(7);
+            }
+
+            @if $enable-RWD {
+                @include mq-max(tablet) {
+                    display: block;
+                }
+            }
+        }
+        @if $enable-RWD {
+            @include mq-max(tablet) {
+                min-width: 100%;
+            }
+        }
+    }
+    &:focus + label strong, &.has-focus + label strong, + label:hover strong {
+        background-color: $inputfile-select-hover;
+    }
+}
+
+// @media screen and (max-width: 50em) {
+//     .inputfile + label strong {
+//         display: block;
+//     }
+// }

@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+// icon
+$collapse-title-icon:                '\e5c5' !default;
+$collapse-title-icon-color:          $brand-primary !default;
+$collapse-title-hover-icon:          '\e5c7' !default;
+$collapse-title-hover-icon-color:    $brand-secondary !default;
+
+
+.collapse-title {
+    cursor: pointer; cursor: hand;
+
+    @include el(after, inline-block, $collapse-title-icon) {
+        @if $collapse-title-icon-color { color: $collapse-title-icon-color; }
+        margin-left: 8px;
+
+        font-family: 'icomoon' !important;
+        speak: none;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    &:hover, &:active, &.current {
+        &::after {
+            @if $collapse-title-hover-icon-color { color: $collapse-title-hover-icon-color; }
+        }
+    }
+    &.current {
+        &::after {
+            @if $collapse-title-hover-icon { content: $collapse-title-hover-icon; }
+        }
+    }
+}
+// .collapse-content {
+//     display: none;
+// }

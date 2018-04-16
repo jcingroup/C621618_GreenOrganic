@@ -1,0 +1,343 @@
+@charset "UTF-8";
+
+// var
+// -----------------------------------------------------------------
+// 共用
+$input-color:               darken($gray,10) !default;
+$input-line-height:         $line-height !default;
+$input-border-color:        #E5E5E5 !default;
+$input-border:              1px solid $input-border-color !default;
+$input-border-focus:        lighten($brand-primary,15%) !default;
+$input-placeholder:         lighten($gray,10) !default;
+$input-disabled:            $light-gray !default;
+$input-bg:                  none !default;
+
+// for .form-element
+$form-element-bg:           $input-bg !default;
+$form-element-pd:           $gutter*.34 $gutter*.375 !default;
+$form-element-height:       false !default;
+$form-element-radius:       nth($border-radius,1) !default;
+$form-element-shadow:       inset 0 1px 1px rgba(0,0,0,.075) !default;
+$form-element-transition:   border-color ease-in-out .15s, box-shadow ease-in-out .15s !default;
+
+$form-group-margin-bottom:  $spacer/2 !default;
+
+// 追加樣式
+$input-required-styles:     false !default;
+$enable-input-underline:    false !default;
+
+// input-size
+$enable-input-size:         false !default;
+$input-size-sm:             80px !default;
+$input-size-md:             156px !default;
+$input-size-lg:             350px !default;
+$input-size-xl:             480px !default;
+
+// checkbox style
+$enable-ckb-rdo:            false !default;
+$checkbox-size:             25px !default;
+$checkbox-icon-size:        $checkbox-size*.7 !default;
+$checkbox-radius:           $form-element-radius !default;
+
+
+// 函數程式
+// -----------------------------------------------------------------
+// TEXT INPUT TYPES
+// 使用方式
+// #{text-inputs( all, '.form-control' )}
+//
+@function text-inputs( $types: all, $selector: input ) {
+    $return: ();
+    $input-types:
+        text,
+        password,
+        date,
+        datetime,
+        datetime-local,
+        month,
+        week,
+        email,
+        number,
+        search,
+        tel,
+        time,
+        url,
+        color,
+        textarea,
+        select;
+
+    @if $types == all { $types: $input-types; }
+
+    @each $type in $types {
+        @if $type == textarea or $type == select {
+            $return: $return, unquote('#{$type}');
+
+            @if $selector != input {
+                $return: unquote('#{$return}#{$selector}')
+            }
+        }
+        @else {
+            // $return: $return, unquote('#{$selector}[type="#{$type}"]');
+            $return: $return, unquote('[type="#{$type}"]');
+        }
+    }
+    @return $return;
+}
+
+// 聚焦樣式(WebKit)
+@mixin form-element-focus($color: $input-border-focus) {
+    $color-rgba: rgba(red($color), green($color), blue($color), .6);
+
+    @include mixin-dryer(form-focus) {
+        &:focus {
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $color-rgba;
+        }
+    }
+}
+
+// Forms
+// -----------------------------------------------------------------
+// == Normalize
+label {
+    display: inline-block;
+    margin-bottom: $spacer/2;
+}
+
+button {
+    background: none;
+    &:focus {
+        outline: 1px dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+    }
+}
+
+input,
+button,
+select,
+textarea {
+    margin: 0;
+    line-height: inherit;
+    border-radius: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+fieldset {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    margin-bottom: $spacer;
+    font-size: em($font-size-base * 1.5);
+    line-height: inherit;
+}
+body:not(:-moz-handler-blocked) fieldset {
+    display: table-cell;
+}
+
+#{text-inputs(search)} {
+    box-sizing: inherit;
+    -webkit-appearance: none;
+}
+
+output {
+    display: inline-block;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+// == Styles
+//
+// input 預設
+input:not([type]), #{text-inputs(all)} {
+    background: $input-bg;
+
+    @if $input-color      { color: $input-color; }
+    @if $input-border     { border: $input-border; }
+    @if $form-element-pd  { padding: 0 nth($form-element-pd,2); }
+
+    // Unstyle the caret on `<select>`s in IE10+.
+    &::-ms-expand {
+        background-color: transparent;
+        border: 0;
+    }
+    &::placeholder {
+        color: $input-placeholder;
+        opacity: 1;
+    }
+    &:disabled,
+    &[readonly] {
+        background-color: $input-disabled;
+        opacity: 1;
+    }
+    &:disabled {
+        cursor: $cursor-disabled;
+    }
+    &:focus {
+        border-color: $input-border-focus;
+        outline: 0;
+    }
+}
+
+#{text-inputs(number)} {
+    @extend .m-x-auto;
+    width: $input-size-sm;
+}
+
+%input-inline {
+    display: inline;
+    width: auto;
+    &:not(:last-child) { margin-right: $gutter/3; }
+}
+
+.form-element {
+    display: block;
+
+    @extend %full;
+    @include form-element-focus;
+
+    @if $form-element-transition  { transition: $form-element-transition; }
+    @if $form-element-bg          { background: $form-element-bg; }
+    @if $form-element-radius      { border-radius: $form-element-radius; } // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
+    @if $form-element-shadow      { box-shadow: $form-element-shadow; }
+
+    @if $form-element-height {
+        min-height: $form-element-height;
+        line-height: $form-element-height;
+    } @else {
+        line-height: $line-height;
+        padding: $form-element-pd;
+    }
+
+    // 單行
+    .form-inline & { @extend %input-inline; }
+}
+
+// iOS 的時間欄位垂直對齊 - safari
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    #{text-inputs(date time datetime-local month)} {
+        &.form-element { line-height: $form-element-height; }
+    }
+}
+
+// label
+.form-element-label {
+    @if $form-element-pd     { padding: $form-element-pd; }
+    @if $form-element-height { line-height: $form-element-height; }
+    @else                    { line-height: $line-height; }
+    margin-bottom: 0;
+
+    // 單行時
+    .form-inline & {
+        &:first-child { @extend .p-l-0; }
+    }
+}
+
+
+// .form-element-static {
+//     @if $form-element-height { min-height: $form-element-height; }
+//     @if $form-element-pd {
+//         padding-top: nth($form-element-pd,1);
+//         padding-bottom: nth($form-element-pd,2);
+//     }
+//     margin-bottom: 0;
+// }
+
+// .form-group {
+//     margin-bottom: $form-group-margin-bottom;
+// }
+
+// 單行
+.form-element-inline {
+    @extend %input-inline;
+}
+
+// 必填樣式
+[required] {
+    @each $attribute, $value in $input-required-styles {
+        #{$attribute}: #{$value};
+    }
+}
+
+@if $enable-input-size {
+    .input-size-sm { width: $input-size-sm; }
+    .input-size-md { width: $input-size-md; }
+    .input-size-lg { width: $input-size-lg; }
+    .input-size-xl { width: $input-size-xl; }
+}
+
+// 底線
+@if $enable-input-underline {
+    .input-underline {
+        border: none;
+        border-bottom: 1px solid darken($input-border-color,20);
+
+        @if $input-bg { background: none; }
+
+        &:focus {
+            box-shadow: none;
+            border-color: $input-border-focus;
+        }
+    }
+}
+
+@if $enable-ckb-rdo {
+    // == checkbox
+    #{text-inputs(checkbox radio)} {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+
+        + label {
+            // 共用設定
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            cursor: pointer; cursor:hand;
+            outline: none;
+            user-select: none;
+            margin: 0;
+
+            // 設計樣式
+            background: $form-element-bg;
+            border: 1px solid darken($input-border-color,6);
+            margin-right: $gutter/3;
+
+            // icon
+            @include el(before,inline-block,unicode(e5ca)) {
+                @include pos-center;
+                @include transition(color,.5s);
+                font-size: em($checkbox-icon-size);
+                font-family: 'icomoon';
+                color: $form-element-bg;
+            }
+        }
+        &:not(:checked):hover + label {
+            &::before { color: $brand-primary; }
+        }
+        &:checked + label {
+            background: $brand-primary-light; // darken($input-border-focus,20)
+            border-color: darken($input-border-color,10);
+        }
+    }
+
+    // 各別設定(換圖及調大小)
+    #{text-inputs(checkbox)} + label {
+        @if $checkbox-radius { border-radius: $checkbox-radius; }
+        @include size($checkbox-size);
+        margin: 2px $gutter/4;
+    }
+    #{text-inputs(radio)} + label {
+        @include circle($checkbox-size,center);
+    }
+}

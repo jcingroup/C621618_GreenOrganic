@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+// setting
+// ------------------------------------------------------------
+// navbar style
+$navbar-height:         false !default;
+$navbar-bg:             false !default; // #2AA19D
+
+// nav style
+$sub-nav-has:           false !default;    // 子選單
+$nav-root:              if($sub-nav-has, '.root', 'a') !default;
+$nav-height:            false !default;   // 'full' | 18px | flase
+$nav-font-size:         18px !default;
+$nav-color:             #000 !default;
+
+// 行動版
+$mobile-menu-bk:        'desktop' !default;     // 從()螢幕寬度以下開始出現行動版選單
+$mobile-menu-style:     'overlay' !default;
+$mobile-menu-bg:        #424242 !default;
+$mobile-menu-width:     100% !default;
+
+// 當前頁選單
+@function page($current-item, $map: $menu-item) {
+    $current: ();
+
+    @each $item in $map {
+        $i: index($map, $item);
+        $current: $current, unquote(".#{$item} #{$current-item}(#{$i})");
+    }
+    @return $current;
+}
+$current: page('&:nth-child');
+
+
+// output
+// ------------------------------------------------------------
+// == 主選單
+.navbar {
+    @if $navbar-height { height: $navbar-height }
+    @if $navbar-bg     { background: $navbar-bg }
+}
+
+#menu, .top-nav {
+    left: 600px;
+    @include mq(wider) { left: 660px; }
+}
+
+#menu {
+    z-index: z(menu);
+
+    // 本次專案
+    @extend .text-left;
+    @include absolute(top 73px);
+    // @extend %float-l, .text-left;
+    // margin-top: 73px;
+    // margin-left: 25%;
+    // @include mq(wider) { margin-left: 28%; }
+    // @include mq-max(desktop) {
+    //     float: right;
+    //     margin-left: 0;
+    // }
+    @include mq-max(break(wide,-1)) { left: auto; right: $gutter*2; }
+
+    #{$nav-root} {
+        @if $nav-color     { color: $nav-color; }
+        @if $nav-font-size { font-size: em($nav-font-size); }
+        @if $nav-height {
+            height: if($nav-height == 'full', 100%, $nav-height);
+            @if $nav-height == 'full' {
+                @include text-middle($navbar-height);
+            }
+        }
+
+        // 本次專案
+        position: relative;
+        letter-spacing: 3px;
+
+        &:not(:last-child) { @extend .m-r-48; }
+
+        @include el(before, $content:'\e90c') {
+            @include pos-center(x);
+            @include transition(top .35s, opacity .6s);
+            font-family: 'icomoon';
+            font-size: em(13);
+            top: -10px;
+            opacity: 0;
+        }
+
+        &:hover, &:active, &.current {
+            color: #B9C85D;
+
+            &::before {
+                opacity: 1;
+                top: 117%;
+            }
+        }
+    }
+}
+
+// == top-nav
+.top-nav {
+    @include absolute(top 28px);
+    @include mq-max(break(wide,-1)) {
+        left: auto;
+        right: 454px;
+    }
+
+    // @include mq(wider) { left: 660px; }
+    // @include mq-max(desktop) { left: 424px; }
+
+    a {
+        @extend .m-r-12;
+        color: #828282;
+        font-size: em(12);
+        letter-spacing: 2px;
+
+        &:hover, &:active {
+            color: $brand-primary;
+        }
+    }
+}
+
+// == mobile-nav
+@if $enable-RWD {
+    @include mobile-nav('menu',break(#{$mobile-menu-bk},-1));
+    @include navBar-trigger('mobile-trigger',break(#{$mobile-menu-bk},-1));
+}
+
+// == sub-nav
+@if $sub-nav-has {
+    #menu {
+        li {
+            // 子選單顯示
+            &:hover, &:active {
+                .sub-nav {
+                    opacity: 1;
+                    visibility: visible;
+                    min-height: 150px;
+                }
+            }
+        }
+        // 有下拉選單的加箭頭
+        .caret {
+            position: relative;
+
+            @include el(before) {
+                @include arrow(up, 10px, 7px, #fff);
+                @include pos-center(x);
+                @include transition(opacity .5s, bottom .3s);
+                opacity: 0;
+                bottom: -8px;
+            }
+        }
+    }
+    .sub-nav {
+        @extend .text-left;
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+
+        @if $enable-RWD {
+            @include mq-max(break(#{$mobile-menu-bk},-1)) {
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                position: static;
+                top: 100%;
+                max-width: 100%;
+
+                background: darken($mobile-menu-bg,10);
+                box-shadow: inset 3px 6px 15px rgba(#000,.5);
+            }
+        }
+    }
+}

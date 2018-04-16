@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+$search-min-width:            50px !default;
+$search-max-width:            280px !default;
+$search-color:                $search-round-color !default;
+
+[data-expand='box'] {
+    width: 0;
+    min-width: $search-min-width;
+    overflow: hidden;
+    position: relative;
+
+    -webkit-backface-visibility: hidden;
+    z-index: z(logo)+1;
+
+    @include prefix(transition, width .3s);
+
+    &-open {
+        width: $search-max-width;
+        input {
+            background: $white;
+            padding: 0 $search-min-width 0 20px;
+            font-size: 1em;
+            color: $search-color;
+        }
+    }
+}
+[data-expand='input'] {
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background: none;
+    box-shadow: none;
+    font-size: 0;
+    -webkit-appearance: none;
+    z-index: 10;
+}
+[data-expand='btn'],
+[data-expand='icon'] {
+    width: $search-min-width;
+    height: 100%;
+    display: block;
+
+    line-height: 100%;
+    text-align: center;
+    font-size: em(22px);
+
+    &::before {
+        @include absolute(top 50% left 50%);
+        @include prefix(transform, translate(-50%,-50%));
+    }
+}
+[data-expand='btn'] {
+    opacity: 0;
+    z-index: 11;
+
+    &.enter {
+        opacity: 1;
+        background: $search-color;
+        color: $white;
+    }
+}
+[data-expand='icon'] {
+    @include absolute(top 0 right 0);
+    color: $muted;
+    z-index: 90;
+    cursor: pointer;
+    speak: none;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+
+    &:hover, &:active {
+        color: $search-color;
+    }
+}
+
+
+// $search-round-width:          100% !default;
+// $search-round-height:         $input-height !default;
+// $search-round-radius:         ($search-round-height / 2) !default;
+// $search-round-color:          $brand-primary lighten($brand-primary,25) !default;
+// $search-round-border-color:   false !default;
+// $search-round-pos:            false !default;
+
+// $search-round-btn-width:      $search-round-height !default;
+// $search-round-btn-height:     100% !default;
+// $search-round-btn-bg:         false !default;
+
+// == input群組
+// .search-round {
+
+//     @if $search-round-pos {
+//         @include absolute($search-round-pos);
+//     }
+//     @else {
+//         position: relative;
+//     }
+//     @if $search-round-width    { width: $search-round-width; }
+//     @if $search-round-height   { height: $search-round-height; }
+
+//     input {
+//         @include size(100%);
+
+//         @if $search-round-radius       { border-radius: $search-round-radius; }
+//         @if $search-round-border-color { border-color: $search-round-border-color; }
+//         @if $search-round-btn-width    { padding-right: $search-round-btn-width; }
+//     }
+//     button {
+//         cursor: pointer;
+//         @include absolute(top 0 right 0);
+
+//         @if $search-round-radius {
+//             border-top-right-radius: $search-round-radius;
+//             border-bottom-right-radius: $search-round-radius;
+//         }
+//         @if $search-round-btn-width  { width: $search-round-btn-width; }
+//         @if $search-round-btn-height { height: $search-round-btn-height; }
+//         @if $search-round-btn-bg {
+//             color: $white;
+//             background: nth($search-round-btn-bg,1);
+//             &:hover, &:active {
+//                 background: nth($search-round-btn-bg,2);
+//             }
+//         } @else {
+//             color: nth($search-round-color,1);
+//             &:hover, &:active {
+//                 color: nth($search-round-color,2);
+//             }
+//         }
+//     }
+// }

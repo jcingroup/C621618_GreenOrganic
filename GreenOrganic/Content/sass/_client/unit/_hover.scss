@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+$underline-color:             $brand-primary;
+$underline-position:          top 100% right 0;
+
+$underline-transform:         scaleX(0);
+$underline-transform-origin:  50%;
+$underline-transform-hover:   scaleX(1);
+$underline-transition:        'transform .35s ease-out, background .4s';
+
+
+.hover-underline {
+    position: relative;
+
+    @include el(before) {
+        height: 2.5px; width: 100%;
+        background: $underline-color;
+        @include absolute($underline-position);
+        @include prefix(transform, $underline-transform);
+        @include prefix(transform-origin, $underline-transform-origin);
+        @include prefix(transition, $underline-transition);
+    }
+
+    &:hover, &:active, &.current {
+        &::before {
+            @include prefix(transform, $underline-transform-hover);
+        }
+    }
+}
+
+// .hover-shadow {
+//     @extend %effect-all;
+
+//     a {
+//         z-index: z(tooltip) + 1;
+//         white-space: nowrap;
+//         opacity: 0;
+//         @include size(100%);
+//         @include absolute(left 0 top 0);
+//     }
+
+//     header { @extend %effect-all; }
+
+//     &:hover, &:active {
+//         box-shadow: 3px 8px 12px rgba(0,0,0,0.2);
+
+//         header { color: $brand-primary; }
+//     }
+// }

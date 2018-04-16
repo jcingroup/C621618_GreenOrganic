@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+$figure-inline-hack:      false !default;
+$figure-effect:           false !default;
+$figure-margin:           0 !default;
+
+// common style
+%figure-overlay {
+    @include size(100%);
+    @include absolute(left 0 top 0);
+}
+
+figcaption {
+    @include prefix(backface-visibility, hidden);
+    &::before, &::after { pointer-events: none; }
+}
+
+figure {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    margin: $figure-margin;
+
+    @if $figure-inline-hack {
+        margin-right: -4px;
+        &:first-child { margin-left: -4px; }
+    }
+
+    @if $figure-effect { @include transition($figure-effect) }
+
+    > a {
+        @extend %figure-overlay;
+        z-index: z(figure);
+        opacity: 0;
+        background: #fff; // for IE10 bugfix
+    }
+
+    // RWD
+    @if $enable-RWD {
+        @include mq-max(break(desktop, -1)) {
+            float: none;
+            display: inline-block;
+        }
+        @include mq-max(tablet) {
+            width: 48%;
+            max-width: none;
+            margin: 3px;
+            margin-bottom: 15px;
+        }
+        @include mq-max(phone) {
+            width: 100%;
+        }
+    }
+}

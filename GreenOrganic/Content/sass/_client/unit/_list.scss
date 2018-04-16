@@ -1,0 +1,44 @@
+﻿@charset "UTF-8";
+
+$list-dot-color: $brand-primary !default;
+// $list-circle-bg: $brand-primary;
+
+// list - extend的內容 寫在 base/util
+// ------------------------------------------------------------
+.list-unstyled { @extend %list-unstyled; }
+.list-inline   { @extend %list-inline; }
+
+// 小圓點
+// .list-dot {
+//     @extend %list-unstyled;
+//     margin: $spacer 0;
+
+//     li {
+//         position: relative;
+//         line-height: 1.35;
+//         margin-bottom: 0.8rem;
+//         font-size: em(15);
+
+//         @include icon-dot(left, 5px, $list-dot-color, left 0 top 10px);
+//     }
+// }
+
+// 列表內列表縮排
+// .list-indent {
+//     @extend %list-unstyled;
+//     margin-top: $spacer/2;
+
+//     > li {
+//         text-indent: -(em(32));
+//         margin-left: em(32);
+//         margin-bottom: $spacer/2;
+//     }
+
+//     ol, ul {
+//         li {
+//             text-indent: -(em(48));
+//             margin-left: em(40);
+//             margin-bottom: $gutter - 5;
+//         }
+//     }
+// }

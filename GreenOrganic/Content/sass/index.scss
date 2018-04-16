@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+// 本頁專用變數(覆蓋)
+// ------------------------------------------------------------
+$index:                  true;
+$img-index:              '../images/index';
+
+
+// import
+// ------------------------------------------------------------
+// 本次專案專用變數
+@import "_client/color";
+@import "_client/settings";
+
+// 共用
+@import "helper/function";
+@import "helper/variables";
+@import "helper/mixins";
+
+// 由此 output css
+@import "vendor/normalize"; // 重置復位
+@import "vendor/print";     // 列印樣式
+
+@import "base/basic";
+@import "base/form";
+@import "base/util";
+
+// 本頁專用
+@import "_client/classes"; // 常用樣式
+@import "_client/layout";  // 整體版面
+
+
+// main
+// ------------------------------------------------------------

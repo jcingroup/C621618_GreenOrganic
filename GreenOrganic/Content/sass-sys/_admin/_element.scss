@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+
+// type
+// ----------------------------------------------------------------------
+
+.h3 {
+	margin-bottom: $spacer*0.8;
+	padding-bottom: $spacer*0.5;
+	font-size: em(22px);
+	color: $brand-primary;
+	border-bottom: 1px dotted #e2e2e2;
+
+	.sub {
+		margin-left: $spacer;
+		color: #8089A0;
+	}
+}
+
+.h4 {
+	margin-bottom: $spacer*0.5;
+	padding-bottom: $spacer*0.3;
+	font-size: em(18px);
+	color: $brand-primary-dark;
+	border-bottom: 1px solid $brand-primary-light;
+}
+
+hr {
+
+}
+
+
+// list
+// ----------------------------------------------------------------------
+.list-inline-item {
+	&:not(:last-child) {margin-right: $spacer*0.6;}
+}
+
+
+// table
+// ----------------------------------------------------------------------
+.table {
+	width: 100%;
+	margin-bottom: 0;
+
+	thead tr {
+		color: $gray;
+		background: #F2F2F2 linear-gradient(to bottom, #F8F8F8 0px, #ECECEC 100%) repeat-x scroll 0% 0%;
+	}
+}
+
+.table-sm {
+	font-size: em(15px);
+
+	td { vertical-align: middle; }
+}
+
+.table-rwd,
+.table-responsive {
+	width: 100%;
+	overflow-x: auto;
+
+	.table {
+		th, td {white-space: nowrap;}
+	}
+}
+
+
+// buttons
+// ----------------------------------------------------------------------
+.btn-link {border: none; padding: 0;}
+
+
+// form
+// ----------------------------------------------------------------------
+.form-control-label-sm {
+	padding: $input-padding-y-sm $input-padding-x-sm;
+	font-size: $font-size-sm;
+	line-height: $line-height-sm;
+}
+.form-control-label-lg {
+	padding: $input-padding-y-lg $input-padding-x-lg;
+	font-size: $font-size-lg;
+	line-height: $line-height-lg;
+}
+.radio-sm,
+.checkbox-sm {margin-bottom: 0;}
+
+.form-sm {
+	.form-control                {@extend .form-control-sm;}
+	.form-control-label          {@extend .form-control-label-sm;}
+	.checkbox, .checkbox-inline,
+	.radio, .radio-inline        {font-size: $font-size-sm;}
+}
+
+// radio box
+input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+
+    + label {
+        // 共用設定
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer; cursor:hand;
+        outline: none;
+        user-select: none;
+        margin: 0;
+
+        // 設計樣式
+        background: #FAFAFA;
+        border: 1px solid #ccc;
+        margin-right: 8px;
+        border-radius: 50%;
+        width: 18px; height: 18px;
+    }
+    &:not(:checked):hover + label {
+        border-color: #F0AD4E;
+    }
+    &:checked + label {
+    	box-shadow: 1px 1px .075rem #fff;
+        border: 5px solid #F0AD4E;
+        background: #fff;
+    }
+}
